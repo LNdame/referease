@@ -27,7 +27,7 @@ class ReferEase extends StatelessWidget{
     // TODO: implement build
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Refer Easy",
+      title: "Refer Easy TEST1",
       home: LandingPage(),
       initialRoute: '/splash',
       routes: {

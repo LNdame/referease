@@ -29,7 +29,7 @@ class ReferEase extends StatelessWidget{
       debugShowCheckedModeBanner: false,
       title: "Refer Easy TEST1",
       home: LandingPage(),
-      initialRoute: '/splash',
+      initialRoute: '/login',
       routes: {
         '/login': (context)=> SignInPage(),
         '/register': (context)=> SignupPage(),

@@ -25,8 +25,8 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
 
   AnimationController animationController;
 
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  String _emailController;
+  String _passwordController;
 
   //google sign in
   GoogleSignIn googleAuth = new GoogleSignIn();
@@ -35,8 +35,8 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
+    _emailController;
+    _passwordController;
   }
 
   @override
@@ -125,7 +125,10 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                           child: Column(
                             children: <Widget>[
                               TextField(
-                                controller: _emailController,
+                                onChanged: (value) {
+                                  _emailController = value;
+                                },
+                                
                                 decoration: InputDecoration(
                                     labelText: 'Email',
                                     labelStyle: TextStyle(
@@ -137,7 +140,9 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                               ),
                               SizedBox(height: 20.0),
                               TextField(
-                                controller: _passwordController,
+                                onChanged: (value) {
+                                  _passwordController = value;
+                                },
                                 decoration: InputDecoration(
                                     labelText: 'Password',
                                     labelStyle: TextStyle(
@@ -174,7 +179,7 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                                   child: GestureDetector(
                                     onTap: () {
                                       FirebaseAuth.instance.signInWithEmailAndPassword(
-                                          email: _emailController.text.trim(), password: _passwordController.text.trim()
+                                          email: _emailController.trim(), password: _passwordController.trim()
                                       ).then((FirebaseUser user) async {
 
                                         await SharedPreferencesUtils.setUserUid(user.uid);

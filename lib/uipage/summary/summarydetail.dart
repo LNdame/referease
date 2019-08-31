@@ -291,6 +291,7 @@ class SummaryDetailState extends State<SummaryDetail> {
                        controller: titleController,
                           decoration: InputDecoration(
                               labelText: 'Title',
+                              hintText: 'e.g. Guide to easy referencing',
                               labelStyle: TextStyle(
                                   fontFamily: 'Montserrat',
                                   fontWeight: FontWeight.bold,

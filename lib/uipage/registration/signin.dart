@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:referease/services/authentication.dart';
 import 'package:referease/services/sharedpreference.dart';
 import 'package:referease/uiutility/colors.dart';
@@ -7,7 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:referease/services/usermanagement.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:progress_dialog/progress_dialog.dart';
 import 'dart:async';
 
 
@@ -22,11 +23,13 @@ class SignInPage extends StatefulWidget{
 
 class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateMixin {
   Animation animation, delayedAnimation, muchDelayedAnimation;
-
+  ProgressDialog pr;
   AnimationController animationController;
 
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  String _emailController;
+  String _passwordController;
+  String loginErrorMessage;
+
 
   //google sign in
   GoogleSignIn googleAuth = new GoogleSignIn();
@@ -35,8 +38,8 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
+    _emailController;
+    _passwordController;
   }
 
   @override
@@ -71,6 +74,11 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
+    pr = new ProgressDialog(context,ProgressDialogType.Normal);
+    pr.setMessage('Please wait...');
+
+
     final double width = MediaQuery.of(context).size.width;
     animationController.forward();
     return AnimatedBuilder(
@@ -125,7 +133,10 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                           child: Column(
                             children: <Widget>[
                               TextField(
-                                controller: _emailController,
+                                onChanged: (value) {
+                                  _emailController = value;
+                                },
+                                
                                 decoration: InputDecoration(
                                     labelText: 'Email',
                                     labelStyle: TextStyle(
@@ -137,7 +148,9 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                               ),
                               SizedBox(height: 20.0),
                               TextField(
-                                controller: _passwordController,
+                                onChanged: (value) {
+                                  _passwordController = value;
+                                },
                                 decoration: InputDecoration(
                                     labelText: 'Password',
                                     labelStyle: TextStyle(
@@ -173,8 +186,15 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                                   elevation: 7.0,
                                   child: GestureDetector(
                                     onTap: () {
-                                      FirebaseAuth.instance.signInWithEmailAndPassword(
-                                          email: _emailController.text.trim(), password: _passwordController.text.trim()
+                                      if (_emailController == null || _passwordController == null)
+                                      {
+                                        noInputDialog(context);
+                                      }
+                                      else{
+                                        pr.show();
+                                     
+                                         FirebaseAuth.instance.signInWithEmailAndPassword(
+                                          email: _emailController.trim(), password: _passwordController.trim()
                                       ).then((FirebaseUser user) async {
 
                                         await SharedPreferencesUtils.setUserUid(user.uid);
@@ -182,9 +202,23 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                                         await SharedPreferencesUtils.setUserEmail(user.email);
 
                                         Navigator.of(context).pushReplacementNamed('/landing');
+                                        
                                       }).catchError((e){
+                                        pr.hide();
                                         print(e);
+                                        String exceptionMessage = e.toString();
+                                        if (exceptionMessage == "PlatformException(exception, The email address is badly formatted., null)")
+                                        {
+                                          loginErrorMessage = "Invalid email address";
+                                        }
+                                        else {
+                                          loginErrorMessage = "Please ensure you have entered correct credentials";
+                                        }
+                                         loginErrorDialog(context, loginErrorMessage);
                                       });
+
+                                      }
+                                      
 
 
                                     },
@@ -314,4 +348,46 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
     );//animatedbuilder
 
   }
+}
+
+Future<bool> noInputDialog(context) {
+  return showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Something went wrong'),
+        content: Text('Please enter the username and password'),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: () {
+                    Navigator.pop(context);
+            },
+          )
+        ],
+      );
+    }
+  );
+}
+
+Future<bool> loginErrorDialog(context, message) {
+  return showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Something went wrong'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: () {
+                    Navigator.pop(context);            
+            },
+          )
+        ],
+      );
+    }
+  );
 }

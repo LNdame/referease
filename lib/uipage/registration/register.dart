@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:referease/services/usermanagement.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+
 
 
 
@@ -14,13 +16,14 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> with SingleTickerProviderStateMixin{
 
-
+ProgressDialog pr;
   Animation animation, delayedAnimation, muchDelayedAnimation;
 
   AnimationController animationController;
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+   String registerExceptionMessage;
 
   @override
   void initState() {
@@ -50,6 +53,8 @@ class _SignupPageState extends State<SignupPage> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
 
+     pr = new ProgressDialog(context,ProgressDialogType.Normal);
+    pr.setMessage('Please wait...');
     final double width = MediaQuery.of(context).size.width;
     animationController.forward();
 
@@ -133,16 +138,32 @@ class _SignupPageState extends State<SignupPage> with SingleTickerProviderStateM
                                 child: GestureDetector(
                                   onTap: () {
                                     //what happen when sign up
-                                    FirebaseAuth.instance.createUserWithEmailAndPassword(
+                                    if (_emailController.text == "" || _passwordController.text == "")
+                                      {
+                                        noInputDialog(context);
+                                      }
+                                      else{
+                                        pr.show();
+                                        FirebaseAuth.instance.createUserWithEmailAndPassword(
                                         email: _emailController.text, password: _passwordController.text)
                                         .then((signedInUser){
                                           UserManagement().storeNewUser(signedInUser, context);
 
                                     }).catchError((e){
+                                      pr.hide();
                                       print(e);
+                                       String exceptionMessage = e.toString();
+                                        if (exceptionMessage == "PlatformException(exception, The email address is badly formatted., null)")
+                                        {
+                                          registerExceptionMessage = "Invalid email address";
+                                        }
+                                        else {
+                                          registerExceptionMessage = "Please ensure you have entered correct credentials";
+                                        }
+                                         registerErrorDialog(context, registerExceptionMessage);
                                     });
-
-                                  },
+                                      }
+                                 },
                                   child: Center(
                                     child: Text(
                                       'SIGNUP',
@@ -216,4 +237,45 @@ class _SignupPageState extends State<SignupPage> with SingleTickerProviderStateM
     // )
 
   }
+}
+Future<bool> noInputDialog(context) {
+  return showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Something went wrong'),
+        content: Text('Please enter the username and password'),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: () {
+                    Navigator.pop(context);
+            },
+          )
+        ],
+      );
+    }
+  );
+}
+
+Future<bool> registerErrorDialog(context, message) {
+  return showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Something went wrong'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: () {
+                    Navigator.pop(context);            
+            },
+          )
+        ],
+      );
+    }
+  );
 }

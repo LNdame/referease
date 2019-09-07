@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+//import 'package:referease/uipage/summary/summarylist.dart';
+import 'package:referease/uipage/widgets/summary_list.dart';
 
 class SummaryPage extends StatefulWidget{
   @override
@@ -10,8 +12,9 @@ class _SummaryPageState extends State<SummaryPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Center(
-      child: Text("Summary page"),
+    return Scaffold(
+      body:SummaryList(),
+
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:referease/uipage/widgets/source_list.dart';
 
 class SourcePage extends StatefulWidget{
   @override
@@ -10,8 +11,8 @@ class _SourcePageState extends State<SourcePage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Center(
-      child: Text("Source page"),
+    return Scaffold(
+      body: SourceList(),
     );
   }
 }

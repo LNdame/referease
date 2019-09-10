@@ -55,15 +55,11 @@ class _MainScreenState extends State<MainScreen> {
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-            ),
+            icon:Image.asset('assets/images/triangle.png', width: 20.0,height: 20.0, color: Colors.blueGrey[200],),
             title: Text("Summary"),
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.shopping_cart,
-            ),
+            icon:  Image.asset('assets/images/circle.png', width: 20.0,height: 20.0, color: Colors.blueGrey[200],),
             title: Text("Source"),
           ),
           BottomNavigationBarItem(

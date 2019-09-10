@@ -222,13 +222,16 @@ class _SummaryEditState extends State<SummaryEdit> {
 
         actions: <Widget>[
 
-          IconButton(
-            icon: Icon(Icons.help_outline, semanticLabel: 'help',),
-            onPressed: (){
-              Navigator.push(context,
-                  MaterialPageRoute(
-                    builder: (context) => Help(3),) );
-            },
+         FlatButton(
+                child: Text('Help'),
+                onPressed: (){
+                 // Navigator.pushReplacementNamed(context, '/help');
+
+                  Navigator.push(context,
+                      MaterialPageRoute(
+                        builder: (context) => Help(3),) );
+
+                },
           ),
         ],
 
@@ -265,6 +268,7 @@ class _SummaryEditState extends State<SummaryEdit> {
                   controller: titleController,
                   decoration: InputDecoration(
                       labelText: 'Title',
+                      hintText: 'e.g. Guide to easy referencing',
                       labelStyle: TextStyle(
                           fontFamily: 'Montserrat',
                           fontWeight: FontWeight.bold,
@@ -361,7 +365,12 @@ class _SummaryEditState extends State<SummaryEdit> {
 
       floatingActionButton: FloatingActionButton(child: Icon(Icons.save),
           onPressed: (){
-
+            if (titleController.text == "" || authorsController.text == "" || yearController.text == "")
+            {
+              noInputDialog(context);
+            }
+            else
+            {
 
             if(widget.documentSnapshot!=null){
               var value;
@@ -386,7 +395,7 @@ class _SummaryEditState extends State<SummaryEdit> {
               );
 
             }
-
+            }
 
 
 
@@ -531,4 +540,25 @@ class QuestionViewState extends State<QuestionView> {
 
     );
   }
+}
+
+Future<bool> noInputDialog(context) {
+  return showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Something went wrong'),
+        content: Text('Please enter the Tittle, Author and Year before saving the summary'),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: () {
+                    Navigator.pop(context);
+            },
+          )
+        ],
+      );
+    }
+  );
 }

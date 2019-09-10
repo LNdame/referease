@@ -378,13 +378,16 @@ class SourceListState extends State<SourceList> {
               }
             },
           ),
-          IconButton(
-            icon: Icon(Icons.help_outline, semanticLabel: 'help',),
-            onPressed: (){
-              Navigator.push(context,
-                  MaterialPageRoute(
-                    builder: (context) => Help(4),) );
-            },
+         FlatButton(
+                child: Text('Help'),
+                onPressed: (){
+                 // Navigator.pushReplacementNamed(context, '/help');
+
+                  Navigator.push(context,
+                      MaterialPageRoute(
+                        builder: (context) => Help(4),) );
+
+                },
           ),
         ],
       ),

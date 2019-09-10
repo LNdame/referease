@@ -248,13 +248,16 @@ class SummaryListState extends State<SummaryList> {
               print('Search button');
             },
           ),
-          IconButton(
-            icon: Icon(Icons.help_outline, semanticLabel: 'help',),
-            onPressed: (){
-              Navigator.push(context,
-                  MaterialPageRoute(
-                    builder: (context) => Help(2),) );
-            },
+         FlatButton(
+                child: Text('Help'),
+                onPressed: (){
+                 // Navigator.pushReplacementNamed(context, '/help');
+
+                  Navigator.push(context,
+                      MaterialPageRoute(
+                        builder: (context) => Help(2),) );
+
+                },
           ),
         ],
       ),

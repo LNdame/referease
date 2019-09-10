@@ -390,13 +390,16 @@ class _EditSourceState extends State<EditSource> {
         backgroundColor:kReferSurfaceWhite ,
         actions: <Widget>[
 
-          IconButton(
-            icon: Icon(Icons.help_outline, semanticLabel: 'help',),
-            onPressed: (){
-              Navigator.push(context,
-                  MaterialPageRoute(
-                    builder: (context) => Help(5),) );
-            },
+          FlatButton(
+                child: Text('Help'),
+                onPressed: (){
+                 // Navigator.pushReplacementNamed(context, '/help');
+
+                  Navigator.push(context,
+                      MaterialPageRoute(
+                        builder: (context) => Help(5),) );
+
+                },
           ),
         ],
 

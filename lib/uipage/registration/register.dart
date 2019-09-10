@@ -62,8 +62,12 @@ ProgressDialog pr;
         animation: animationController,
         builder: (BuildContext context, Widget child){
           return new Scaffold(
-              resizeToAvoidBottomPadding: false,
-              body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
+             // resizeToAvoidBottomPadding: false,
+              body: ListView(
+                                shrinkWrap: true,
+                padding: EdgeInsets.symmetric(vertical: 1.0),
+                children: <Widget>[
+                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
                   Widget>[
                 Transform(
                   transform: Matrix4.translationValues(animation.value * width, 0.0,0.0),
@@ -207,7 +211,13 @@ ProgressDialog pr;
                         ],
                       )),
                 ),
-              ]));
+              ])
+                ],
+                
+              )
+              
+              
+               );
         }
 
     );

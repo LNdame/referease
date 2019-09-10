@@ -32,7 +32,7 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
 
 
   //google sign in
-  GoogleSignIn googleAuth = new GoogleSignIn();
+ // GoogleSignIn googleAuth = new GoogleSignIn();
 
   @override
   void dispose() {
@@ -58,11 +58,12 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
 
 
 
-    Future.delayed(Duration(seconds: 3)).then((dynamic)=>signInWithGoogle()).then((signedInUser){
+   /* Future.delayed(Duration(seconds: 3)).then((dynamic)=>signInWithGoogle()).then((signedInUser){
       print('silently signed in user ${signedInUser.displayName} ${signedInUser.uid}');
       Navigator.of(context).pop();
       Navigator.of(context).pushReplacementNamed('/landing');
     });
+    */
 
     //Navigator.pushReplacementNamed(context, '/login')
 
@@ -86,8 +87,10 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
         builder: (BuildContext context, Widget child){
 
           return new Scaffold(
-              resizeToAvoidBottomPadding: false,
+            
+             // resizeToAvoidBottomPadding: false,
               body: ListView(
+                shrinkWrap: true,
                 padding: EdgeInsets.symmetric(vertical: 1.0),
                 children: <Widget>[
 
@@ -235,7 +238,7 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                                 ),
                               ),
                               SizedBox(height: 20.0),
-                              Container(
+                            /*  Container(
                                 height: 40.0,
                                 color: Colors.transparent,
                                 child: Container(
@@ -305,6 +308,7 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                                   ),
                                 ),
                               )
+                              */
                             ],
                           )),
                     ),//transform

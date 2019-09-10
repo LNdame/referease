@@ -119,7 +119,7 @@ class _AddSourceState extends State<AddSource> {
 
 
 
-  Widget _FieldRow(String fieldName, TextEditingController cont){
+  Widget _FieldRow(String fieldName, String hintText, TextEditingController cont){
     return Card(
 
       child: Container(
@@ -133,7 +133,8 @@ class _AddSourceState extends State<AddSource> {
               Flexible(child: TextFormField(
                 controller: cont,
                 decoration: InputDecoration(
-                    labelText: fieldName
+                    labelText: fieldName,
+                    hintText :  hintText
                 ),
                 onFieldSubmitted: (String item){},
               ),
@@ -267,28 +268,27 @@ class _AddSourceState extends State<AddSource> {
     if(widget.sourceType == SourceType.book){
       return Column(
         children: <Widget>[
-          _FieldRow("Year", yearController),
-          _FieldRow("Pages", pagesController),
-          _FieldRow("City", cityController),
-          _FieldRow("Edition" , editionController),
-          _FieldRow("Editors", editorController),
-          _FieldRow("Publisher", publisherController),
-          _FieldRow("DOI",DOIController),
-          _FieldRow("ISBN", ISBNController),
+          _FieldRow("Year", "e.g. 2002", yearController),
+          _FieldRow("Pages", "e.g. 16-21", pagesController),
+          _FieldRow("City", "e.g. Port Elizabeth", cityController),
+          _FieldRow("Edition", "e.g. 3rd", editionController),
+          _FieldRow("Editors", "e.g. Allison, James C; Becker, Stacey", editorController),
+          _FieldRow("Publisher", "e.g. We Do Reasearch Press", publisherController),
+          _FieldRow("DOI", "e.g. 10.1002/182", DOIController),
+          _FieldRow("ISBN", "e.g. 987-3-14-168410-1", ISBNController),
         ],
       );
     } else if(widget.sourceType == SourceType.conference_proceeding){
       return Column(
         children: <Widget>[
-          _FieldRow("Proceeding Title", proceTitleController),
-          _FieldRow("Year", yearController),
-          _FieldRow("Pages", pagesController),
-          _FieldRow("City", cityController),
-
-          _FieldRow("Editors", editorController),
-          _FieldRow("Publisher" , publisherController),
-          _FieldRow("URL", urlController),
-          _FieldRow("DOI",DOIController),
+          _FieldRow("e.g. Proceeding Title", "Working on your research conference", proceTitleController),
+          _FieldRow("Year", "e.g 2002", yearController),
+          _FieldRow("Pages", "e.g. 16-21",  pagesController),
+          _FieldRow("City", "e.g. Port Elizabeth", cityController),
+          _FieldRow("Editors", "e.g. Allison, James C; Becker, Stacey", editorController),
+          _FieldRow("Publisher", "e.g. We Do Reasearch Press", publisherController),
+          _FieldRow("URL", "e.g. http://www.refereasy.co.za", urlController),
+          _FieldRow("DOI", "e.g. 10.1002/182", DOIController),
 
         ],
       );
@@ -296,17 +296,14 @@ class _AddSourceState extends State<AddSource> {
     }else if(widget.sourceType == SourceType.journal_article){
       return Column(
         children: <Widget>[
-          _FieldRow("Year", yearController),
-          _FieldRow("Journal", journalController),
-
-          _FieldRow("Volume" , volumeController),
-          _FieldRow("Issue", issueController),
-
-
-          _FieldRow("Pages", pagesController),
-
-          _FieldRow("URL", urlController),
-          _FieldRow("DOI",DOIController),
+          _FieldRow("Year", "e.g. 2002", yearController),
+          _FieldRow("Journal", "e.g. Research guidlines weekly", journalController),
+          _FieldRow("Volume", "e.g. iii", volumeController),
+          _FieldRow("Issue", "e.g. 25", issueController),
+          _FieldRow("Pages", "e.g. 16-21", pagesController),
+          _FieldRow("Date accessed", "e.g. 19 August 2018", dateAccessController),
+          _FieldRow("URL",  "e.g. http://www.refereasy.co.za", urlController),
+          _FieldRow("DOI", "e.g. 10.1002/182", DOIController),
 
         ],
       );
@@ -314,13 +311,13 @@ class _AddSourceState extends State<AddSource> {
     }else if(widget.sourceType == SourceType.web){
       return Column(
         children: <Widget>[
-          _FieldRow("Year", yearController),
-          _FieldRow("Publication", publicationController),
-          _FieldRow("Pages", pagesController),
-          _FieldRow("Date Accessed", dateAccessController),
+          _FieldRow("Year", "e.g. 2002", yearController),
+          _FieldRow("Publication", "e.g. We Do Reasearch Press", publicationController),
+          _FieldRow("Pages", "e.g. http://www.refereasy.co.za/summary", pagesController),
+          _FieldRow("Date Accessed", "e.g. 20 January 2019", dateAccessController),
 
-          _FieldRow("URL", urlController),
-          _FieldRow("DOI",DOIController),
+          _FieldRow("URL", "e.g. http://www.refereasy.co.za", urlController),
+          _FieldRow("DOI", "e.g. 10.1002/182", DOIController),
 
         ],
       );
@@ -343,12 +340,16 @@ class _AddSourceState extends State<AddSource> {
         backgroundColor:kReferSurfaceWhite ,
         actions: <Widget>[
 
-          IconButton(
-            icon: Icon(Icons.help_outline, semanticLabel: 'help',),
-            onPressed: (){
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Help(5),) );
-            },
+          FlatButton(
+                child: Text('Help'),
+                onPressed: (){
+                 // Navigator.pushReplacementNamed(context, '/help');
+
+                  Navigator.push(context,
+                      MaterialPageRoute(
+                        builder: (context) => Help(5),) );
+
+                },
           ),
         ],
 
@@ -391,6 +392,7 @@ class _AddSourceState extends State<AddSource> {
                             controller: titleController,
                             decoration: InputDecoration(
                                 labelText: 'Title',
+                                hintText: 'e.g. Guide to easy referencing',
                                 labelStyle: TextStyle(
                                     fontFamily: 'Montserrat',
                                     fontWeight: FontWeight.bold,
@@ -438,7 +440,7 @@ class _AddSourceState extends State<AddSource> {
                       ),//row
 
 
-                      _FieldRow("Author(s) (separated by ; )" , authorsController),
+                      _FieldRow("Author(s) (separated by ; )", "e.g. Allison, James C.; Nelson Mandela University", authorsController),
 
                       Container(
                           child:Padding(padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
@@ -482,14 +484,21 @@ class _AddSourceState extends State<AddSource> {
       ),//body
       floatingActionButton: FloatingActionButton(child: Icon(Icons.save),
           onPressed: (){
+
             var now = DateTime.now();
 
             Firestore.instance.runTransaction((Transaction transaction) async{
               CollectionReference reference = Firestore.instance.collection('sources');
 
               if(widget.sourceType == SourceType.book){
-
-                await reference.add({
+                  
+            if (titleController.text == "" || authorsController.text == "" || yearController.text == "" 
+            || cityController.text == "" || publisherController.text == "" || pagesController.text == "")
+            {
+                noInputDialog(context);
+            }
+            else {
+                          await reference.add({
                   'type': TypeConstant.book,
                   'title' : titleController.text,
                   'authors':authorsController.text,
@@ -509,10 +518,18 @@ class _AddSourceState extends State<AddSource> {
                   Navigator.of(context).popAndPushNamed('/landing');
 
                 }).catchError((error){print(error);});
+            }
+    
 
               }else if(widget.sourceType == SourceType.conference_proceeding){
-
-                await reference.add({
+                   if (titleController.text == "" || authorsController.text == "" || yearController.text == "" 
+            || cityController.text == "" || publisherController.text == "" || pagesController.text == "" 
+            || proceTitleController.text == "" || urlController.text == "")
+            {
+              noInputDialog(context);
+            }
+            else{
+                   await reference.add({
                   'type': TypeConstant.conference_proceeding,
                   'title' : titleController.text,
                   'authors':authorsController.text,
@@ -531,8 +548,19 @@ class _AddSourceState extends State<AddSource> {
                   Navigator.of(context).popAndPushNamed('/landing');
 
                 }).catchError((error){print(error);});
+            }
+
               }else if (widget.sourceType == SourceType.journal_article){
 
+                      if (titleController.text == "" || authorsController.text == "" || yearController.text == "" 
+            || volumeController.text == "" || issueController.text == "" || pagesController.text == "" 
+            || journalController.text == "" || urlController.text == "")
+            {
+              noInputJournalArticle(context);
+            }
+            else 
+            {
+              
                 await reference.add({
                   'type':TypeConstant.journal_article,
                   'title' : titleController.text,
@@ -552,9 +580,17 @@ class _AddSourceState extends State<AddSource> {
                   Navigator.of(context).popAndPushNamed('/landing');
 
                 }).catchError((error){print(error);});
+            }
+
               }else if(widget.sourceType == SourceType.web){
 
-                await reference.add({
+                
+                      if (titleController.text == "" || authorsController.text == "" || yearController.text == "" 
+             ||  pagesController.text == "" || urlController.text == "") {
+                noInputWeb(context); 
+             }
+             else {
+                            await reference.add({
                   'type': TypeConstant.web,
                   'title' : titleController.text,
                   'authors':authorsController.text,
@@ -572,6 +608,9 @@ class _AddSourceState extends State<AddSource> {
                   Navigator.of(context).popAndPushNamed('/landing');
 
                 }).catchError((error){print(error);});
+             }
+
+   
               }
 
 
@@ -900,4 +939,67 @@ class _FieldListPageState extends State<FieldListPage> {
         )
     );
   }
+}
+
+Future<bool> noInputDialog(context) {
+  return showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Something went wrong'),
+        content: Text('Please enter all fields. Only the DOI and ISBN are optional.'),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: () {
+                    Navigator.pop(context);
+            },
+          )
+        ],
+      );
+    }
+  );
+}
+
+Future<bool> noInputJournalArticle(context) {
+  return showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Something went wrong'),
+        content: Text('Please enter all fields. Only the Date accessed and DOI are optional.'),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: () {
+                    Navigator.pop(context);
+            },
+          )
+        ],
+      );
+    }
+  );
+}
+
+Future<bool> noInputWeb(context) {
+  return showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Something went wrong'),
+        content: Text('Please enter all fields. Only the DOI is optional.'),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: () {
+                    Navigator.pop(context);
+            },
+          )
+        ],
+      );
+    }
+  );
 }

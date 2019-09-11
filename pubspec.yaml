@@ -23,6 +23,8 @@ dependencies:
   firebase_auth: ^0.5.20
   google_sign_in:
 
+  progress_dialog: ^1.1.0+1
+
   intl: ^0.15.7
   sqflite: any
   path_provider: ^0.4.0

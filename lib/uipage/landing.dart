@@ -511,8 +511,8 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
                  Navigator.pushReplacementNamed(context, '/search');
                 },
               ),
-              IconButton(
-                icon: Icon(Icons.help_outline, semanticLabel: 'help',),
+              FlatButton(
+                child: Text('Help'),
                 onPressed: (){
                  // Navigator.pushReplacementNamed(context, '/help');
 

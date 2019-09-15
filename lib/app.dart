@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:referease/uipage/main_screen.dart';
 import 'package:referease/uipage/registration/about.dart';
 import 'package:referease/uipage/search/help.dart';
 import 'package:referease/uipage/search/search.dart';
@@ -62,7 +63,8 @@ class ReferEase extends StatelessWidget{
 
      return MaterialPageRoute<void>(
      settings: settings,
-     builder: (BuildContext context) => SplashPage(),
+   //  builder: (BuildContext context) => SplashPage(),
+       builder: (BuildContext context) => MainScreen(),
      fullscreenDialog: true,
      );
    }

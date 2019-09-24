@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:referease/data/source_type_api_service.dart';
 import 'package:referease/uiutility/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -102,7 +103,11 @@ class _LoginPageState extends State<LoginPage> {
 	                      "password": "pass1234"
                       });
 
+                      //final responseST = await Provider.of<SourceTypeApiService>(context).getSourceType("reflect");
+                      final responseST = await Provider.of<SourceTypeApiService>(context).getSourceTypes();
+
                       print(response.body);
+                      print(responseST.body);
                     }
                   ),
                 ],

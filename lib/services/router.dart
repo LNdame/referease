@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:referease/splashpage.dart';
 import 'package:referease/testzone/pageviewdemo.dart';
 import 'package:referease/uipage/landing.dart';
 import 'package:referease/uipage/main_screen.dart';
@@ -12,7 +13,8 @@ import 'package:referease/uipage/search/support.dart';
 class Router{
   static Route<dynamic>generateRoute(RouteSettings settings){
     switch(settings.name){
-      case '/': return MaterialPageRoute(builder: (_)=> MainScreen());
+      case '/': return MaterialPageRoute(builder: (_)=> SplashPage());
+      case '/home': return MaterialPageRoute(builder: (_)=> MainScreen());
       case '/login': return MaterialPageRoute(builder: (_)=> SignInPage());
       case '/register': return MaterialPageRoute(builder: (_)=> SignupPage());
       case '/landing': return MaterialPageRoute(builder: (_)=> LandingPage());

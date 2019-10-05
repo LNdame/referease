@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:referease/data/api_functions/request_login_api.dart';
 import 'package:referease/services/authentication.dart';
 import 'package:referease/shared_preference/sharedpreference.dart';
 import 'package:referease/uiutility/colors.dart';
@@ -29,7 +30,7 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
   final _passwordController = TextEditingController();
 
   //google sign in
-  GoogleSignIn googleAuth = new GoogleSignIn();
+ // GoogleSignIn googleAuth = new GoogleSignIn();
 
   @override
   void dispose() {
@@ -54,17 +55,21 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
         parent: animationController, curve:Interval(0.8, 1.0, curve:Curves.fastOutSlowIn  ) ));
 
 
+//TODO replace this with a silent check if user exist in shared pref and log in
+//    Future.delayed(Duration(seconds: 3)).then((dynamic)=>signInWithGoogle()).then((signedInUser){
+//      print('silently signed in user ${signedInUser.displayName} ${signedInUser.uid}');
+//      Navigator.of(context).pop();
+//      Navigator.of(context).pushReplacementNamed('/landing');
+//    });
 
-    Future.delayed(Duration(seconds: 3)).then((dynamic)=>signInWithGoogle()).then((signedInUser){
-      print('silently signed in user ${signedInUser.displayName} ${signedInUser.uid}');
-      Navigator.of(context).pop();
-      Navigator.of(context).pushReplacementNamed('/landing');
+    Future.delayed(Duration(seconds: 2)).then((dynamic)=>SharedPreferencesUtils.getUsername())
+        .then((username){
+            if(username.isNotEmpty){
+              print('silently signing in user $username');
+              Navigator.of(context).pop();
+              Navigator.of(context).pushReplacementNamed('/home');
+            }
     });
-
-    //Navigator.pushReplacementNamed(context, '/login')
-
-
-
 
   }
 
@@ -82,8 +87,6 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
               body: ListView(
                 padding: EdgeInsets.symmetric(vertical: 1.0),
                 children: <Widget>[
-
-
 
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -172,19 +175,21 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                                   color: kReferAccent,
                                   elevation: 7.0,
                                   child: GestureDetector(
-                                    onTap: () {
-                                      FirebaseAuth.instance.signInWithEmailAndPassword(
-                                          email: _emailController.text.trim(), password: _passwordController.text.trim()
-                                      ).then((FirebaseUser user) async {
-
-                                        await SharedPreferencesUtils.setUserUid(user.uid);
-                                        await SharedPreferencesUtils.setUserDisplayName("");
-                                        await SharedPreferencesUtils.setUserEmail(user.email);
-
-                                        Navigator.of(context).pushReplacementNamed('/landing');
-                                      }).catchError((e){
-                                        print(e);
-                                      });
+                                    onTap: () async {
+                                      //requestLoginAPI(context, "ansteph09@gmail.com", "pass1234");
+                                      requestLoginAPI(context,  _emailController.text.trim(), _passwordController.text.trim());
+//                                      FirebaseAuth.instance.signInWithEmailAndPassword(
+//                                          email: _emailController.text.trim(), password: _passwordController.text.trim()
+//                                      ).then((FirebaseUser user) async {
+//
+//                                        await SharedPreferencesUtils.setUserUid(user.uid);
+//                                        await SharedPreferencesUtils.setUserDisplayName("");
+//                                        await SharedPreferencesUtils.setUserEmail(user.email);
+//
+//                                        Navigator.of(context).pushReplacementNamed('/landing');
+//                                      }).catchError((e){
+//                                        print(e);
+//                                      });
 
 
                                     },
@@ -201,76 +206,77 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                                 ),
                               ),
                               SizedBox(height: 20.0),
-                              Container(
-                                height: 40.0,
-                                color: Colors.transparent,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.black,
-                                          style: BorderStyle.solid,
-                                          width: 1.0),
-                                      color: Colors.transparent,
-                                      borderRadius: BorderRadius.circular(20.0)),
-                                  child: GestureDetector(
-                                    onTap: (){
-                                        googleAuth.signIn().then((result){
-                                          result.authentication.then((googleKey){
-                                            FirebaseAuth.instance.signInWithGoogle(
-                                                idToken: googleKey.idToken,
-                                                accessToken: googleKey.accessToken
-                                            ).then((signedInUSer) async {
 
-                                              UserManagement().checkGoogleUser(signedInUSer).then(( results){
-                                                QuerySnapshot qRes = results;
-                                                  if(qRes.documents.length<=0){
-                                                    UserManagement().storeNewUserGoogle(signedInUSer, context);
-                                                  }else{
-                                                    Navigator.of(context).pop();
-                                                    Navigator.of(context).pushReplacementNamed('/landing');
-                                                  }
-
-                                              });
-
-
-                                              print('Signed in user ${signedInUSer.displayName} ${signedInUSer.uid}');
-                                              await SharedPreferencesUtils.setUserUid(signedInUSer.uid);
-                                              await SharedPreferencesUtils.setUserEmail(signedInUSer.email);
-                                              await SharedPreferencesUtils.setUserDisplayName(signedInUSer.displayName);
-
-                                             // Navigator.of(context).pushReplacementNamed('/landing');
-
-
-                                            }).catchError((e){
-                                              print(e);
-                                            });
-
-                                          }).catchError((e){
-                                            print(e);
-                                          });
-                                        }).catchError((e){
-                                                  print(e);
-                                                });
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Center(
-                                          child:
-                                          ImageIcon(AssetImage('assets/images/google.png')),
-                                        ),
-                                        SizedBox(width: 10.0),
-                                        Center(
-                                          child: Text('Log in with Google',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: 'Montserrat')),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              )
+//                              Container(
+//                                height: 40.0,
+//                                color: Colors.transparent,
+//                                child: Container(
+//                                  decoration: BoxDecoration(
+//                                      border: Border.all(
+//                                          color: Colors.black,
+//                                          style: BorderStyle.solid,
+//                                          width: 1.0),
+//                                      color: Colors.transparent,
+//                                      borderRadius: BorderRadius.circular(20.0)),
+//                                  child: GestureDetector(
+//                                    onTap: (){
+//                                        googleAuth.signIn().then((result){
+//                                          result.authentication.then((googleKey){
+//                                            FirebaseAuth.instance.signInWithGoogle(
+//                                                idToken: googleKey.idToken,
+//                                                accessToken: googleKey.accessToken
+//                                            ).then((signedInUSer) async {
+//
+//                                              UserManagement().checkGoogleUser(signedInUSer).then(( results){
+//                                                QuerySnapshot qRes = results;
+//                                                  if(qRes.documents.length<=0){
+//                                                    UserManagement().storeNewUserGoogle(signedInUSer, context);
+//                                                  }else{
+//                                                    Navigator.of(context).pop();
+//                                                    Navigator.of(context).pushReplacementNamed('/landing');
+//                                                  }
+//
+//                                              });
+//
+//
+//                                              print('Signed in user ${signedInUSer.displayName} ${signedInUSer.uid}');
+//                                              await SharedPreferencesUtils.setUserUid(signedInUSer.uid);
+//                                              await SharedPreferencesUtils.setUserEmail(signedInUSer.email);
+//                                              await SharedPreferencesUtils.setUserDisplayName(signedInUSer.displayName);
+//
+//                                             // Navigator.of(context).pushReplacementNamed('/landing');
+//
+//
+//                                            }).catchError((e){
+//                                              print(e);
+//                                            });
+//
+//                                          }).catchError((e){
+//                                            print(e);
+//                                          });
+//                                        }).catchError((e){
+//                                                  print(e);
+//                                                });
+//                                    },
+//                                    child: Row(
+//                                      mainAxisAlignment: MainAxisAlignment.center,
+//                                      children: <Widget>[
+//                                        Center(
+//                                          child:
+//                                          ImageIcon(AssetImage('assets/images/google.png')),
+//                                        ),
+//                                        SizedBox(width: 10.0),
+//                                        Center(
+//                                          child: Text('Log in with Google',
+//                                              style: TextStyle(
+//                                                  fontWeight: FontWeight.bold,
+//                                                  fontFamily: 'Montserrat')),
+//                                        )
+//                                      ],
+//                                    ),
+//                                  ),
+//                                ),
+//                              )
                             ],
                           )),
                     ),//transform

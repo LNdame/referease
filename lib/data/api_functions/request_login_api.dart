@@ -25,7 +25,7 @@ Future<LoginModel> requestLoginAPI(BuildContext context, String username, String
     print(response.body);
     saveCurrentLogin(responseJson);
     // TODO let the user into the landing
-   // Navigator.of(context).pushReplacementNamed('Homescreen');
+    Navigator.of(context).pushReplacementNamed('/home');
     return login;
   }else{return null;}
 

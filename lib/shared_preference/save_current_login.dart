@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:referease/shared_preference/shared_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:referease/model/login_model.dart';
 
@@ -19,9 +20,9 @@ saveCurrentLogin(Map responseJson) async{
   var refreshToken = (responseJson != null && responseJson.isNotEmpty)? LoginModel.fromJson(responseJson).refreshToken:"";
   print('access token: $accessToken ' );
   print('username : $username');
-  await preferences.setString('username', (username !=null && username.length>0)?username:"");
-  await preferences.setString('accesstoken', (accessToken !=null && accessToken.length>0)?accessToken:"");
-  await preferences.setString('refreshtoken', (refreshToken !=null && refreshToken.length>0)?refreshToken:"");
+  await preferences.setString(SharedConstants.usernameKey, (username !=null && username.length>0)?username:"");
+  await preferences.setString(SharedConstants.accessTokenKey, (accessToken !=null && accessToken.length>0)?accessToken:"");
+  await preferences.setString(SharedConstants.refreshTokenKey, (refreshToken !=null && refreshToken.length>0)?refreshToken:"");
 
 
 }

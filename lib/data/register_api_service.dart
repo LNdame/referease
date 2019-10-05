@@ -1,6 +1,8 @@
 import 'package:chopper/chopper.dart';
 import 'dart:async';
 
+import 'server_settings.dart';
+
 part 'register_api_service.chopper.dart';
 
 @ChopperApi(baseUrl: "/register")
@@ -9,8 +11,8 @@ abstract class RegisterApiService extends ChopperService{
   @Post(headers:{'Content-Type':'application/json'})
   Future<Response>registerRequest(@Body() Map<String, dynamic>body);
 
-  static RegisterApiService create(){ // TODO make this in parent class
-    final client =ChopperClient(baseUrl: "https://referease-api.herokuapp.com",  // TODO add this to a setting file in parent class
+  static RegisterApiService create(){
+    final client =ChopperClient(baseUrl: serverBaseUrl,
       services:[
         _$RegisterApiService(),
       ],

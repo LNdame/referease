@@ -5,6 +5,8 @@ import 'package:referease/data/built_value_converter.dart';
 import 'package:referease/model/source_type.dart';
 import 'dart:async';
 
+import 'server_settings.dart';
+
 part 'source_type_api_service.chopper.dart';
 
 @ChopperApi(baseUrl: "/")
@@ -18,7 +20,7 @@ abstract class SourceTypeApiService extends ChopperService{
 
   static SourceTypeApiService create() {
     final client = ChopperClient(
-      baseUrl:  "https://referease-api.herokuapp.com",
+      baseUrl:  serverBaseUrl,
       services: [
         _$SourceTypeApiService(),
       ],

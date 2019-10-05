@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:referease/data/source_type_api_service.dart';
+import 'package:referease/services/router.dart';
 import 'package:referease/uipage/main_screen.dart';
 import 'package:referease/uipage/registration/about.dart';
 import 'package:referease/uipage/search/help.dart';
@@ -40,26 +41,26 @@ class ReferEase extends StatelessWidget{
           debugShowCheckedModeBanner: false,
           title: "Refer Easy TEST1",
           home: LandingPage(),
-          initialRoute: '/splash',
-          routes: {
-            '/login': (context)=> SignInPage(),
-            '/register': (context)=> SignupPage(),
-            '/landing':(context)=> LandingPage(),
-            '/summarylist':(context)=> SummaryList(),
-            '/summarydetail':(context)=> SummaryDetail(),
-            '/sourcelist':(context)=> SourceList(),
-            '/profile':(context)=> UserProfile(),
-            '/authorlist':(context)=> AuthorList(),
-            '/addsource':(context)=> AddSource(),
-            '/pageview':(context)=> PageViewDemo(),
-            '/search':(context)=> Search(),
-            '/about':(context)=> About(),
-            '/support':(context)=> Support(),
-            '/help':(context)=>Help(1),
+          initialRoute: '/login',
+//          routes: {
+//            '/login': (context)=> SignInPage(),
+//            '/register': (context)=> SignupPage(),
+//            '/landing':(context)=> LandingPage(),
+//            '/summarylist':(context)=> SummaryList(),
+//            '/summarydetail':(context)=> SummaryDetail(),
+//            '/sourcelist':(context)=> SourceList(),
+//            '/profile':(context)=> UserProfile(),
+//            '/authorlist':(context)=> AuthorList(),
+//            '/addsource':(context)=> AddSource(),
+//            '/pageview':(context)=> PageViewDemo(),
+//            '/search':(context)=> Search(),
+//            '/about':(context)=> About(),
+//            '/support':(context)=> Support(),
+//            '/help':(context)=>Help(1),
+//
+//          },
 
-          },
-
-          onGenerateRoute: _getRoute,
+          onGenerateRoute: Router.generateRoute,
 
           theme: _kReferTheme,
 
@@ -68,19 +69,19 @@ class ReferEase extends StatelessWidget{
     );
   }
 
-   Route<dynamic> _getRoute(RouteSettings settings) {
-     if (settings.name != '/splash') {
-       return null;
-     }
-
-     return MaterialPageRoute<void>(
-     settings: settings,
-   //  builder: (BuildContext context) => SplashPage(),
-       //builder: (BuildContext context) => MainScreen(),
-       builder: (BuildContext context) => LoginPage(),
-     fullscreenDialog: true,
-     );
-   }
+//   Route<dynamic> _getRoute(RouteSettings settings) {
+//     if (settings.name != '/splash') {
+//       return null;
+//     }
+//
+//     return MaterialPageRoute<void>(
+//     settings: settings,
+//   //  builder: (BuildContext context) => SplashPage(),
+//       //builder: (BuildContext context) => MainScreen(),
+//       builder: (BuildContext context) => LoginPage(),
+//     fullscreenDialog: true,
+//     );
+//   }
 }
 
 final ThemeData _kReferTheme = _buildShrineTheme();

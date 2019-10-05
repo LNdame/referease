@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:referease/data/api_functions/request_login_api.dart';
 import 'package:referease/data/source_type_api_service.dart';
 import 'package:referease/uiutility/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -98,16 +99,18 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     //onPressed: ()=>_signIn().then((FirebaseUser user)=>print(user)),
                     onPressed: () async {
-                      final response = await Provider.of<LoginApiService>(context).loginRequest({
-                        "username": "user1",
-	                      "password": "pass1234"
-                      });
+                      requestLoginAPI(context, "ansteph09@gmail.com", "pass1234");
 
-                      //final responseST = await Provider.of<SourceTypeApiService>(context).getSourceType("reflect");
-                      final responseST = await Provider.of<SourceTypeApiService>(context).getSourceTypes();
-
-                      print(response.body);
-                      print(responseST.body);
+//                      final response = await Provider.of<LoginApiService>(context).loginRequest({
+//                        "username": "user1",
+//	                      "password": "pass1234"
+//                      });
+//
+//                      //final responseST = await Provider.of<SourceTypeApiService>(context).getSourceType("reflect");
+//                      final responseST = await Provider.of<SourceTypeApiService>(context).getSourceTypes();
+//
+//                      print(response.body);
+//                      print(responseST.body);
                     }
                   ),
                 ],

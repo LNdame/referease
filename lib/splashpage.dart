@@ -14,23 +14,13 @@ class SplashPage extends StatefulWidget{
 }
 
 class _SplashPageState extends State<SplashPage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   void initState() {
     super.initState();
 
-    //listen for our auth event(on reload or start
-
-    _auth.onAuthStateChanged.firstWhere((user)=> user!=null).then((user){
-      Navigator.popAndPushNamed(context, '/landing');
-    });
-
     Future.delayed(Duration(seconds: 3)).then((dynamic)=>
         Navigator.pushReplacementNamed(context, '/login'));
-
-
-//    signInWithGoogle());
-
 
   }
 

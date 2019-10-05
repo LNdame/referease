@@ -43,8 +43,8 @@ class ReferEase extends StatelessWidget{
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: "Refer Easy TEST1",
-          home: LandingPage(),
-          initialRoute: '/login',
+          home: SplashPage(),
+          initialRoute: '/',
 //          routes: {
 //            '/login': (context)=> SignInPage(),
 //            '/register': (context)=> SignupPage(),

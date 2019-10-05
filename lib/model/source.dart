@@ -278,7 +278,7 @@ class ConferenceProceeding extends Source{
       editorsLine=createAuthorList(editors.split(';'));
 
     //add authors
-    citation="${authorsLine} ";
+    citation="$authorsLine ";
 
     //override authors if editors
     if(editorsLine.isNotEmpty)

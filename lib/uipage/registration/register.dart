@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:referease/data/api_functions/request_register_api.dart';
+import 'package:referease/data/register_api_service.dart';
 import 'package:referease/uiutility/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -131,16 +134,24 @@ class _SignupPageState extends State<SignupPage> with SingleTickerProviderStateM
                                 color: kReferAccent,
                                 elevation: 7.0,
                                 child: GestureDetector(
-                                  onTap: () {
+                                  onTap: () async {
+                                    requestRegisterAPI(context, _emailController.text, _passwordController.text);
                                     //what happen when sign up
-                                    FirebaseAuth.instance.createUserWithEmailAndPassword(
-                                        email: _emailController.text, password: _passwordController.text)
-                                        .then((signedInUser){
-                                          UserManagement().storeNewUser(signedInUser, context);
-
-                                    }).catchError((e){
-                                      print(e);
-                                    });
+//                                    FirebaseAuth.instance.createUserWithEmailAndPassword(
+//                                        email: _emailController.text, password: _passwordController.text)
+//                                        .then((signedInUser){
+//                                          UserManagement().storeNewUser(signedInUser, context);
+//
+//                                    }).catchError((e){
+//                                      print(e);
+//                                    });
+//                                      final response = await Provider.of<RegisterApiService>(context).registerRequest({
+//                                        "username": "thomas09@gmail.com",
+//                                        "password": "pass1234",
+//                                        "user_type_id":2
+//                                      });
+//
+//                                      print(response);
 
                                   },
                                   child: Center(

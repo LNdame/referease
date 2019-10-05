@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:referease/data/register_api_service.dart';
 import 'package:referease/data/source_type_api_service.dart';
 import 'package:referease/services/router.dart';
+
 import 'package:referease/uipage/main_screen.dart';
 import 'package:referease/uipage/registration/about.dart';
 import 'package:referease/uipage/search/help.dart';
@@ -31,6 +33,7 @@ class ReferEase extends StatelessWidget{
    @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
     return MultiProvider(
       providers: [
         Provider( builder: (_)=> LoginApiService.create(),
@@ -68,9 +71,11 @@ class ReferEase extends StatelessWidget{
           theme: _kReferTheme,
 
 
+
       ),
     );
   }
+
 
 //   Route<dynamic> _getRoute(RouteSettings settings) {
 //     if (settings.name != '/splash') {
@@ -85,6 +90,7 @@ class ReferEase extends StatelessWidget{
 //     fullscreenDialog: true,
 //     );
 //   }
+
 }
 
 final ThemeData _kReferTheme = _buildShrineTheme();

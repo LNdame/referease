@@ -37,7 +37,8 @@ dependencies:
   provider: ^3.0.0+1
   connectivity: ^0.4.3+2
   built_value: ^6.7.0
-
+  email_validator: '^1.0.0'
+  progress_dialog: ^1.1.0+1
 dev_dependencies:
   flutter_test:
     sdk: flutter

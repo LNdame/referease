@@ -71,7 +71,8 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.person,
-            ),
+              ),
+              
             title: Text("Profile"),
           ),
         ],

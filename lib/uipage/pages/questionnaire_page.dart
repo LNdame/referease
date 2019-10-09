@@ -10,8 +10,8 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Center(
-      child: Text("Questionnaire page"),
+    return Center(     
+        child: Text('Questionnaire'),      
     );
   }
 }

@@ -99,12 +99,11 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     //onPressed: ()=>_signIn().then((FirebaseUser user)=>print(user)),
                     onPressed: () async {
-                      requestLoginAPI(context, "ansteph09@gmail.com", "pass1234");
+                     // requestLoginAPI(context, "ansteph09@gmail.com", "pass1234");
 
-//                      final response = await Provider.of<LoginApiService>(context).loginRequest({
-//                        "username": "user1",
-//	                      "password": "pass1234"
-//                      });
+                      final response = await Provider.of<SourceTypeApiService>(context).getSourceTypes();
+
+                    print(response.body);
 //
 //                      //final responseST = await Provider.of<SourceTypeApiService>(context).getSourceType("reflect");
 //                      final responseST = await Provider.of<SourceTypeApiService>(context).getSourceTypes();

@@ -204,6 +204,7 @@ class _SignupPageState extends State<SignupPage>
                                             {
                                             setState(() {
                                             value = 'LOADING ...';
+                                            
                                               });
                                               if (requestRegisterAPI(
                                                context,

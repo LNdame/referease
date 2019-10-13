@@ -52,6 +52,7 @@ class _SignInPageState extends State<SignInPage>
             child: Text('OK'),
             onPressed: () {
                      setState(() {
+                       
                       value = 'LOGIN';
                         });
                     Navigator.pop(context);  

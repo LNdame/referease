@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:referease/data/api_functions/request_login_api.dart';
 import 'package:referease/shared_preference/sharedpreference.dart';
@@ -5,6 +6,8 @@ import 'package:referease/uiutility/colors.dart';
 import 'package:email_validator/email_validator.dart';
 import 'dart:async';
 import 'package:progress_dialog/progress_dialog.dart';
+import 'package:progress_hud/progress_hud.dart';
+
 
 
 class SignInPage extends StatefulWidget {
@@ -17,11 +20,15 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage>
     with SingleTickerProviderStateMixin {
   ProgressDialog pr;
+
+    ProgressHUD _progressHUD;
+
+  bool _loading = true;
   Animation animation, delayedAnimation, muchDelayedAnimation;
   AnimationController animationController;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
+    String value = "LOGIN";
      final _formKey = GlobalKey<FormState>(); 
      final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -32,6 +39,35 @@ class _SignInPageState extends State<SignInPage>
       form.save();
     }
   }
+  Future<bool> loginErrorDialog(context) {
+  return showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Something went wrong'),
+        content: Text('Incorrect login details'),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: () {
+                     setState(() {
+                      value = 'LOGIN';
+                        });
+                    Navigator.pop(context);  
+                           
+            },
+          )
+        ],
+      );
+    }
+  );
+}
+
+        
+      void hide() {
+        pr.hide();
+      }
 
 
    
@@ -46,6 +82,8 @@ class _SignInPageState extends State<SignInPage>
   @override
   void initState() {
     super.initState();
+
+    
     animationController =
         AnimationController(duration: Duration(seconds: 2), vsync: this);
 
@@ -74,7 +112,7 @@ class _SignInPageState extends State<SignInPage>
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    pr = new ProgressDialog(context, type: ProgressDialogType.Normal);
+    pr = new ProgressDialog(context, type: ProgressDialogType.Normal, isDismissible: true);
     
     final double width = MediaQuery.of(context).size.width;
     animationController.forward();
@@ -183,6 +221,9 @@ class _SignInPageState extends State<SignInPage>
                                         padding:
                                             EdgeInsets.only(top: 15.0, left: 20.0),
                                         child: InkWell(
+                                          onTap: () {
+                                               Navigator.of(context).pushNamed('/resset');
+                                          },
                                           child: Text(
                                             'Forgot Password',
                                             style: TextStyle(
@@ -203,19 +244,25 @@ class _SignInPageState extends State<SignInPage>
                                           color: kReferAccent,
                                           elevation: 7.0,
                                           child: GestureDetector(
-                                            onTap: () async {
-                                              pr.show();
+                                            onTap: () {
+
+                                              
                                               if (_formKey.currentState.validate())
                                               {
-                                                 
+                                                  setState(() {
+                                                  value = 'LOADING ..';
+                                                    });
                                                if (requestLoginAPI(
 
                                                   context,
                                                   _emailController.text.trim(),
                                                   _passwordController.text.trim()) != 200) {
                                                     
-                                                   pr.hide();
+                                                  
+                                                   pr.hide().whenComplete(() {
+                                                     
                                                    loginErrorDialog(context);
+                                                   });
                                                    
 
                                                   }
@@ -225,7 +272,7 @@ class _SignInPageState extends State<SignInPage>
                                             },
                                             child: Center(
                                               child: Text(
-                                                'LOGIN',
+                                                value,
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontWeight: FontWeight.bold,
@@ -276,24 +323,4 @@ class _SignInPageState extends State<SignInPage>
   }
 }
 
-Future<bool> loginErrorDialog(context) {
-  return showDialog(
-    context: context,
-    barrierDismissible: true,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Something went wrong'),
-        content: Text('Incorrect login details'),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('OK'),
-            onPressed: () {
-               
-                    Navigator.pop(context);            
-            },
-          )
-        ],
-      );
-    }
-  );
-}
+

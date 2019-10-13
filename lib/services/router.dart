@@ -7,8 +7,10 @@ import 'package:referease/uipage/main_screen.dart';
 import 'package:referease/uipage/registration/about.dart';
 import 'package:referease/uipage/registration/register.dart';
 import 'package:referease/uipage/registration/signin.dart';
+import 'package:referease/uipage/registration/forgot_password.dart';
 import 'package:referease/uipage/search/help.dart';
 import 'package:referease/uipage/search/support.dart';
+
 
 class Router{
   static Route<dynamic>generateRoute(RouteSettings settings){
@@ -17,6 +19,7 @@ class Router{
       case '/home': return MaterialPageRoute(builder: (_)=> MainScreen());
       case '/login': return MaterialPageRoute(builder: (_)=> SignInPage());
       case '/register': return MaterialPageRoute(builder: (_)=> SignupPage());
+      case '/resset': return MaterialPageRoute(builder: (_)=> RessetPasswordPage());
       case '/landing': return MaterialPageRoute(builder: (_)=> LandingPage());
       case '/pageview': return MaterialPageRoute(builder: (_)=> PageViewDemo());
       case '/about': return MaterialPageRoute(builder: (_)=> About());

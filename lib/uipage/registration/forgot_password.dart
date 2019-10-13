@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:referease/data/api_functions/request_register_api.dart';
 import 'package:referease/uiutility/colors.dart';
 import 'package:email_validator/email_validator.dart';
 import 'dart:async';
 import 'package:progress_dialog/progress_dialog.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-class SignupPage extends StatefulWidget {
+class RessetPasswordPage extends StatefulWidget {
   @override
-  _SignupPageState createState() => _SignupPageState();
+  _RessetPasswordPageState createState() => _RessetPasswordPageState();
 }
 
-class _SignupPageState extends State<SignupPage>
+class _RessetPasswordPageState extends State<RessetPasswordPage>
     with SingleTickerProviderStateMixin {
         ProgressDialog pr;
   Animation animation, delayedAnimation, muchDelayedAnimation;
   AnimationController animationController;
-  String value = "SIGNUP";  
+//final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
+    String value = "SEND EMAIL";
        final _formKey = GlobalKey<FormState>(); 
      final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -43,10 +43,11 @@ class _SignupPageState extends State<SignupPage>
           FlatButton(
             child: Text('OK'),
             onPressed: () {
-                setState(() {
-                      value = 'SIGNUP';
-                        });
-                    Navigator.pop(context);            
+               setState(() {
+               value = 'SEND EMAIL';
+                });
+                    Navigator.pop(context);  
+                              
             },
           )
         ],
@@ -112,25 +113,31 @@ class _SignupPageState extends State<SignupPage>
                           child: Container(
                             child: Stack(
                               children: <Widget>[
-                                Container(
+                                 Container(
                                   padding:
-                                      EdgeInsets.fromLTRB(15.0, 60.0, 0.0, 0.0),
+                                      EdgeInsets.only(top: 55.0, left: 80.0, right: 20.0),
                                   child: Text(
-                                    'Sign Up',
+                                    'Recover Your Account',
                                     style: TextStyle(
-                                        fontSize: 80.0,
-                                        fontWeight: FontWeight.bold),
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
                                   ),
                                 ),
                                 Container(
+                                  padding: EdgeInsets.only(top: 105.0, left: 130.0, right: 20.0),
+
+                                  child: Icon(Icons.email, color: kReferAccent, size: 100.0)
+                                ),
+                                Container(
                                   padding:
-                                      EdgeInsets.fromLTRB(280.0, 75.0, 0.0, 0.0),
+                                      EdgeInsets.fromLTRB(15.0, 205.0, 0.0, 0.0),
                                   child: Text(
-                                    '.',
+                                    'Please enter your registered e-mail and we will send reset instructions on this email',
                                     style: TextStyle(
-                                        fontSize: 80.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: kReferAccent),
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black),
                                   ),
                                 )
                               ],
@@ -155,7 +162,7 @@ class _SignupPageState extends State<SignupPage>
                                     onSaved: (val) => _emailController.text = val,
                                     controller: _emailController,
                                     decoration: InputDecoration(
-                                        labelText: 'Email',
+                                        labelText: value,
                                         labelStyle: TextStyle(
                                             fontFamily: 'Montserrat',
                                             fontWeight: FontWeight.bold,
@@ -167,29 +174,7 @@ class _SignupPageState extends State<SignupPage>
                                                 BorderSide(color: kReferAccent))),
                                   ),
                                   SizedBox(height: 10.0),
-                                  TextFormField(
-                                  validator: (String val) {
-                                      if (val.isEmpty) {
-                                        return 'Please enter password';
-                                          }
-                                          else if (val.length < 5)
-                                          {
-                                            return 'Password must be at least 6 characters';
-                                          }         
-                                         },
-                                    controller: _passwordController,
-                                    decoration: InputDecoration(
-                                        labelText: 'Password',
-                                        labelStyle: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            fontWeight: FontWeight.bold,
-                                            color: kReferAltDarkGrey),
-                                        focusedBorder: UnderlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: kReferAccent))),
-                                    obscureText: true,
-                                  ),
-                                  SizedBox(height: 55.0),
+                      
                                   Container(
                                       height: 40.0,
                                       child: Material(
@@ -202,24 +187,16 @@ class _SignupPageState extends State<SignupPage>
                                          
                                          if (_formKey.currentState.validate())
                                             {
-                                            setState(() {
-                                            value = 'LOADING ...';
+                                               setState(() {
+                                                value = 'SENDING ..';
                                               });
-                                              if (requestRegisterAPI(
-                                               context,
-                                              _emailController.text.trim(),
-                                              _passwordController.text.trim()) == 200) {
-                                                pr.hide();
-                                                pr.dismiss();
-                                                registerErrorDialog(context);
-
-
-                                              }
+                                              registerErrorDialog(context);
+                                              //await _firebaseAuth.sendPasswordResetEmail(email: _emailController.text.trim());
                                                 }
                                               },
                                           child: Center(
                                             child: Text(
-                                              value,
+                                            value,
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold,

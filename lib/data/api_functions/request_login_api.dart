@@ -18,7 +18,7 @@ Future<LoginModel> requestLoginAPI(
 
   final response =
       await Provider.of<LoginApiService>(context).loginRequest(body);
-
+    
   if (response.statusCode == 200) {
     final responseJson = response.body;
     print('getting the login data from server');

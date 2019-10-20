@@ -147,7 +147,7 @@ class _SignupPageState extends State<SignupPage>
                                 children: <Widget>[
                                   TextFormField(
                                   validator:( String val) {
-                                    if( !EmailValidator.validate(val, true))
+                                    if( !EmailValidator.validate(val.trimRight(), true))
                                       {
                                         return 'Please enter a valid E-mail address';
                                           }
@@ -206,16 +206,19 @@ class _SignupPageState extends State<SignupPage>
                                             value = 'LOADING ...';
                                             
                                               });
-                                              if (requestRegisterAPI(
+                                               requestRegisterAPI(
                                                context,
                                               _emailController.text.trim(),
-                                              _passwordController.text.trim()) == 200) {
-                                                pr.hide();
-                                                pr.dismiss();
-                                                registerErrorDialog(context);
+                                              _passwordController.text.trim()).then((onValue) {
+
+                                                  }).catchError((onError) {
+                                                    registerErrorDialog(context);
+                                                  });
+                                               
+                                              
 
 
-                                              }
+                                              
                                                 }
                                               },
                                           child: Center(

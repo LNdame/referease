@@ -178,7 +178,7 @@ class _SignInPageState extends State<SignInPage>
                                     children: <Widget>[
                                       TextFormField(
                                          validator:( String val) {
-                                            if( !EmailValidator.validate(val, true))
+                                            if( !EmailValidator.validate(val.trimRight(), true))
                                             {
                                                  return 'Please enter a valid E-mail address';
                                             }
@@ -245,7 +245,7 @@ class _SignInPageState extends State<SignInPage>
                                           color: kReferAccent,
                                           elevation: 7.0,
                                           child: GestureDetector(
-                                            onTap: () {
+                                            onTap: () async {
 
                                               
                                               if (_formKey.currentState.validate())
@@ -253,20 +253,18 @@ class _SignInPageState extends State<SignInPage>
                                                   setState(() {
                                                   value = 'LOADING ..';
                                                     });
-                                               if (requestLoginAPI(
-
+                                                requestLoginAPI(
                                                   context,
                                                   _emailController.text.trim(),
-                                                  _passwordController.text.trim()) != 200) {
+                                                  _passwordController.text.trim()).then((onValue) {
+
+                                                  }).catchError((onError) {
+                                                    loginErrorDialog(context);
+                                                  });
                                                     
                                                   
-                                                   pr.hide().whenComplete(() {
-                                                     
-                                                   loginErrorDialog(context);
-                                                   });
                                                    
 
-                                                  }
                                                   
                                               }
                            

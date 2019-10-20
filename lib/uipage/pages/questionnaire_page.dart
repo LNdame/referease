@@ -1,17 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:referease/uiutility/colors.dart';
+import 'package:referease/uipage/questionnaire_card.dart' as card;
 
-class QuestionnairePage extends StatefulWidget{
+//DATA TODO implement a data repo
+
+
+class QuestionnaireList extends StatefulWidget {
+  
   @override
-  _QuestionnairePageState createState()=>  _QuestionnairePageState();
+  _QuestionnaireListState createState() => _QuestionnaireListState();
+}
+
+
+class _QuestionnaireListState extends State<QuestionnaireList> with SingleTickerProviderStateMixin {
+
+TabController controller;
+@override
+void initState() {
+  super.initState();
 
 }
 
-class _QuestionnairePageState extends State<QuestionnairePage> {
+@override
+void dispose() {
+  controller.dispose();
+  super.dispose();
+}
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Center(     
-        child: Text('Questionnaire'),      
+       return new Scaffold(
+        //appBar: new AppBar( backgroundColor: kReferPrimary, title: Text('Questionnaires', style: TextStyle(color: kReferAccent)),),
+        body: card.Questionnaire_Card(),
+      
     );
   }
 }

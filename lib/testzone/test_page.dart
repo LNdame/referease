@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:referease/data/api_functions/request_login_api.dart';
+import 'package:referease/data/api_functions/request_refresh_token_api.dart';
 import 'package:referease/data/source_type_api_service.dart';
 import 'package:referease/uiutility/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,12 +13,12 @@ import 'package:referease/data/base_api_service.dart';
 
 
 
-class LoginPage extends StatefulWidget {
+class TestPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _TestPageState createState() => _TestPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _TestPageState extends State<TestPage> {
 
   
    
@@ -43,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: <Widget>[
 
                   SizedBox(height: 76.0),
-                  Text('Login'),
+                  Text('Here we test api call'),
                 ],
               ),
               SizedBox(height: 120.0),
@@ -54,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                   controller: _usernameController,
                   decoration: InputDecoration(
                     //filled: true,
-                    labelText: 'Username',
+                    labelText: 'Attribute one',
                   ),
                 ),
               ),
@@ -68,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                   controller: _passwordController,
                   decoration: InputDecoration(
                     //  filled: true,
-                    labelText: 'Password',
+                    labelText: 'Attribute two',
                   ),
                   obscureText: true,
                 ),
@@ -100,10 +101,10 @@ class _LoginPageState extends State<LoginPage> {
                     //onPressed: ()=>_signIn().then((FirebaseUser user)=>print(user)),
                     onPressed: () async {
                      // requestLoginAPI(context, "ansteph09@gmail.com", "pass1234");
-
-                      final response = await Provider.of<SourceTypeApiService>(context).getSourceTypes();
-
-                    print(response.body);
+                        requestRefreshToken(context);
+//                      final response = await Provider.of<SourceTypeApiService>(context).getSourceTypes();
+//
+//                    print(response.body);
 //
 //                      //final responseST = await Provider.of<SourceTypeApiService>(context).getSourceType("reflect");
 //                      final responseST = await Provider.of<SourceTypeApiService>(context).getSourceTypes();

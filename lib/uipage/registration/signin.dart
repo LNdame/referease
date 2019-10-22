@@ -46,6 +46,7 @@ class _SignInPageState extends State<SignInPage>
         .then((username) {
       if (username.isNotEmpty) {
         print('silently signing in user $username');
+        //TODO silently sign in using a sign in request to get a fresh token
         Navigator.of(context).pop();
         Navigator.of(context).pushReplacementNamed('/home');
       }

@@ -37,6 +37,7 @@ dependencies:
   provider: ^3.0.0+1
   connectivity: ^0.4.3+2
   built_value: ^6.7.0
+  flutter_stetho: ^0.5.0
 
 dev_dependencies:
   flutter_test:

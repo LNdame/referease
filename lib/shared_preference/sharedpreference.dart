@@ -49,6 +49,11 @@ class SharedPreferencesUtils{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(SharedConstants.usernameKey) ?? '';
   }
+  static Future<String> getPassword() async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(SharedConstants.passwordKey) ?? '';
+  }
+
 
   //setter email
   static Future<bool> setUserEmail(String value) async {

@@ -239,7 +239,7 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
   }
 
 
-
+/*
   Future<Null> sourceOpenDialog() async{
     switch(
     await showDialog(context: context,
@@ -376,27 +376,27 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddSource(sourceType:SourceType.book),) );
+              builder: (context) => AddSource(sourceTypeName:SourceType.book),) );
         break;
       case 1:  Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AddSource(sourceType:SourceType.conference_proceeding),) );
+            builder: (context) => AddSource(sourceTypeName:SourceType.conference_proceeding),) );
       break;
       case 2:  Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AddSource(sourceType:SourceType.journal_article),) );
+            builder: (context) => AddSource(sourceTypeName:SourceType.journal_article),) );
       break;
       case 3:  Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AddSource(sourceType:SourceType.web),) );
+            builder: (context) => AddSource(sourceTypeName:SourceType.web),) );
       break;
 
     }
   }
-
+*/
 
 
 
@@ -433,7 +433,7 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
             GestureDetector(
               onTap: (){
                // Navigator.of(context).pushNamed('/addsource');
-                sourceOpenDialog();
+                //sourceOpenDialog();
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,

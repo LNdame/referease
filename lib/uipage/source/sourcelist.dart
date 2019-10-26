@@ -29,7 +29,7 @@ class SourceList extends StatefulWidget{
 
 class SourceListState extends State<SourceList> {
 
-
+/*
   Future<Null> sourceOpenDialog() async{
     switch(
     await showDialog(context: context,
@@ -166,27 +166,27 @@ class SourceListState extends State<SourceList> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddSource(sourceType:SourceType.book),) );
+              builder: (context) => AddSource(sourceTypeName:SourceType.book),) );
         break;
       case 1:  Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AddSource(sourceType:SourceType.conference_proceeding),) );
+            builder: (context) => AddSource(sourceTypeName:SourceType.conference_proceeding),) );
       break;
       case 2:  Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AddSource(sourceType:SourceType.journal_article),) );
+            builder: (context) => AddSource(sourceTypeName:SourceType.journal_article),) );
       break;
       case 3:  Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AddSource(sourceType:SourceType.web),) );
+            builder: (context) => AddSource(sourceTypeName:SourceType.web),) );
       break;
 
     }
   }
-
+*/
   List<Source> _selectedSources;
 
   @override
@@ -447,7 +447,7 @@ class SourceListState extends State<SourceList> {
           inst: "New source",
           onPressed: (){
            // Navigator.pushNamed(context, '/addsource');
-            sourceOpenDialog();
+            // sourceOpenDialog();
           }) ,
 
     );

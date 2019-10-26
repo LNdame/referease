@@ -18,7 +18,6 @@ class _SignInPageState extends State<SignInPage>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
@@ -44,18 +43,21 @@ class _SignInPageState extends State<SignInPage>
     Future.delayed(Duration(seconds: 2))
         .then((dynamic) => SharedPreferencesUtils.getUsername())
         .then((username) {
-      if (username.isNotEmpty) {
-        print('silently signing in user $username');
-        //TODO silently sign in using a sign in request to get a fresh token
-        Navigator.of(context).pop();
-        Navigator.of(context).pushReplacementNamed('/home');
-      }
-    });
+          if(username.isNotEmpty){
+            SharedPreferencesUtils.getPassword().then((pwd){
+                print('silently signing in user $username');
+                requestLoginAPI(
+                    context,
+                    username,
+                    pwd);
+            });
+          }
+       }) ;
   }
 
-  @override
+
+@override
   Widget build(BuildContext context) {
-    // TODO: implement build
     final double width = MediaQuery.of(context).size.width;
     animationController.forward();
     return AnimatedBuilder(

@@ -4,6 +4,9 @@ import 'package:built_value/serializer.dart';
 part 'source_model.g.dart';
 abstract class SourceModel implements Built<SourceModel, SourceModelBuilder>{
   @nullable
+  int get id;
+
+  @nullable
   String get authors;
 
   @nullable

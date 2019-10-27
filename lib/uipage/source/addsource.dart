@@ -14,6 +14,7 @@ import 'package:referease/model/source.dart';
 import 'package:referease/model/source_model.dart';
 import 'package:referease/model/source_type.dart';
 import 'package:referease/uipage/search/help.dart';
+import 'package:referease/uipage/widgets/source_field_row.dart';
 import 'package:referease/uiutility/colors.dart';
 import 'package:referease/model/author.dart';
 import 'package:referease/uiutility/reusable.dart';
@@ -101,29 +102,7 @@ class _AddSourceState extends State<AddSource> {
     }
   }
 
-  Widget fieldRow(String fieldName, TextEditingController cont){
-    return Card(
-      child: Container(
-        height: 85.0,
-        child: Padding(
-          padding: EdgeInsets.all( 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Flexible(child: TextFormField(
-                controller: cont,
-                decoration: InputDecoration(
-                    labelText: fieldName
-                ),
-                onFieldSubmitted: (String item){},
-              ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+
 
   Future<Null> openAuthorDialog() async {
     TextEditingController lnCont = new TextEditingController();

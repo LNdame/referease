@@ -10,7 +10,7 @@ description: A new Flutter application.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -33,20 +33,21 @@ dependencies:
   fluttertoast: ^2.1.5
   share: ^0.5.3
   shared_preferences: ^0.4.2
-
-  connectivity: ^0.4.3+2
   chopper: ^2.4.2
   provider: ^3.0.0+1
+  connectivity: ^0.4.3+2
   built_value: ^6.7.0
+  flutter_stetho: ^0.5.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # flutter_launcher_icons: ^0.6.1
   chopper_generator: ^2.4.2
   built_value_generator: ^6.7.0
-  flutter_launcher_icons: ^0.6.1
+  # No version number means the latest version
   build_runner:
-
-
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
 flutter_icons:

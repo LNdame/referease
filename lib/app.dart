@@ -6,6 +6,7 @@ import 'package:referease/services/router.dart';
 
 
 import 'data/refresh_api_service.dart';
+import 'data/source_api_service.dart';
 import 'uiutility/colors.dart';
 import 'package:referease/testzone/test_page.dart';
 import 'package:provider/provider.dart';
@@ -28,13 +29,15 @@ class ReferEase extends StatelessWidget{
         Provider( builder: (_)=> SourceTypeApiService.create(),
           dispose: (_, SourceTypeApiService service)=> service.client.dispose(),),
         Provider( builder: (_)=> RefreshApiService.create(),
-          dispose: (_, RefreshApiService service)=> service.client.dispose(),)
+          dispose: (_, RefreshApiService service)=> service.client.dispose(),),
+        Provider( builder: (_)=> SourceApiService.create(),
+          dispose: (_, SourceApiService service)=> service.client.dispose(),),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: "Refer Easy TEST1",
-          home: TestPage(),// TestPage(),//SplashPage(),
-          initialRoute: '/test' ,  //'/test',
+          home: SplashPage(),// TestPage(),//SplashPage(),
+          initialRoute: '/' ,  //'/test',
           onGenerateRoute: Router.generateRoute,
           theme: _kReferTheme,
       ),

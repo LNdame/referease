@@ -715,7 +715,7 @@ class SourceListViewState extends State<SourceListView> {
 
                           IconButton(
                            onPressed: (){
-                             Navigator.of(context).push(new MaterialPageRoute(builder: (context)=>EditSource(aSource: aSource, documentSnapshot: widget.documents[index] ,sourceTypeName: sType,)));
+                            // Navigator.of(context).push(new MaterialPageRoute(builder: (context)=>EditSource(aSource: aSource, documentSnapshot: widget.documents[index] ,sourceTypeName: sType,)));
 
                            /*  final snackBar = SnackBar(content: Text("This functionality is not yet implemented" ,
                                style: TextStyle(color: kReferErrorRed),),);

@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:referease/shared_preference/shared_constants.dart';
  import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesUtils{
@@ -53,6 +56,11 @@ class SharedPreferencesUtils{
 
     return prefs.getString(_kUserEmail) ?? '';
 
+  }
+
+  static Future<String> getUsername() async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(SharedConstants.usernameKey) ?? '';
   }
 
   //setter email

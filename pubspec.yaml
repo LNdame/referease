@@ -33,6 +33,7 @@ dependencies:
   fluttertoast: ^2.1.5
   share: ^0.5.3
   shared_preferences: ^0.4.2
+
   connectivity: ^0.4.3+2
   chopper: ^2.4.2
   provider: ^3.0.0+1
@@ -44,6 +45,7 @@ dev_dependencies:
   built_value_generator: ^6.7.0
   flutter_launcher_icons: ^0.6.1
   build_runner:
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

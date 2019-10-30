@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:referease/uipage/registration/profile.dart';
+import 'package:referease/data/api_functions/request_profile_api.dart';
 
 class ProfilePage extends StatefulWidget{
   @override
@@ -11,7 +13,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Center(
-      child: Text("Profile page"),
+      child: UserProfile(),
     );
   }
 }

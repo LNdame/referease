@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
@@ -12,210 +14,183 @@ import 'package:referease/model/question.dart';
 import 'package:referease/model/questionsrepo.dart';
 import 'package:referease/uiutility/reusable.dart';
 
-
-
-class SummaryDetail extends StatefulWidget{
-
+class SummaryDetail extends StatefulWidget {
   String type;
 
-  SummaryDetail({Key key,this.type}): assert(type!=null), super(key:key);
+  SummaryDetail({Key key, this.type})
+      : assert(type != null),
+        super(key: key);
 
   @override
   SummaryDetailState createState() => new SummaryDetailState();
-
 }
 
 class SummaryDetailState extends State<SummaryDetail> {
-
-
-  List <Question> sectionQuestions;
-  List <String> sectionQuestionsAns;
+  List<Question> sectionQuestions;
+  List<String> sectionQuestionsAns;
   int questionPosition;
+  TextEditingController titleController;
 
-  TextEditingController titleController ;
-  TextEditingController authorsController ;
-  TextEditingController yearController ;
+  TextEditingController authorsController;
 
-  /*final GoogleSignIn _googleSignIn = new GoogleSignIn();
-  GoogleSignInAccount currentUser ; unecessary*/
+  TextEditingController yearController;
+
   FirebaseUser _currentUser;
 
   @override
   void initState() {
-    // TODO: implement initState
-  //  super.initState();
-
     getUserData();
-    titleController= TextEditingController();
-    authorsController= TextEditingController();
-    yearController= TextEditingController();
+    titleController = TextEditingController();
+    authorsController = TextEditingController();
+    yearController = TextEditingController();
 
-
-    if(widget.type =="reflect"){
+    if (widget.type == "reflect") {
       sectionQuestions = QuestionRepository.loadQuestions(QuestionType.reflect);
-    }else if (widget.type =="discuss"){
+    } else if (widget.type == "discuss") {
       sectionQuestions = QuestionRepository.loadQuestions(QuestionType.discuss);
     }
 
     sectionQuestionsAns = new List(sectionQuestions.length);
-    questionPosition=0;
-    setState(() {
-
-    });
-
-
-
-
+    questionPosition = 0;
+    setState(() {});
   }
 
-
-   getUserData() async{
+  getUserData() async {
     _currentUser = await FirebaseAuth.instance.currentUser();
-     }
+  }
 
+  final PageController pageController = PageController(
+    initialPage: 0,
+  );
 
-  final  PageController pageController = PageController(initialPage: 0,);
+  List<QuestionView> _buildPageElement() {
+    List<Question> questions =
+        QuestionRepository.loadQuestions(QuestionType.reflect);
+    if (questions == null || questions.isEmpty) {
+      return const <QuestionView>[];
+    }
 
-  //BuildContext context
-  List<QuestionView> _buildPageElement(){
-
-
-
-    List<Question> questions  = QuestionRepository.loadQuestions(QuestionType.reflect);
-    if(questions==null || questions.isEmpty)
-      {
-        return const<QuestionView>[];
-      }
-
-    return questions.map((question){
-
-      return QuestionView(question: question,
-        onValueChanged: (value){
+    return questions.map((question) {
+      return QuestionView(
+        question: question,
+        onValueChanged: (value) {
           sectionQuestionsAns[questionPosition] = value;
           print("value: ${sectionQuestionsAns[questionPosition]}");
-      //  this.answer = value;
-        print("value: ${value}");
-      },   total: questions.length,);
-
+          //  this.answer = value;
+          print("value: ${value}");
+        },
+        total: questions.length,
+      );
     }).toList();
-
-
   }
 
-
-  Future<Null> openDialog() async{
-
-    TextEditingController lnCont= new TextEditingController();
-    TextEditingController midCont= new TextEditingController();
+  Future<Null> openAuthorDialog() async {
+    TextEditingController lnCont = new TextEditingController();
+    TextEditingController midCont = new TextEditingController();
     TextEditingController fnCont = new TextEditingController();
 
-    switch(
-    await showDialog(context: context,
+    switch (await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return SimpleDialog(
+                contentPadding: EdgeInsets.only(
+                    left: 8.0, right: 8.0, top: 0.0, bottom: 0.0),
+                children: <Widget>[
+                  Container(
+                    color: kReferSurfaceWhite,
+                    margin: EdgeInsets.all(0.0),
+                    padding: EdgeInsets.only(bottom: 10.0, top: 10.0),
+                    height: 200.0,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 4.0,
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            controller: lnCont,
+                            decoration: InputDecoration(labelText: "Last Name"),
+                            //input decorator
+                            onFieldSubmitted: (value) {},
+                            textCapitalization: TextCapitalization.words,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            controller: midCont,
+                            decoration: InputDecoration(
+                                labelText: "Middle Name"), //input decorator
 
-        builder: (BuildContext context){
-          return SimpleDialog(
-            contentPadding: EdgeInsets.only(left: 8.0, right: 8.0, top: 0.0, bottom: 0.0),
-            children: <Widget>[
-              Container(
-                color: kReferSurfaceWhite,
-                margin: EdgeInsets.all(0.0),
-                padding: EdgeInsets.only(bottom: 10.0, top: 10.0),
-                height: 200.0,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
+                            onFieldSubmitted: (value) {},
+                            validator: (input) => input.length < 0
+                                ? 'this field cannot be empty'
+                                : null,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            controller: fnCont,
+                            decoration: InputDecoration(
+                                labelText: "First Name"),
 
-                    SizedBox(height: 4.0,),
-                    Expanded(
-                      child: TextFormField(
-                        controller: lnCont,
-                        decoration: InputDecoration(
-                            labelText: "Last Name"
-                        ),//input decorator
-
-                        onFieldSubmitted: (value){}, textCapitalization: TextCapitalization.words,),
+                            onFieldSubmitted: (value) {},
+                            validator: (input) => input.length < 0
+                                ? 'this field cannot be empty'
+                                : null,
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 8.0,),
+                  ),
 
-                    Expanded(
-                      child: TextFormField(
-                        controller: midCont,
-                        decoration: InputDecoration(
-                            labelText: "Middle Name"
-                        ),//input decorator
-
-                        onFieldSubmitted: (value){},
-                        validator: (input)=>input.length<0?'this field cannot be empty':null,
-                      ),
+                  SimpleDialogOption(
+                    onPressed: () {
+                      Navigator.pop(context, 0);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(bottom: 10.0, top: 0.0),
+                          child: Text(
+                            'Add Author',
+                            style: TextStyle(
+                                color: kReferAccent,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.0),
+                          ),
+                        )
+                      ],
                     ),
-                    SizedBox(height: 8.0,),
-
-                    Expanded(
-                      child: TextFormField(
-                        controller: fnCont,
-                        decoration: InputDecoration(
-                            labelText: "First Name"
-                        ),//input decorator
-
-                        onFieldSubmitted: (value){},
-                        validator: (input)=>input.length<0?'this field cannot be empty':null,
-                      ),
-                    ),
-
-
-                  ],//widget
-                ),
-              ),//container
-
-              SimpleDialogOption(
-
-                onPressed: () {
-                  Navigator.pop(context, 0);
-                },
-
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-
-                    Container(
-                      padding: EdgeInsets.only(bottom: 10.0, top: 0.0),
-                      child: Text(
-                        'Add Author',
-                        style: TextStyle(
-                            color: kReferAccent, fontWeight: FontWeight.bold, fontSize: 14.0 ),
-                      ),
-                    )
-                  ],
-                ),
-
-              ),//simpledialogoption
-
-
-
-            ],//shildren
-          );//simpleDialog
-        }//builder
-
-    )//showdialog
-
-
-    ){
+                  ),
+                ],
+              );
+            } //builder
+            ) //showdialog
+        ) {
       case 0:
 
-      case 1: setState(() {
-      if(authorsController.text.isEmpty){
-        authorsController.text =  "${lnCont.text}, ${fnCont.text} ${midCont.text}";
-      }else{
-        authorsController.text =  "${authorsController.text}; ${lnCont.text}, ${fnCont.text} ${midCont.text}";
-      }
-      });// Navigator.of(context).pop();
+      case 1:
+        setState(() {
+          if (authorsController.text.isEmpty) {
+            authorsController.text =
+                "${lnCont.text}, ${fnCont.text} ${midCont.text}";
+          } else {
+            authorsController.text =
+                "${authorsController.text}; ${lnCont.text}, ${fnCont.text} ${midCont.text}";
+          }
+        }); // Navigator.of(context).pop();
 
-      break;
-
+        break;
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -224,41 +199,25 @@ class SummaryDetailState extends State<SummaryDetail> {
       appBar: AppBar(
         brightness: Brightness.light,
         centerTitle: true,
-        title: Text('Add a summary'), /*Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-
-            children: <Widget>[
-              Text('New Summary',
-                  style: TextStyle(
-                      fontSize: 40.0, fontWeight: FontWeight.bold)
-              ),
-              Text('.',
-                  style: TextStyle( color: kReferAccent,
-                      fontSize: 40.0, fontWeight: FontWeight.bold)
-              ),
-            ],
-          ),
-        ), */ //Text('Add Source'),
-
+        title: Text('Add a summary'),
         elevation: 0.0,
-
-        backgroundColor:kReferSurfaceWhite ,
+        backgroundColor: kReferSurfaceWhite,
         actions: <Widget>[
-
           IconButton(
-            icon: Icon(Icons.help_outline, semanticLabel: 'help',),
-            onPressed: (){
-              Navigator.push(context,
+            icon: Icon(
+              Icons.help_outline,
+              semanticLabel: 'help',
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context,
                   MaterialPageRoute(
-                    builder: (context) => Help(3),) );
+                    builder: (context) => Help(3),
+                  ));
             },
           ),
         ],
-
-      ),//appbar
-
-      //drawer: UIDrawer(),
+      ),
 
       body: ListView(
         shrinkWrap: true,
@@ -270,210 +229,202 @@ class SummaryDetailState extends State<SummaryDetail> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 /*-------- leading fields------- */
-            Container(
-                 child: Row(
+                Container(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-
                     children: <Widget>[
-                      Text( (widget.type=="reflect")?'Reflect':'Discuss',
+                      Text((widget.type == "reflect") ? 'Reflect' : 'Discuss',
                           style: TextStyle(
-                              fontSize: 40.0, fontWeight: FontWeight.bold)
-                      ),
+                              fontSize: 40.0, fontWeight: FontWeight.bold)),
                       Text('.',
-                          style: TextStyle( color: kReferAccent,
-                              fontSize: 40.0, fontWeight: FontWeight.bold)
-                      ),
+                          style: TextStyle(
+                              color: kReferAccent,
+                              fontSize: 40.0,
+                              fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  ),
-                    SizedBox(height: 12.0,),
-                     TextField(
-                       controller: titleController,
-                          decoration: InputDecoration(
-                              labelText: 'Title',
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold,
-                                  color: kReferAltDarkGrey),
-                              // hintText: 'EMAIL',
-                              // hintStyle: ,
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: kReferAccent))
-                          ),
-                        ),
-                         SizedBox(height: 12.0,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-
-                            children: <Widget>[
-                              Text(
-                                'Add authors',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20.0,
-                                    fontFamily: 'Montserrat',
-                                    fontWeight: FontWeight.bold),
-
-                              ),//text
-                              Expanded(child: Container(),),
-
-                              GestureDetector(
-                                  onTap:(){
-                                    openDialog();
-                                  } ,//_submit,
-                                  child: Icon(Icons.add_box)
-                              ),
-                            ],
-                          ),//row
-                          SizedBox(height: 6.0,),
-
-                         TextField(
-                           controller: authorsController,
-                          decoration: InputDecoration(
-                              labelText: 'Author(s) (separated by ; )',
-                              hintText: 'e.g. Smith, M ; Pavel, G ',
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold,
-                                  color: kReferAltDarkGrey),
-                              // hintText: 'EMAIL',
-                              // hintStyle: ,
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: kReferAccent))
-                          ),
-                        ),
-                     SizedBox(height: 12.0,),
-                     TextField(
-                       controller: yearController,
-                          decoration: InputDecoration(
-                              labelText: 'Year',
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold,
-                                  color: kReferAltDarkGrey),
-                              // hintText: 'EMAIL',
-                              // hintStyle: ,
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: kReferAccent))
-                          ),
-                       keyboardType: TextInputType.number,
-                        ),
-                     SizedBox(height: 12.0,),
-
-                        /*--------End leading fields------- */
-                /*--------Question PageView ------- */
-                ConstrainedBox(constraints: BoxConstraints(
-                  maxHeight: 300.0,
-                  minHeight: 100.0,
-                  maxWidth: MediaQuery.of(context).size.width,
                 ),
-               child: // _buildPageElement()[questionPosition],
-                  new QuestionView(question: sectionQuestions[questionPosition],
+                SizedBox(
+                  height: 12.0,
+                ),
+                TextField(
+                  controller: titleController,
+                  decoration: InputDecoration(
+                      labelText: 'Title',
+                      labelStyle: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold,
+                          color: kReferAltDarkGrey),
+                      // hintText: 'EMAIL',
+                      // hintStyle: ,
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: kReferAccent))),
+                ),
+                SizedBox(
+                  height: 12.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Add authors',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20.0,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold),
+                    ), //text
+                    Expanded(
+                      child: Container(),
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          openAuthorDialog();
+                        }, //_submit,
+                        child: Icon(Icons.add_box)),
+                  ],
+                ), //row
+                SizedBox(
+                  height: 6.0,
+                ),
+                TextField(
+                  controller: authorsController,
+                  decoration: InputDecoration(
+                      labelText: 'Author(s) (separated by ; )',
+                      hintText: 'e.g. Smith, M ; Pavel, G ',
+                      labelStyle: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold,
+                          color: kReferAltDarkGrey),
+                      // hintStyle: ,
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: kReferAccent))),
+                ),
+                SizedBox(
+                  height: 12.0,
+                ),
+                TextField(
+                  controller: yearController,
+                  decoration: InputDecoration(
+                      labelText: 'Year',
+                      labelStyle: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold,
+                          color: kReferAltDarkGrey),
+                      // hintText: 'EMAIL',
+                      // hintStyle: ,
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: kReferAccent))),
+                  keyboardType: TextInputType.number,
+                ),
+                SizedBox(
+                  height: 12.0,
+                ),
+                /*--------End leading fields------- */
+                /*--------Question PageView ------- */
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: 300.0,
+                    minHeight: 100.0,
+                    maxWidth: MediaQuery.of(context).size.width,
+                  ),
+                  child: // _buildPageElement()[questionPosition],
+                      new QuestionView(
+                    question: sectionQuestions[questionPosition],
                     answer: sectionQuestionsAns[questionPosition],
-                    onValueChanged: (value){
+                    onValueChanged: (value) {
                       sectionQuestionsAns[questionPosition] = value;
                       print("value: ${sectionQuestionsAns[questionPosition]}");
                     },
-                    total: sectionQuestions.length,),
-
-               /* this is working
-                ) //end of working*/
-               /* child: PageView(
-                  controller: pageController,
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    QuestionView(question: new Question(id: 1,questionDesc: "boom", questionType: QuestionType.reflect ),
-                      onValueChanged: (value){   },   total: 2,),
-                    QuestionView(question: new Question(id: 2,questionDesc: "kaboom", questionType: QuestionType.reflect ),
-                      onValueChanged: (value){   },   total: 2,),
-                  ],
-                     // _buildPageElement(),
-
-
-                ),//pageview */
-
+                    total: sectionQuestions.length,
+                  ),
                 )
-              ],//column children
-            ),//column
-          )//listpadding
+              ], //column children
+            ), //column
+          ) //listpadding
         ],
-      ),//listview
+      ),
+      //listview
 
-      floatingActionButton: FloatingActionButton(child: Icon(Icons.save),
-          onPressed: (){
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.save),
+          onPressed: () {
             var now = DateTime.now();
             Firestore.instance.collection('summaries').add({
               'type': widget.type,
-              'title' : titleController.text,
-              'authors':authorsController.text,
-              'year':yearController.text,
-              'questions':sectionQuestions.map((question)=>"${question.questionDesc}").toList(),
+              'title': titleController.text,
+              'authors': authorsController.text,
+              'year': yearController.text,
+              'questions': sectionQuestions
+                  .map((question) => "${question.questionDesc}")
+                  .toList(),
               'answers': sectionQuestionsAns,
-              'uid':_currentUser.uid,
+              'uid': _currentUser.uid,
               'created_date': now.toString()
-            }). then((DocumentReference docref){
-             Navigator.of(context).pop();
+            }).then((DocumentReference docref) {
+              Navigator.of(context).pop();
               Navigator.of(context).pushReplacementNamed('/landing');
-            }).catchError((e){
+            }).catchError((e) {
               print(e);
             });
-
           }),
-      /*FancyButton( inst: "Save Source", icon: Icons.save ,
-          onPressed: (){
-           // Navigator.pushNamed(context, '/summarydetail');
-          }) ,*/
 
-      bottomNavigationBar: BottomAppBar( elevation: 8.0,
-
+      bottomNavigationBar: BottomAppBar(
+        elevation: 8.0,
         color: kReferPrimary,
-        child: Container( height: 50.0,
+        child: Container(
+          height: 50.0,
           padding: EdgeInsets.only(left: 16.0, right: 16.0),
           child: Row(
             children: <Widget>[
               GestureDetector(
-                child: Icon(Icons.arrow_left , size: 40.0,),
-                onTap: (){
-
-                 // pageController.previousPage(duration: Duration(seconds: 2), curve: Curves.fastOutSlowIn);
-                  if(questionPosition>0){
+                child: Icon(
+                  Icons.arrow_left,
+                  size: 40.0,
+                ),
+                onTap: () {
+                  // pageController.previousPage(duration: Duration(seconds: 2), curve: Curves.fastOutSlowIn);
+                  if (questionPosition > 0) {
                     questionPosition--;
                     setState(() {
-                      print(questionPosition); print(sectionQuestionsAns[questionPosition]);
+                      print(questionPosition);
+                      print(sectionQuestionsAns[questionPosition]);
                     });
                   }
                 },
               ),
-
-              Expanded(child: Container(),),
+              Expanded(
+                child: Container(),
+              ),
               GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     //pageController.nextPage(duration: Duration(seconds: 2), curve: Curves.fastOutSlowIn);
 
-                    if(questionPosition < sectionQuestions.length-1){
+                    if (questionPosition < sectionQuestions.length - 1) {
                       questionPosition++;
                       setState(() {
-                          print(questionPosition);  print(sectionQuestionsAns[questionPosition]);
+                        print(questionPosition);
+                        print(sectionQuestionsAns[questionPosition]);
                       });
                     }
                   },
-                  child: Icon(Icons.arrow_right, size: 40.0,)),
+                  child: Icon(
+                    Icons.arrow_right,
+                    size: 40.0,
+                  )),
             ],
           ),
         ),
         shape: CircularNotchedRectangle(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-
     );
   }
 }
 
 typedef Null ValueChangeCallback(String value);
 
-class QuestionView extends StatefulWidget{
-
+class QuestionView extends StatefulWidget {
   final int total;
   final Question question;
   final String answer;
@@ -483,28 +434,23 @@ class QuestionView extends StatefulWidget{
 
   @override
   QuestionViewState createState() => new QuestionViewState();
-
 }
 
 class QuestionViewState extends State<QuestionView> {
-
-  TextEditingController answerController ;
-
+  TextEditingController answerController;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-      answerController= TextEditingController();
+    answerController = TextEditingController();
 
-      answerController.clear();
+    answerController.clear();
 
-      answerController.text = widget.answer;
+    answerController.text = widget.answer;
 
-      answerController.addListener(_printLatestValue);
-
+    answerController.addListener(_printLatestValue);
   }
-
 
   @override
   void dispose() {
@@ -514,22 +460,18 @@ class QuestionViewState extends State<QuestionView> {
 
   _printLatestValue() {
     widget.onValueChanged(answerController.text);
-  //  widget.answer = answerController.text;
     print("Second text field: ${answerController.text}");
   }
 
-
   @override
   Widget build(BuildContext context) {
-    if(widget.answer!=null){
+    if (widget.answer != null) {
       answerController.text = widget.answer;
-    }else{
+    } else {
       answerController.clear();
     }
-    // TODO: implement build
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-
       children: <Widget>[
         Expanded(
           flex: 1,
@@ -540,24 +482,29 @@ class QuestionViewState extends State<QuestionView> {
                 fontSize: 14.0,
                 fontFamily: 'Montserrat',
                 fontWeight: FontWeight.bold),
-
           ),
-        ),//text
-        (widget.question.questionType == QuestionType.reflect)? SizedBox(height: 84.0,):SizedBox(height: 44.0,),
+        ),
+        (widget.question.questionType == QuestionType.reflect)
+            ? SizedBox(
+                height: 24.0,
+              )
+            : SizedBox(
+                height:24.0,
+              ),
 
         Expanded(
-          flex: 9,
+          flex: 2,
           child: Container(
             child: TextField(
               controller: answerController,
-              maxLines: 7,
-              decoration: InputDecoration(hintText: 'Comments',  ),
+              maxLines: 15,
+              decoration: InputDecoration(
+                hintText: 'Comments',
+              ),
             ),
           ),
         )
       ],
-
-
     );
   }
 }

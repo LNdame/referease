@@ -7,6 +7,7 @@ import 'package:referease/services/router.dart';
 
 import 'data/refresh_api_service.dart';
 import 'data/source_api_service.dart';
+import 'data/summary_api_service.dart';
 import 'uiutility/colors.dart';
 import 'package:referease/testzone/test_page.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +33,8 @@ class ReferEase extends StatelessWidget{
           dispose: (_, RefreshApiService service)=> service.client.dispose(),),
         Provider( builder: (_)=> SourceApiService.create(),
           dispose: (_, SourceApiService service)=> service.client.dispose(),),
+        Provider( builder: (_)=> SummaryApiService.create(),
+          dispose: (_, SummaryApiService service)=> service.client.dispose(),),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

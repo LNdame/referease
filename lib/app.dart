@@ -9,18 +9,6 @@ import 'package:referease/data/questionnaire_api_service.dart';
 import 'data/refresh_api_service.dart';
 import 'data/source_api_service.dart';
 import 'uiutility/colors.dart';
-import 'package:referease/uipage/landing.dart';
-import 'package:referease/uipage/registration/login.dart';
-import 'package:referease/uipage/registration/signin.dart';
-import 'package:referease/uipage/registration/register.dart';
-
-import 'package:referease/uipage/registration/profile.dart';
-import 'package:referease/uipage/summary/summarydetail.dart';
-import 'package:referease/uipage/summary/summarylist.dart';
-import 'package:referease/uipage/source/sourcelist.dart';
-import 'package:referease/uipage/source/authorlist.dart';
-import 'package:referease/uipage/source/addsource.dart';
-import 'package:referease/testzone/pageviewdemo.dart';
 import 'package:provider/provider.dart';
 import 'data/login_api_service.dart';
 
@@ -44,8 +32,6 @@ class ReferEase extends StatelessWidget{
           dispose: (_, RefreshApiService service)=> service.client.dispose(),),
         Provider( builder: (_)=> SourceApiService.create(),
           dispose: (_, SourceApiService service)=> service.client.dispose(),),
-          dispose: (_, SourceTypeApiService service)=> service.client.dispose(),),
-
         Provider(builder: (_)=> QuestionnairesApiService.create(),
         dispose:(_, QuestionnairesApiService service) => service.client.dispose() ,)
       ],

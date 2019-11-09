@@ -6,6 +6,8 @@ import 'package:referease/services/router.dart';
 
 
 import 'data/profile_api_service.dart';
+import 'data/questionnaire_api_service.dart';
+import 'data/questionnaire_type_api_service.dart';
 import 'data/refresh_api_service.dart';
 import 'data/source_api_service.dart';
 import 'uiutility/colors.dart';
@@ -33,7 +35,11 @@ class ReferEase extends StatelessWidget{
           dispose: (_, RefreshApiService service)=> service.client.dispose(),),
         Provider( builder: (_)=> SourceApiService.create(),
           dispose: (_, SourceApiService service)=> service.client.dispose(),),
-           Provider( builder: (_)=> ProfileApiService.create(),
+        Provider( builder: (_)=> QuestionnaireApiService.create(),
+          dispose: (_, QuestionnaireApiService service)=> service.client.dispose(),),
+        Provider( builder: (_)=> QuestionnaireTypeApiService.create(),
+          dispose: (_, QuestionnaireTypeApiService service)=> service.client.dispose(),),
+        Provider( builder: (_)=> ProfileApiService.create(),
           dispose: (_, ProfileApiService service)=> service.client.dispose(),),
       ],
       child: MaterialApp(

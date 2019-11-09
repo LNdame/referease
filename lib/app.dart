@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:referease/data/register_api_service.dart';
 import 'package:referease/data/source_type_api_service.dart';
 import 'package:referease/services/router.dart';
+import 'package:referease/data/questionnaire_api_service.dart';
 
 
 import 'data/refresh_api_service.dart';
 import 'data/source_api_service.dart';
 import 'uiutility/colors.dart';
-import 'package:referease/testzone/test_page.dart';
 import 'package:provider/provider.dart';
 import 'data/login_api_service.dart';
 
@@ -32,6 +32,8 @@ class ReferEase extends StatelessWidget{
           dispose: (_, RefreshApiService service)=> service.client.dispose(),),
         Provider( builder: (_)=> SourceApiService.create(),
           dispose: (_, SourceApiService service)=> service.client.dispose(),),
+        Provider(builder: (_)=> QuestionnairesApiService.create(),
+        dispose:(_, QuestionnairesApiService service) => service.client.dispose() ,)
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

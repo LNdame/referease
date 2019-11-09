@@ -3,6 +3,7 @@ import 'package:built_collection/built_collection.dart';
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:referease/model/question_model.dart';
 
 part 'questionnaire.g.dart';
 
@@ -10,12 +11,20 @@ abstract class Questionnaire implements Built<Questionnaire, QuestionnaireBuilde
 
   @nullable
   int get id;
-
+  @nullable
   String get authors;
+  @nullable
   String get title;
+  @nullable
   String get description;
+  @nullable
   int get questionnaire_type_id;
+  @nullable
   int get user_id;
+
+  @BuiltValueField(wireName: "questions")
+  @nullable
+  BuiltList<QuestionModel> get questions;
 
   Questionnaire._();
 

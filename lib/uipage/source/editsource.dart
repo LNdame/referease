@@ -20,9 +20,8 @@ import 'package:referease/uiutility/reusable.dart';
 class EditSource extends StatefulWidget {
   SourceTypeName sourceTypeName;
   final SourceModel aSource;
-  final DocumentSnapshot documentSnapshot;
 
-  EditSource({this.aSource, this.documentSnapshot, this.sourceTypeName});
+  EditSource({this.aSource,  this.sourceTypeName});
 
   @override
   _EditSourceState createState() => new _EditSourceState();
@@ -35,7 +34,7 @@ class _EditSourceState extends State<EditSource> {
   final PageController pageController = PageController(
     initialPage: 0,
   );
-  FirebaseUser _currentUser;
+
   TextEditingController titleController;
 
   TextEditingController authorsController;
@@ -96,7 +95,6 @@ class _EditSourceState extends State<EditSource> {
     titleController.text = widget.aSource.title;
     authorsController.text = widget.aSource.authors;
 
-    getUserData();
     _sourceType = setSourceType();
 
     Future.delayed(Duration(seconds: 2))
@@ -122,12 +120,6 @@ class _EditSourceState extends State<EditSource> {
         break;
     }
   }
-
-  getUserData() async {
-    _currentUser = await FirebaseAuth.instance.currentUser();
-  }
-
-
 
   Future<Null> openAuthorDialog() async {
     TextEditingController lnCont = new TextEditingController();
@@ -168,7 +160,7 @@ class _EditSourceState extends State<EditSource> {
                       child: TextFormField(
                         controller: midCont,
                         decoration: InputDecoration(
-                            labelText: "Middle Name"), //input decorator
+                            labelText: "Middle Name"),
                         onFieldSubmitted: (value) {},
                         validator: (input) => input.length < 0
                             ? 'this field cannot be empty'
@@ -182,16 +174,16 @@ class _EditSourceState extends State<EditSource> {
                       child: TextFormField(
                         controller: fnCont,
                         decoration: InputDecoration(
-                            labelText: "First Name"), //input decorator
+                            labelText: "First Name"),
                         onFieldSubmitted: (value) {},
                         validator: (input) => input.length < 0
                             ? 'this field cannot be empty'
                             : null,
                       ),
                     ),
-                  ], //widget
+                  ],
                 ),
-              ), //container
+              ),
               SimpleDialogOption(
                 onPressed: () {
                   Navigator.pop(context, 0);
@@ -213,7 +205,7 @@ class _EditSourceState extends State<EditSource> {
                 ),
               ),
             ],
-          ); //simpleDialog
+          );
         } //builder
         )) {
       case 0:
@@ -235,16 +227,16 @@ class _EditSourceState extends State<EditSource> {
     if (widget.sourceTypeName == SourceTypeName.book) {
       Book book = (widget.aSource as Book);
 
-      yearController.text = book.year;
-      pagesController.text = book.pages;
-      cityController.text = book.city;
-      editionController.text = book.edition;
+      yearController.text = widget.aSource.year;
+      pagesController.text = widget.aSource.pages;
+      cityController.text = widget.aSource.city;
+      editionController.text = widget.aSource.edition;
 
-      editorController.text = book.editors;
-      publisherController.text = book.publisher;
-      DOIController.text = book.doi;
-      ISBNController.text = book.isbn;
-      sourceID = book.docID;
+      editorController.text = widget.aSource.editors;
+      publisherController.text = widget.aSource.publisher;
+      DOIController.text = widget.aSource.doi;
+      ISBNController.text = widget.aSource.isbn;
+      //sourceID = widget.aSource.id;
 
       return Column(
         children: <Widget>[
@@ -259,16 +251,16 @@ class _EditSourceState extends State<EditSource> {
         ],
       );
     } else if (widget.sourceTypeName == SourceTypeName.conference_proceeding) {
-      ConferenceProceeding ConfPro = (widget.aSource as ConferenceProceeding);
-      proceTitleController.text = ConfPro.proceTitle;
-      yearController.text = ConfPro.year;
-      pagesController.text = ConfPro.pages;
-      cityController.text = ConfPro.city;
-      editorController.text = ConfPro.editors;
-      publisherController.text = ConfPro.publisher;
-      urlController.text = ConfPro.url;
-      DOIController.text = ConfPro.doi;
-      sourceID = ConfPro.docID;
+
+      proceTitleController.text = widget.aSource.proceeding_title;
+      yearController.text = widget.aSource.year;
+      pagesController.text = widget.aSource.pages;
+      cityController.text = widget.aSource.city;
+      editorController.text = widget.aSource.editors;
+      publisherController.text = widget.aSource.publisher;
+      urlController.text = widget.aSource.url;
+      DOIController.text = widget.aSource.doi;
+      //sourceID = ConfPro.docID;
 
       return Column(
         children: <Widget>[
@@ -283,15 +275,15 @@ class _EditSourceState extends State<EditSource> {
         ],
       );
     } else if (widget.sourceTypeName == SourceTypeName.journal_article) {
-      JournalArticle journal = (widget.aSource as JournalArticle);
-      yearController.text = journal.year;
-      journalController.text = journal.journal;
-      volumeController.text = journal.volume;
-      issueController.text = journal.issue;
-      pagesController.text = journal.pages;
-      urlController.text = journal.url;
-      DOIController.text = journal.doi;
-      sourceID = journal.docID;
+
+      yearController.text = widget.aSource.year;
+      journalController.text = widget.aSource.journal;
+      volumeController.text = widget.aSource.volume;
+      issueController.text = widget.aSource.issue;
+      pagesController.text = widget.aSource.pages;
+      urlController.text = widget.aSource.url;
+      DOIController.text = widget.aSource.doi;
+      //sourceID = journal.docID;
 
       return Column(
         children: <Widget>[
@@ -305,14 +297,14 @@ class _EditSourceState extends State<EditSource> {
         ],
       );
     } else if (widget.sourceTypeName == SourceTypeName.web) {
-      Web web = (widget.aSource as Web);
-      yearController.text = web.year;
-      publicationController.text = web.publication;
-      pagesController.text = web.pages;
-      dateAccessController.text = web.dateAccessed;
-      urlController.text = web.url;
-      DOIController.text = web.doi;
-      sourceID = web.docID;
+
+      yearController.text = widget.aSource.year;
+      publicationController.text = widget.aSource.publication;
+      pagesController.text = widget.aSource.pages;
+      dateAccessController.text = widget.aSource.date_accessed;
+      urlController.text = widget.aSource.url;
+      DOIController.text = widget.aSource.doi;
+      //sourceID = web.docID;
       return Column(
         children: <Widget>[
           fieldRow("Year", yearController),
@@ -497,14 +489,6 @@ class _EditSourceState extends State<EditSource> {
         ..year = yearController.text
         ..pages = pagesController.text
         ..source_type_id = 1
-        /*/null fields
-        ..proceeding_title =""
-        ..journal=""
-        ..url=""
-        ..date_accessed =""
-        ..volume=""
-        ..issue=""
-        ..publication="" */
       );
     } else if (widget.sourceTypeName == SourceTypeName.conference_proceeding) {
       sourceModel = SourceModel((b) =>

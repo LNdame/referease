@@ -2,6 +2,9 @@
 .dart_tool/
 .idea/vcs.xml
 .idea/workspace.xml
+*.idea/workspace.xml
+**/.idea/workspace.xml
+**/.idea/tasks.xml
 .packages
 .pub/
 

@@ -5,7 +5,6 @@ import 'package:referease/data/source_type_api_service.dart';
 import 'package:referease/services/router.dart';
 import 'package:referease/data/questionnaire_api_service.dart';
 
-
 import 'data/refresh_api_service.dart';
 import 'data/source_api_service.dart';
 import 'data/summary_api_service.dart';
@@ -18,9 +17,8 @@ import 'splashpage.dart';
 
 class ReferEase extends StatelessWidget{
 
-   @override
+  @override
   Widget build(BuildContext context) {
-    // TODO: implement build
 
     return MultiProvider(
       providers: [
@@ -35,7 +33,7 @@ class ReferEase extends StatelessWidget{
         Provider( builder: (_)=> SourceApiService.create(),
           dispose: (_, SourceApiService service)=> service.client.dispose(),),
         Provider(builder: (_)=> QuestionnairesApiService.create(),
-        dispose:(_, QuestionnairesApiService service) => service.client.dispose() ,)
+        dispose:(_, QuestionnairesApiService service) => service.client.dispose(),),
         Provider( builder: (_)=> SummaryApiService.create(),
           dispose: (_, SummaryApiService service)=> service.client.dispose(),),
       ],
@@ -49,10 +47,8 @@ class ReferEase extends StatelessWidget{
       ),
     );
   }
-
-
-
 }
+
 
 final ThemeData _kReferTheme = _buildShrineTheme();
 ThemeData _buildShrineTheme(){
@@ -78,15 +74,12 @@ ThemeData _buildShrineTheme(){
       border:OutlineInputBorder( borderRadius: BorderRadius.circular(4.0)
       ),
     ),
-
   );
 }
 
 
 TextTheme _buildReferTextTheme(TextTheme base){
-
   return base.copyWith(
-
     headline: base.headline.copyWith(
       fontWeight: FontWeight.w500,
     ),
@@ -97,7 +90,6 @@ TextTheme _buildReferTextTheme(TextTheme base){
       fontWeight: FontWeight.w400,
       fontSize: 14.0,
     ),
-
   ).apply(
     //fontFamily: 'Rubik',
     displayColor: kReferPrimaryAltText,

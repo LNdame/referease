@@ -1,18 +1,20 @@
+import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
+import 'package:referease/data/api_functions/questionnaire/request_questionnaire_api.dart';
+import 'package:referease/model/questionnaire.dart';
+import 'package:referease/uipage/widgets/questionnaire_list.dart';
 import 'package:referease/uiutility/colors.dart';
-import 'package:referease/uipage/questionnaire_card.dart' as card;
+import 'package:referease/uipage/widgets/questionnaire_card.dart' as card;
+import 'package:built_collection/built_collection.dart';
 
-//DATA TODO implement a data repo
 
-
-class QuestionnaireList extends StatefulWidget {
-  
+class QuestionnairePage extends StatefulWidget {
   @override
-  _QuestionnaireListState createState() => _QuestionnaireListState();
+  _QuestionnairePageState createState() => _QuestionnairePageState();
 }
 
 
-class _QuestionnaireListState extends State<QuestionnaireList> with SingleTickerProviderStateMixin {
+class _QuestionnairePageState extends State<QuestionnairePage> with SingleTickerProviderStateMixin {
 
 TabController controller;
 @override
@@ -30,9 +32,33 @@ void dispose() {
   @override
   Widget build(BuildContext context) {
        return new Scaffold(
-        //appBar: new AppBar( backgroundColor: kReferPrimary, title: Text('Questionnaires', style: TextStyle(color: kReferAccent)),),
-        body: card.Questionnaire_Card(),
-      
+        body: buildQuestionnaireList(context),
     );
   }
+}
+
+FutureBuilder<Response<BuiltList<Questionnaire>>> buildQuestionnaireList(
+    BuildContext context) {
+  return FutureBuilder<Response<BuiltList<Questionnaire>>>(
+    future: requestQuestionnaires(context),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.done) {
+        if (snapshot.hasError) {
+          return Center(
+            child: Text(
+              snapshot.error.toString(),
+              textAlign: TextAlign.center,
+              textScaleFactor: 1.3,
+            ),
+          );
+        }
+        final BuiltList<Questionnaire> questionnaires = snapshot.data.body;
+        return QuestionnaireList(questionnaires: questionnaires);
+      } else {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+    },
+  );
 }

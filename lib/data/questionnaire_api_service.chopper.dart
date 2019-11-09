@@ -14,15 +14,15 @@ class _$QuestionnairesApiService extends QuestionnairesApiService {
 
   final definitionType = QuestionnairesApiService;
 
-  Future<Response> getQuestionnaires() {
-    final $url = '/questionnaire';
+  Future<Response<BuiltList<Questionnaire>>> getQuestionnaires() {
+    final $url = '/questionnaires';
     final $headers = {'Content-Type': 'application/json'};
     final $request = Request('GET', $url, client.baseUrl, headers: $headers);
-    return client.send<dynamic, dynamic>($request);
+    return client.send<BuiltList<Questionnaire>, Questionnaire>($request);
   }
 
   Future<Response> getQuestionnaire(int id) {
-    final $url = '/questionnaire/${id}';
+    final $url = '/questionnaires/${id}';
     final $headers = {'Content-Type': 'application/json'};
     final $request = Request('GET', $url, client.baseUrl, headers: $headers);
     return client.send<dynamic, dynamic>($request);

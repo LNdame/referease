@@ -20,7 +20,6 @@ class _SummaryListState extends State<SummaryList> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return ListView.builder(
       scrollDirection: Axis.vertical,
       itemCount: widget.summaries.length,

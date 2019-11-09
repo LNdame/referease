@@ -16,7 +16,6 @@ class SummaryPage extends StatefulWidget{
 class _SummaryPageState extends State<SummaryPage> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       body:buildSummaryList(context),
       floatingActionButton: FancyButton(icon: Icons.add_box,

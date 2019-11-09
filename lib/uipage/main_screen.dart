@@ -17,7 +17,7 @@ class _MainScreenState extends State<MainScreen> {
 
     //Pages
     ProfilePage profilePage;
-    QuestionnaireList questionnairePage;
+    QuestionnairePage questionnairePage;
     SourcePage sourcePage;
     SummaryPage summaryPage;
 
@@ -28,7 +28,7 @@ class _MainScreenState extends State<MainScreen> {
     @override
     void initState() {
       profilePage = new ProfilePage();
-      questionnairePage = new QuestionnaireList();
+      questionnairePage = new QuestionnairePage();
       sourcePage = new SourcePage();
       summaryPage = new SummaryPage();
       pages=[summaryPage,sourcePage,questionnairePage,profilePage];

@@ -160,7 +160,7 @@ class _EditSourceState extends State<EditSource> {
                       child: TextFormField(
                         controller: midCont,
                         decoration: InputDecoration(
-                            labelText: "Middle Name"), //input decorator
+                            labelText: "Middle Name"),
                         onFieldSubmitted: (value) {},
                         validator: (input) => input.length < 0
                             ? 'this field cannot be empty'
@@ -174,16 +174,16 @@ class _EditSourceState extends State<EditSource> {
                       child: TextFormField(
                         controller: fnCont,
                         decoration: InputDecoration(
-                            labelText: "First Name"), //input decorator
+                            labelText: "First Name"),
                         onFieldSubmitted: (value) {},
                         validator: (input) => input.length < 0
                             ? 'this field cannot be empty'
                             : null,
                       ),
                     ),
-                  ], //widget
+                  ],
                 ),
-              ), //container
+              ),
               SimpleDialogOption(
                 onPressed: () {
                   Navigator.pop(context, 0);
@@ -205,7 +205,7 @@ class _EditSourceState extends State<EditSource> {
                 ),
               ),
             ],
-          ); //simpleDialog
+          );
         } //builder
         )) {
       case 0:

@@ -17,7 +17,7 @@ class _MainScreenState extends State<MainScreen> {
 
     //Pages
     ProfilePage profilePage;
-    QuestionnairePage questionnairePage;
+    QuestionnaireList questionnairePage;
     SourcePage sourcePage;
     SummaryPage summaryPage;
 
@@ -28,7 +28,7 @@ class _MainScreenState extends State<MainScreen> {
     @override
     void initState() {
       profilePage = new ProfilePage();
-      questionnairePage = new QuestionnairePage();
+      questionnairePage = new QuestionnaireList();
       sourcePage = new SourcePage();
       summaryPage = new SummaryPage();
       pages=[summaryPage,sourcePage,questionnairePage,profilePage];
@@ -71,7 +71,8 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.person,
-            ),
+              ),
+              
             title: Text("Profile"),
           ),
         ],

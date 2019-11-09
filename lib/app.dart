@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:referease/data/register_api_service.dart';
 import 'package:referease/data/source_type_api_service.dart';
 import 'package:referease/services/router.dart';
+import 'package:referease/data/questionnaire_api_service.dart';
 
 
 import 'data/refresh_api_service.dart';
@@ -33,6 +34,8 @@ class ReferEase extends StatelessWidget{
           dispose: (_, RefreshApiService service)=> service.client.dispose(),),
         Provider( builder: (_)=> SourceApiService.create(),
           dispose: (_, SourceApiService service)=> service.client.dispose(),),
+        Provider(builder: (_)=> QuestionnairesApiService.create(),
+        dispose:(_, QuestionnairesApiService service) => service.client.dispose() ,)
         Provider( builder: (_)=> SummaryApiService.create(),
           dispose: (_, SummaryApiService service)=> service.client.dispose(),),
       ],

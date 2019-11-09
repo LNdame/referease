@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:referease/model/source.dart';
 import 'package:referease/model/source_model.dart';
+import 'package:referease/model/source_type.dart';
 import 'package:referease/uipage/pages/helpers/source_open_reference_view.dart';
+import 'package:referease/uipage/source/editsource.dart';
 
 class SourceCard extends StatelessWidget {
   final SourceModel source;
@@ -72,7 +74,11 @@ class SourceCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    Icon(Icons.edit),
+                    IconButton(onPressed:(){
+                      Navigator.of(context).push(new MaterialPageRoute(builder: (context)=>EditSource(aSource: source ,sourceTypeName: getSourceType(source.source_type_id),)));
+
+                    } ,
+                        icon: Icon(Icons.edit)),
                     SizedBox(
                       width: 18.0,
                     ),
@@ -127,6 +133,16 @@ class SourceCard extends StatelessWidget {
       default:
         return Icons.book;
         break;
+    }
+  }
+
+  SourceTypeName getSourceType(int sourceTypeId){
+    switch(sourceTypeId){
+      case 1: return SourceTypeName.book; break;
+      case 2: return SourceTypeName.conference_proceeding; break;
+      case 3: return SourceTypeName.journal_article; break;
+      case 4: return SourceTypeName.web; break;
+      default: return SourceTypeName.book; break;
     }
   }
 

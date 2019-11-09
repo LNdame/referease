@@ -13,8 +13,6 @@ import 'package:progress_hud/progress_hud.dart';
 class SignInPage extends StatefulWidget {
   @override
   _SignInPageState createState() => new _SignInPageState();
-
-  
 }
 
 class _SignInPageState extends State<SignInPage>
@@ -29,7 +27,7 @@ class _SignInPageState extends State<SignInPage>
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
     String value = "LOGIN";
-     final _formKey = GlobalKey<FormState>(); 
+     final _formKey = GlobalKey<FormState>();
      final scaffoldKey = GlobalKey<ScaffoldState>();
 
     void _submitCommand() {
@@ -52,11 +50,11 @@ class _SignInPageState extends State<SignInPage>
             child: Text('OK'),
             onPressed: () {
                      setState(() {
-                       
+
                       value = 'LOGIN';
                         });
-                    Navigator.pop(context);  
-                           
+                    Navigator.pop(context);
+
             },
           )
         ],
@@ -65,16 +63,15 @@ class _SignInPageState extends State<SignInPage>
   );
 }
 
-        
+
       void hide() {
         pr.hide();
       }
 
 
-   
+
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
@@ -83,8 +80,6 @@ class _SignInPageState extends State<SignInPage>
   @override
   void initState() {
     super.initState();
-
-    
     animationController =
         AnimationController(duration: Duration(seconds: 2), vsync: this);
 
@@ -102,19 +97,24 @@ class _SignInPageState extends State<SignInPage>
     Future.delayed(Duration(seconds: 2))
         .then((dynamic) => SharedPreferencesUtils.getUsername())
         .then((username) {
-      if (username.isNotEmpty) {
-        print('silently signing in user $username');
-        Navigator.of(context).pop();
-        Navigator.of(context).pushReplacementNamed('/home');
-      }
-    });
+          if(username.isNotEmpty){
+            SharedPreferencesUtils.getPassword().then((pwd){
+                print('silently signing in user $username');
+                requestLoginAPI(
+                    context,
+                    username,
+                    pwd);
+            });
+          }
+       }) ;
   }
 
-  @override
+
+@override
   Widget build(BuildContext context) {
     // TODO: implement build
     pr = new ProgressDialog(context, type: ProgressDialogType.Normal, isDismissible: true);
-    
+
     final double width = MediaQuery.of(context).size.width;
     animationController.forward();
     return AnimatedBuilder(
@@ -173,7 +173,7 @@ class _SignInPageState extends State<SignInPage>
                             child: Container(
                                 padding: EdgeInsets.only(
                                     top: 35.0, left: 20.0, right: 20.0),
-                                                                 
+
                                    child: Column(
                                     children: <Widget>[
                                       TextFormField(
@@ -194,7 +194,7 @@ class _SignInPageState extends State<SignInPage>
                                             focusedBorder: UnderlineInputBorder(
                                                 borderSide: BorderSide(
                                                     color: kReferAccent))),
-                                                    
+
                                       ),
                                       SizedBox(height: 20.0),
                                       TextFormField(
@@ -212,7 +212,7 @@ class _SignInPageState extends State<SignInPage>
                                               if (val.isEmpty) {
                                                 return 'Please enter password';
                                               }
-                                              
+
                                         },
                                         obscureText: true,
                                       ),
@@ -247,7 +247,7 @@ class _SignInPageState extends State<SignInPage>
                                           child: GestureDetector(
                                             onTap: () async {
 
-                                              
+
                                               if (_formKey.currentState.validate())
                                               {
                                                   setState(() {
@@ -261,13 +261,13 @@ class _SignInPageState extends State<SignInPage>
                                                   }).catchError((onError) {
                                                     loginErrorDialog(context);
                                                   });
-                                                    
-                                                  
-                                                   
 
-                                                  
+
+
+
+
                                               }
-                           
+
                                             },
                                             child: Center(
                                               child: Text(
@@ -321,5 +321,3 @@ class _SignInPageState extends State<SignInPage>
         });
   }
 }
-
-

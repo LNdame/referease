@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:referease/data/api_functions/request_source_types_api.dart';
 
 import 'package:referease/model/login_model.dart';
 import 'package:referease/shared_preference/save_current_login.dart';
@@ -25,6 +26,7 @@ Future<LoginModel> requestLoginAPI(
     var login = new LoginModel.fromJson(responseJson);
     print(response.body);
     saveCurrentLogin(responseJson);
+    requestSourTypesAPI(context);
     Navigator.of(context).pushReplacementNamed('/home');
     return login;
   } else {

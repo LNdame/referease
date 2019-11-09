@@ -27,7 +27,7 @@ abstract class SourceType implements Built<SourceType, SourceTypeBuilder>{
 }
 
 
-
+enum SourceTypeName{book, conference_proceeding, journal_article, web}
 
 /* "name": "journal",
     "description": "journal reference",

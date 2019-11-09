@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:referease/commonwidget/drawerwidget.dart';
 import 'package:referease/commonwidget/fancybutton.dart';
 import 'package:referease/model/source.dart';
+import 'package:referease/model/source_type.dart' as prefix0;
 import 'package:referease/uipage/search/help.dart';
 import 'package:referease/uipage/source/addsource.dart';
 import 'package:referease/uipage/source/editsource.dart';
@@ -29,7 +30,7 @@ class SourceList extends StatefulWidget{
 
 class SourceListState extends State<SourceList> {
 
-
+/*
   Future<Null> sourceOpenDialog() async{
     switch(
     await showDialog(context: context,
@@ -166,27 +167,27 @@ class SourceListState extends State<SourceList> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddSource(sourceType:SourceType.book),) );
+              builder: (context) => AddSource(sourceTypeName:SourceType.book),) );
         break;
       case 1:  Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AddSource(sourceType:SourceType.conference_proceeding),) );
+            builder: (context) => AddSource(sourceTypeName:SourceType.conference_proceeding),) );
       break;
       case 2:  Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AddSource(sourceType:SourceType.journal_article),) );
+            builder: (context) => AddSource(sourceTypeName:SourceType.journal_article),) );
       break;
       case 3:  Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AddSource(sourceType:SourceType.web),) );
+            builder: (context) => AddSource(sourceTypeName:SourceType.web),) );
       break;
 
     }
   }
-
+*/
   List<Source> _selectedSources;
 
   @override
@@ -300,16 +301,13 @@ class SourceListState extends State<SourceList> {
                 Text( DateFormat('H:m yyy-MM-dd').format(DateTime.now())),
                 SizedBox(width: 18.0,),
                 Icon(Icons.delete),
-
               ],
-
             ),//row
             SizedBox(height: 18.0,),
             Expanded(child: Text("The impact of alcohol in study progress on the youth")),
             SizedBox(height: 18.0,),
             Text("Author: Coleman J"),
             SizedBox(height: 18.0,),
-
             Text("Year: 2001 "),
             SizedBox(height: 18.0,),
             Row(
@@ -317,7 +315,6 @@ class SourceListState extends State<SourceList> {
               children: <Widget>[
                 Icon(Icons.edit),
                 SizedBox(width: 18.0,),
-
                 PopupMenuButton<String>(
                 onSelected: (option){
                   print(option);
@@ -329,22 +326,16 @@ class SourceListState extends State<SourceList> {
                         child: Text(option),
                       );
                     }
-
                     ).toList();
                   },
                 )
               ],
             ),
-
           ],//children
-
         ),
       ),//column
-
     ),//card
   );//sizebox
-
-
 
 
   @override
@@ -447,7 +438,7 @@ class SourceListState extends State<SourceList> {
           inst: "New source",
           onPressed: (){
            // Navigator.pushNamed(context, '/addsource');
-            sourceOpenDialog();
+            // sourceOpenDialog();
           }) ,
 
     );
@@ -615,7 +606,7 @@ class SourceListViewState extends State<SourceListView> {
           String docID =widget.documents[index].documentID;
 
           Source aSource  = null;
-          SourceType sType = null;
+          prefix0.SourceTypeName sType = null;
           var icon;
           //new Book(authors: authors, city: city, title: title, doi:doi,edition: edition, editors: editor,
           //isbn: isbn, publisher: publisher,type: type,uid: uid,year: year,pages: pages);
@@ -624,7 +615,7 @@ class SourceListViewState extends State<SourceListView> {
 
             aSource = new Book(authors: authors, city: city, title: title, doi:doi,edition: edition, editors: editor,
                 isbn: isbn, publisher: publisher,type: type,uid: uid,year: year,pages: pages, docID: docID);
-            sType = SourceType.book;
+            sType = prefix0.SourceTypeName.book;
             icon = Icons.book;
 
           }else if(type==TypeConstant.conference_proceeding){
@@ -633,21 +624,21 @@ class SourceListViewState extends State<SourceListView> {
                 pages: pages, city: city,
           doi:doi, editors: editor, url: url, publisher: publisher,type: type,uid: uid,docID: docID);
 
-            sType = SourceType.conference_proceeding;
+            sType = prefix0.SourceTypeName.conference_proceeding;
             icon = Icons.description;
 
           }else if(type==TypeConstant.journal_article){
 
             aSource = new JournalArticle(title: title, authors: authors, journal:journal, year: year,pages: pages ,
                 doi:doi,volume: volume, issue: issue, url: url, publisher: publisher,type: type,docID: docID);
-            sType = SourceType.journal_article;
+            sType = prefix0.SourceTypeName.journal_article;
             icon = Icons.import_contacts;
 
           }else if(type==TypeConstant.web){
 
             aSource = new Web(authors: authors,  title: title, publication:publication,year: year,dateAccessed: dateAccessed,
                 url: url,uid: uid,  doi:doi, pages: pages,type: type,docID: docID);
-            sType = SourceType.web;
+            sType = prefix0.SourceTypeName.web;
             icon = Icons.public;
 
           }
@@ -724,7 +715,7 @@ class SourceListViewState extends State<SourceListView> {
 
                           IconButton(
                            onPressed: (){
-                             Navigator.of(context).push(new MaterialPageRoute(builder: (context)=>EditSource(aSource: aSource, documentSnapshot: widget.documents[index] ,sourceType: sType,)));
+                            // Navigator.of(context).push(new MaterialPageRoute(builder: (context)=>EditSource(aSource: aSource, documentSnapshot: widget.documents[index] ,sourceTypeName: sType,)));
 
                            /*  final snackBar = SnackBar(content: Text("This functionality is not yet implemented" ,
                                style: TextStyle(color: kReferErrorRed),),);

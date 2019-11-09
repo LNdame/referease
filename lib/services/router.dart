@@ -5,6 +5,7 @@ import 'package:referease/testzone/pageviewdemo.dart';
 import 'package:referease/uipage/landing.dart';
 import 'package:referease/uipage/main_screen.dart';
 import 'package:referease/uipage/registration/about.dart';
+import 'package:referease/testzone/test_page.dart';
 import 'package:referease/uipage/registration/register.dart';
 import 'package:referease/uipage/registration/signin.dart';
 import 'package:referease/uipage/registration/forgot_password.dart';
@@ -26,6 +27,7 @@ class Router{
       case '/about': return MaterialPageRoute(builder: (_)=> About());
       case '/support': return MaterialPageRoute(builder: (_)=> Support());
       case '/help': return MaterialPageRoute(builder: (_)=> Help(1));
+      case '/test': return MaterialPageRoute(builder: (_)=> TestPage());
       default:
         return MaterialPageRoute(builder: (_){
           return Scaffold(

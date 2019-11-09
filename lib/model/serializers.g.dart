@@ -8,6 +8,7 @@ part of 'serializers.dart';
 
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Questionnaire.serializer)
+      ..add(SourceModel.serializer)
       ..add(SourceType.serializer))
     .build();
 

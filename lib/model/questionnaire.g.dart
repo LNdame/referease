@@ -18,27 +18,49 @@ class _$QuestionnaireSerializer implements StructuredSerializer<Questionnaire> {
   @override
   Iterable<Object> serialize(Serializers serializers, Questionnaire object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
-      'authors',
-      serializers.serialize(object.authors,
-          specifiedType: const FullType(String)),
-      'title',
-      serializers.serialize(object.title,
-          specifiedType: const FullType(String)),
-      'description',
-      serializers.serialize(object.description,
-          specifiedType: const FullType(String)),
-      'questionnaire_type_id',
-      serializers.serialize(object.questionnaire_type_id,
-          specifiedType: const FullType(int)),
-      'user_id',
-      serializers.serialize(object.user_id, specifiedType: const FullType(int)),
-    ];
+    final result = <Object>[];
     if (object.id != null) {
       result
         ..add('id')
         ..add(serializers.serialize(object.id,
             specifiedType: const FullType(int)));
+    }
+    if (object.authors != null) {
+      result
+        ..add('authors')
+        ..add(serializers.serialize(object.authors,
+            specifiedType: const FullType(String)));
+    }
+    if (object.title != null) {
+      result
+        ..add('title')
+        ..add(serializers.serialize(object.title,
+            specifiedType: const FullType(String)));
+    }
+    if (object.description != null) {
+      result
+        ..add('description')
+        ..add(serializers.serialize(object.description,
+            specifiedType: const FullType(String)));
+    }
+    if (object.questionnaire_type_id != null) {
+      result
+        ..add('questionnaire_type_id')
+        ..add(serializers.serialize(object.questionnaire_type_id,
+            specifiedType: const FullType(int)));
+    }
+    if (object.user_id != null) {
+      result
+        ..add('user_id')
+        ..add(serializers.serialize(object.user_id,
+            specifiedType: const FullType(int)));
+    }
+    if (object.questions != null) {
+      result
+        ..add('questions')
+        ..add(serializers.serialize(object.questions,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(QuestionModel)])));
     }
     return result;
   }
@@ -79,6 +101,12 @@ class _$QuestionnaireSerializer implements StructuredSerializer<Questionnaire> {
           result.user_id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
+        case 'questions':
+          result.questions.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(QuestionModel)]))
+              as BuiltList<dynamic>);
+          break;
       }
     }
 
@@ -99,6 +127,8 @@ class _$Questionnaire extends Questionnaire {
   final int questionnaire_type_id;
   @override
   final int user_id;
+  @override
+  final BuiltList<QuestionModel> questions;
 
   factory _$Questionnaire([void Function(QuestionnaireBuilder) updates]) =>
       (new QuestionnaireBuilder()..update(updates)).build();
@@ -109,25 +139,9 @@ class _$Questionnaire extends Questionnaire {
       this.title,
       this.description,
       this.questionnaire_type_id,
-      this.user_id})
-      : super._() {
-    if (authors == null) {
-      throw new BuiltValueNullFieldError('Questionnaire', 'authors');
-    }
-    if (title == null) {
-      throw new BuiltValueNullFieldError('Questionnaire', 'title');
-    }
-    if (description == null) {
-      throw new BuiltValueNullFieldError('Questionnaire', 'description');
-    }
-    if (questionnaire_type_id == null) {
-      throw new BuiltValueNullFieldError(
-          'Questionnaire', 'questionnaire_type_id');
-    }
-    if (user_id == null) {
-      throw new BuiltValueNullFieldError('Questionnaire', 'user_id');
-    }
-  }
+      this.user_id,
+      this.questions})
+      : super._();
 
   @override
   Questionnaire rebuild(void Function(QuestionnaireBuilder) updates) =>
@@ -145,17 +159,22 @@ class _$Questionnaire extends Questionnaire {
         title == other.title &&
         description == other.description &&
         questionnaire_type_id == other.questionnaire_type_id &&
-        user_id == other.user_id;
+        user_id == other.user_id &&
+        questions == other.questions;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc($jc(0, id.hashCode), authors.hashCode), title.hashCode),
-                description.hashCode),
-            questionnaire_type_id.hashCode),
-        user_id.hashCode));
+            $jc(
+                $jc(
+                    $jc($jc($jc(0, id.hashCode), authors.hashCode),
+                        title.hashCode),
+                    description.hashCode),
+                questionnaire_type_id.hashCode),
+            user_id.hashCode),
+        questions.hashCode));
   }
 
   @override
@@ -166,7 +185,8 @@ class _$Questionnaire extends Questionnaire {
           ..add('title', title)
           ..add('description', description)
           ..add('questionnaire_type_id', questionnaire_type_id)
-          ..add('user_id', user_id))
+          ..add('user_id', user_id)
+          ..add('questions', questions))
         .toString();
   }
 }
@@ -200,6 +220,12 @@ class QuestionnaireBuilder
   int get user_id => _$this._user_id;
   set user_id(int user_id) => _$this._user_id = user_id;
 
+  ListBuilder<QuestionModel> _questions;
+  ListBuilder<QuestionModel> get questions =>
+      _$this._questions ??= new ListBuilder<QuestionModel>();
+  set questions(ListBuilder<QuestionModel> questions) =>
+      _$this._questions = questions;
+
   QuestionnaireBuilder();
 
   QuestionnaireBuilder get _$this {
@@ -210,6 +236,7 @@ class QuestionnaireBuilder
       _description = _$v.description;
       _questionnaire_type_id = _$v.questionnaire_type_id;
       _user_id = _$v.user_id;
+      _questions = _$v.questions?.toBuilder();
       _$v = null;
     }
     return this;
@@ -230,14 +257,28 @@ class QuestionnaireBuilder
 
   @override
   _$Questionnaire build() {
-    final _$result = _$v ??
-        new _$Questionnaire._(
-            id: id,
-            authors: authors,
-            title: title,
-            description: description,
-            questionnaire_type_id: questionnaire_type_id,
-            user_id: user_id);
+    _$Questionnaire _$result;
+    try {
+      _$result = _$v ??
+          new _$Questionnaire._(
+              id: id,
+              authors: authors,
+              title: title,
+              description: description,
+              questionnaire_type_id: questionnaire_type_id,
+              user_id: user_id,
+              questions: _questions?.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'questions';
+        _questions?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'Questionnaire', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

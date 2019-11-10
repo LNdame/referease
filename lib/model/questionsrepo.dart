@@ -40,7 +40,7 @@ class QuestionRepository{
       ),
       Question(
         id: 7,
-        questionDesc: "What struck you, reading the text? Something you feel the author emphasised to much, or perhaps did not emphasise? What could the writer have done differently, have left out or even added??",
+        questionDesc: "What struck you, reading the text? Something you feel the author emphasised to much, or perhaps did not emphasise? What could the writer have done differently, have left out or even added?",
         questionType: QuestionType.reflect,
       ),
       Question(

@@ -17,11 +17,7 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage>
     with SingleTickerProviderStateMixin {
-  ProgressDialog pr;
-
-    ProgressHUD _progressHUD;
-
-  bool _loading = true;
+ 
   Animation animation, delayedAnimation, muchDelayedAnimation;
   AnimationController animationController;
   final _emailController = TextEditingController();
@@ -29,14 +25,9 @@ class _SignInPageState extends State<SignInPage>
     String value = "LOGIN";
      final _formKey = GlobalKey<FormState>();
      final scaffoldKey = GlobalKey<ScaffoldState>();
+     bool _showPassword = false;
 
-    void _submitCommand() {
-     final form = _formKey.currentState;
 
-    if (form.validate()) {
-      form.save();
-    }
-  }
   Future<bool> loginErrorDialog(context) {
   return showDialog(
     context: context,
@@ -63,10 +54,6 @@ class _SignInPageState extends State<SignInPage>
   );
 }
 
-
-      void hide() {
-        pr.hide();
-      }
 
 
 
@@ -113,7 +100,6 @@ class _SignInPageState extends State<SignInPage>
 @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    pr = new ProgressDialog(context, type: ProgressDialogType.Normal, isDismissible: true);
 
     final double width = MediaQuery.of(context).size.width;
     animationController.forward();
@@ -177,147 +163,164 @@ class _SignInPageState extends State<SignInPage>
                                    child: Column(
                                     children: <Widget>[
                                       TextFormField(
-                                         validator:( String val) {
-                                            if( !EmailValidator.validate(val.trimRight(), true))
-                                            {
-                                                 return 'Please enter a valid E-mail address';
-                                            }
-                                         },
-                                          onSaved: (val) => _emailController.text = val,
-                                        controller: _emailController,
-                                        decoration: InputDecoration(
-                                            labelText: 'Email',
-                                            labelStyle: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.bold,
-                                                color: kReferAltDarkGrey),
-                                            focusedBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: kReferAccent))),
-
-                                      ),
-                                      SizedBox(height: 20.0),
-                                      TextFormField(
-                                        controller: _passwordController,
-                                        decoration: InputDecoration(
-                                            labelText: 'Password',
-                                            labelStyle: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.bold,
-                                                color: kReferAltDarkGrey),
-                                            focusedBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: kReferAccent))),
-                                        validator: (String val) {
-                                              if (val.isEmpty) {
-                                                return 'Please enter password';
-                                              }
-
-                                        },
-                                        obscureText: true,
-                                      ),
-                                      SizedBox(height: 5.0),
-                                      Container(
-                                        alignment: Alignment(1.0, 0.0),
-                                        padding:
-                                            EdgeInsets.only(top: 15.0, left: 20.0),
-                                        child: InkWell(
-                                          onTap: () {
-                                               Navigator.of(context).pushNamed('/resset');
-                                          },
-                                          child: Text(
-                                            'Forgot Password',
-                                            style: TextStyle(
-                                                color: kReferAccent,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Montserrat',
-                                                decoration:
-                                                    TextDecoration.underline),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 40.0),
-                                      Container(
-                                        height: 40.0,
-                                        child: Material(
-                                          borderRadius: BorderRadius.circular(20.0),
-                                          shadowColor: kReferAccentDark,
-                                          color: kReferAccent,
-                                          elevation: 7.0,
-                                          child: GestureDetector(
-                                            onTap: () async {
-
-
-                                              if (_formKey.currentState.validate())
-                                              {
-                                                  setState(() {
-                                                  value = 'LOADING ..';
-                                                    });
-                                                requestLoginAPI(
-                                                  context,
-                                                  _emailController.text.trim(),
-                                                  _passwordController.text.trim()).then((onValue) {
-
-                                                  }).catchError((onError) {
-                                                    loginErrorDialog(context);
-                                                  });
-
-
-
-
-
-                                              }
-
-                                            },
-                                            child: Center(
-                                              child: Text(
-                                                value,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: 'Montserrat'),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 20.0),
-                                    ],
-                                  ),
-                                ),
-                          ), //transform
-                          SizedBox(height: 15.0),
-                          Transform(
-                            transform: Matrix4.translationValues(
-                                muchDelayedAnimation.value * width, 0.0, 0.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  'New to Refer Easy ?',
-                                  style: TextStyle(fontFamily: 'Montserrat'),
-                                ),
-                                SizedBox(width: 5.0),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.of(context).pushNamed('/register');
-                                  },
-                                  child: Text(
-                                    'Register',
-                                    style: TextStyle(
-                                        color: kReferAccent,
-                                        fontFamily: 'Montserrat',
-                                        fontWeight: FontWeight.bold,
-                                        decoration: TextDecoration.underline),
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ]),
-              ));
-        });
+                                                                                  validator: validateEmail,
+                                                                                   onSaved: (val) => _emailController.text = val,
+                                                                                 controller: _emailController,
+                                                                                 keyboardType: TextInputType.emailAddress,
+                                                                                 decoration: InputDecoration(
+                                                                                     labelText: 'Email',
+                                                                                     labelStyle: TextStyle(
+                                                                                         fontFamily: 'Montserrat',
+                                                                                         fontWeight: FontWeight.bold,
+                                                                                         color: kReferAltDarkGrey),
+                                                                                     focusedBorder: UnderlineInputBorder(
+                                                                                         borderSide: BorderSide(
+                                                                                             color: kReferAccent))),
+                                         
+                                                                               ),
+                                                                               SizedBox(height: 20.0),
+                                                                               TextFormField(
+                                                                                 controller: _passwordController,
+                                                                                 decoration: InputDecoration(
+                                                                                     labelText: 'Password',
+                                                                                     suffixIcon: GestureDetector(
+                                                                                       onTap: () {
+                                                                                         setState(() {
+                                                                                           _showPassword = !_showPassword;
+                                                                                         });
+                                                                                       },
+                                                                                       child: Icon(
+                                                                                         _showPassword ? Icons.visibility : Icons.visibility_off,
+                                                                                       ),
+                                                                                     ),
+                                                                                     labelStyle: TextStyle(
+                                                                                         fontFamily: 'Montserrat',
+                                                                                         fontWeight: FontWeight.bold,
+                                                                                         color: kReferAltDarkGrey),
+                                                                                     focusedBorder: UnderlineInputBorder(
+                                                                                         borderSide: BorderSide(
+                                                                                             color: kReferAccent))),
+                                                                                 validator: (String val) {
+                                                                                       if (val.isEmpty) {
+                                                                                         return 'Please enter password';
+                                                                                       }
+                                         
+                                                                                 },
+                                                                                 obscureText: !_showPassword,
+                                                                               ),
+                                                                               SizedBox(height: 5.0),
+                                                                               Container(
+                                                                                 alignment: Alignment(1.0, 0.0),
+                                                                                 padding:
+                                                                                     EdgeInsets.only(top: 15.0, left: 20.0),
+                                                                                 child: InkWell(
+                                                                                   onTap: () {
+                                                                                        Navigator.of(context).pushNamed('/resset');
+                                                                                   },
+                                                                                   child: Text(
+                                                                                     'Forgot Password',
+                                                                                     style: TextStyle(
+                                                                                         color: kReferAccent,
+                                                                                         fontWeight: FontWeight.bold,
+                                                                                         fontFamily: 'Montserrat',
+                                                                                         decoration:
+                                                                                             TextDecoration.underline),
+                                                                                   ),
+                                                                                 ),
+                                                                               ),
+                                                                               SizedBox(height: 40.0),
+                                                                               Container(
+                                                                                 height: 40.0,
+                                                                                 child: Material(
+                                                                                   borderRadius: BorderRadius.circular(20.0),
+                                                                                   shadowColor: kReferAccentDark,
+                                                                                   color: kReferAccent,
+                                                                                   elevation: 7.0,
+                                                                                   child: GestureDetector(
+                                                                                     onTap: () async {
+                                         
+                                         
+                                                                                       if (_formKey.currentState.validate())
+                                                                                       {
+                                                                                           setState(() {
+                                                                                           value = 'LOADING ..';
+                                                                                             });
+                                                                                         requestLoginAPI(
+                                                                                           context,
+                                                                                           _emailController.text.trim(),
+                                                                                           _passwordController.text.trim()).then((onValue) {
+                                         
+                                                                                           }).catchError((onError) {
+                                                                                             loginErrorDialog(context);
+                                                                                           });
+                                         
+                                         
+                                         
+                                         
+                                         
+                                                                                       }
+                                         
+                                                                                     },
+                                                                                     child: Center(
+                                                                                       child: Text(
+                                                                                         value,
+                                                                                         style: TextStyle(
+                                                                                             color: Colors.white,
+                                                                                             fontWeight: FontWeight.bold,
+                                                                                             fontFamily: 'Montserrat'),
+                                                                                       ),
+                                                                                     ),
+                                                                                   ),
+                                                                                 ),
+                                                                               ),
+                                                                               SizedBox(height: 20.0),
+                                                                             ],
+                                                                           ),
+                                                                         ),
+                                                                   ), //transform
+                                                                   SizedBox(height: 15.0),
+                                                                   Transform(
+                                                                     transform: Matrix4.translationValues(
+                                                                         muchDelayedAnimation.value * width, 0.0, 0.0),
+                                                                     child: Row(
+                                                                       mainAxisAlignment: MainAxisAlignment.center,
+                                                                       children: <Widget>[
+                                                                         Text(
+                                                                           'New to Refer Easy ?',
+                                                                           style: TextStyle(fontFamily: 'Montserrat'),
+                                                                         ),
+                                                                         SizedBox(width: 5.0),
+                                                                         InkWell(
+                                                                           onTap: () {
+                                                                             Navigator.of(context).pushNamed('/register');
+                                                                           },
+                                                                           child: Text(
+                                                                             'Register',
+                                                                             style: TextStyle(
+                                                                                 color: kReferAccent,
+                                                                                 fontFamily: 'Montserrat',
+                                                                                 fontWeight: FontWeight.bold,
+                                                                                 decoration: TextDecoration.underline),
+                                                                           ),
+                                                                         )
+                                                                       ],
+                                                                     ),
+                                                                   )
+                                                                 ],
+                                                               ),
+                                                             ]),
+                                                       ));
+                                                 });
+                                           }
+                                         
+                                           String validateEmail(String value) {
+                                             Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                                            RegExp regex = new RegExp(pattern);
+                                            if (!regex.hasMatch(value.trim()))
+                                              return 'Enter Valid Email';
+                                            else if( !EmailValidator.validate(value.trim(), true))
+                                                 return 'Enter Valid E-mail';
+                                            else
+                                              return null;
   }
 }

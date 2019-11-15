@@ -1,3 +1,4 @@
+
 name: referease
 description: A new Flutter application.
 
@@ -38,6 +39,9 @@ dependencies:
   connectivity: ^0.4.3+2
   built_value: ^6.7.0
   flutter_stetho: ^0.5.0
+  email_validator: '^1.0.0'
+  progress_dialog: ^1.1.0+1
+  progress_hud: ^1.1.0
 
 dev_dependencies:
   flutter_test:

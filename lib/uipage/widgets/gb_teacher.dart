@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:referease/model/summary.dart';
-import 'package:referease/model/summary_model.dart';
-
-
-class SummaryCard extends StatelessWidget{
-  final SummaryModel summary;
-
-  SummaryCard({this.summary});
-
+class GbTeacher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return ListView(
+          
+           
+            children: <Widget>[
+               Container(
       height: 250,
       child: GestureDetector(
         onTap: (){
@@ -42,14 +38,14 @@ class SummaryCard extends StatelessWidget{
                 ),//row
                 SizedBox(height: 8.0,),
                 ConstrainedBox(constraints:BoxConstraints.expand( width:600.0, height: 20.0) ,
-                    child: Text("Title: ${summary.title}",
+                    child: Text("Title: The impact of alcohol in study progress on the youth",
                       overflow: TextOverflow.ellipsis,)),
                 SizedBox(height: 8.0,),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Text("Author: ${summary.authors}"),
+                    Text("Author: Coleman J"),
                     SizedBox(width: 30.0,),
                     Text("Year: 2001 "),
                   ],//widget
@@ -66,6 +62,7 @@ class SummaryCard extends StatelessWidget{
                   softWrap: true,
                 )),
 
+
                 SizedBox(height: 18.0,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -73,6 +70,7 @@ class SummaryCard extends StatelessWidget{
                     Icon(Icons.edit),
                     SizedBox(width: 18.0,),
                     Icon(Icons.delete)
+
 
                   ],
                 ),
@@ -83,7 +81,10 @@ class SummaryCard extends StatelessWidget{
           ),//column
         ),
       ),
+    )            
+              
+            ],
+          
     );
   }
-
 }

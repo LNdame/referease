@@ -22,7 +22,7 @@ class _$QuestionnairesApiService extends QuestionnairesApiService {
   }
 
   Future<Response> getQuestionnaire(int id) {
-    final $url = '/questionnaires/${id}';
+    final $url = '/questionnaire/${id}';
     final $headers = {'Content-Type': 'application/json'};
     final $request = Request('GET', $url, client.baseUrl, headers: $headers);
     return client.send<dynamic, dynamic>($request);

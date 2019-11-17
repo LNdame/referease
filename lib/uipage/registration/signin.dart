@@ -261,13 +261,7 @@ class _SignInPageState extends State<SignInPage>
                                                   }).catchError((onError) {
                                                     loginErrorDialog(context);
                                                   });
-
-
-
-
-
                                               }
-
                                             },
                                             child: Center(
                                               child: Text(
@@ -285,7 +279,7 @@ class _SignInPageState extends State<SignInPage>
                                     ],
                                   ),
                                 ),
-                          ), //transform
+                          ),
                           SizedBox(height: 15.0),
                           Transform(
                             transform: Matrix4.translationValues(

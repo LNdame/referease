@@ -1,4 +1,3 @@
-  
 import 'dart:async';
 
 import 'package:chopper/chopper.dart';
@@ -9,7 +8,7 @@ import 'package:referease/model/user_model.dart';
 import 'package:built_collection/built_collection.dart';
 
 
-import '../profile_api_service.dart';
+import '../../profile_api_service.dart';
 
 
 Future<Response<UserModel>> profileDetailsRequest(context) async {
@@ -21,5 +20,5 @@ Future<Response<UserModel>> profileDetailsRequest(context) async {
         print("bearer is in add $bearer");
         final response =
         await Provider.of<ProfileApiService>(context).profileDetailsRequest(bearer);
-        return response;  
+        return response;
     }

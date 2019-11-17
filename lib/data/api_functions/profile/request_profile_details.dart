@@ -9,7 +9,7 @@ import 'package:referease/model/user_model.dart';
 import 'package:built_collection/built_collection.dart';
 
 
-import '../profile_api_service.dart';
+import '../../profile_api_service.dart';
 
 
 Future<Response<UserModel>> profileDetailsRequest(context) async {

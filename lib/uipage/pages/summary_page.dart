@@ -1,6 +1,7 @@
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:referease/commonwidget/fancybutton.dart';
+import 'package:referease/commonwidget/flexiblespacecustom.dart';
 import 'package:referease/data/api_functions/summary/request_summaries_api.dart';
 import 'package:referease/model/summary_model.dart';
 import 'package:built_collection/built_collection.dart';
@@ -17,7 +18,20 @@ class _SummaryPageState extends State<SummaryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:buildSummaryList(context),
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled ){
+          return  <Widget>[
+            SliverAppBar(
+                expandedHeight: 150.0,
+                floating: false,
+                pinned: true,
+                flexibleSpace:FlexibleSpaceBarCustom(title: "Summaries",pageId: 1,)
+            ),
+          ];
+        },
+        body: buildSummaryList(context),
+
+      ),//buildSummaryList(context),
       floatingActionButton: FancyButton(icon: Icons.add_box,
       inst: "New Summary",
       onPressed: (){

@@ -2,6 +2,7 @@ import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:referease/commonwidget/fancybutton.dart';
+import 'package:referease/commonwidget/flexiblespacecustom.dart';
 import 'package:referease/data/api_functions/source/request_sources_api.dart';
 import 'package:referease/data/source_api_service.dart';
 import 'package:referease/model/source_model.dart';
@@ -19,7 +20,20 @@ class _SourcePageState extends State<SourcePage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: buildSourceList(context),
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled ){
+          return  <Widget>[
+            SliverAppBar(
+              expandedHeight: 150.0,
+              floating: false,
+              pinned: true,
+              flexibleSpace:FlexibleSpaceBarCustom(title: "Sources",pageId: 2,)
+            ),
+          ];
+        },
+        body: buildSourceList(context),
+
+      ),
       floatingActionButton: FancyButton(icon: Icons.add_box,
           inst: "New source",
           onPressed: (){

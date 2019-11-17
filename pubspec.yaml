@@ -92,6 +92,10 @@ flutter:
     - assets/images/help/pick_source.png
     - assets/images/help/summary.png
     - assets/images/help/summary_type.png
+    - assets/images/source_header.jpg
+    - assets/images/profile_header.jpg
+    - assets/images/summary_header.jpg
+    - assets/images/questionnaire_header.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

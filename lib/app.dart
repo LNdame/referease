@@ -57,6 +57,7 @@ ThemeData _buildShrineTheme(){
   final ThemeData base= ThemeData.light();
   return base.copyWith(
     accentColor: kReferAccent,
+    primaryColorDark:kReferAccentDark ,
     primaryColor: kReferPrimary,
     buttonColor: kReferAccent,
     scaffoldBackgroundColor: kReferSurfaceWhite,

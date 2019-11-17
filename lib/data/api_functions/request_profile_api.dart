@@ -1,23 +1,12 @@
 import 'dart:async';
-
-import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:referease/data/api_functions/request_refresh_token_api.dart';
 import 'package:referease/model/user_model.dart';
-
 import '../profile_api_service.dart';
-
 
 Future<bool> profileRequest(
     BuildContext context, String lastName, String firstName, String studyLevel, String institution, String faculty) async {
-      // UserModel body = {
-      //   lastName,
-      //   firstName,
-      //   studyLevel,
-      //   institution,
-      //   faculty
-      // };
       final body = new UserModel((b) => b
       ..last_name = lastName
       ..first_name = firstName
@@ -41,6 +30,5 @@ Future<bool> profileRequest(
           done = true;
           Navigator.of(context).popAndPushNamed('/home');
         }
-
         return done;
     }

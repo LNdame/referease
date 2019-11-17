@@ -9,9 +9,7 @@ import 'package:referease/shared_preference/sharedpreference.dart';
 import 'package:referease/uiutility/colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:referease/services/usermanagement.dart';
 import 'package:referease/data/api_functions/request_profile_api.dart';
-import 'package:referease/data/api_functions/request_refresh_token_api.dart';
 
 class UserProfile extends StatefulWidget {
   @override
@@ -377,15 +375,3 @@ class ProfileBackground extends StatelessWidget {
 }
 
 typedef Null ValueChangeCallback(String value);
-
-/*
-if (_formKey.currentState.validate()) {
-var lastName = lastNameController.text;
-var firstName = firstNameController.text;
-var levelStudy = studyLevelController.text;
-var institution = instController.text;
-var faculty = facultyController.text;
-
-profileRequest(context, lastName, firstName, levelStudy,
-institution, faculty);
-}*/

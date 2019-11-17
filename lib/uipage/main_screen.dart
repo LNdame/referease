@@ -34,7 +34,6 @@ class _MainScreenState extends State<MainScreen> {
     sourcePage = new SourcePage();
     summaryPage = new SummaryPage();
     pages = [summaryPage, sourcePage, questionnairePage, profilePage];
-
     currentPage = summaryPage;
     profileDetailsRequest(context).then((onValue) {
       final UserModel user = onValue.body;

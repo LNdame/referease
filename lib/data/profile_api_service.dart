@@ -1,10 +1,8 @@
 import 'package:chopper/chopper.dart';
-import 'package:chopper/chopper.dart' as prefix0;
 import 'package:referease/model/user_model.dart';
 import 'dart:async';
 import 'built_value_converter.dart';
 import 'server_settings.dart';
-
 
 part 'profile_api_service.chopper.dart';
 
@@ -16,8 +14,6 @@ abstract class ProfileApiService extends ChopperService {
   @Get()
   Future<Response<UserModel>> profileDetailsRequest(
       @Header('Authorization') String bearer);
-
-
 
   static ProfileApiService create() {
     final client = ChopperClient(baseUrl: serverBaseUrl,
@@ -32,5 +28,4 @@ abstract class ProfileApiService extends ChopperService {
     );
     return _$ProfileApiService(client);
   }
-
 }

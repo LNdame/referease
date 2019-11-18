@@ -23,7 +23,6 @@ Future<bool> profileRequest(
              var code;
         final response =
         await Provider.of<ProfileApiService>(context).profileRequest(bearer, body);
-
         code = response.statusCode;
         if (code == 200)
         {

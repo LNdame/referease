@@ -17,7 +17,6 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int currentTab = 0;
-
   //Pages
   ProfilePage profilePage;
   QuestionnairePage questionnairePage;

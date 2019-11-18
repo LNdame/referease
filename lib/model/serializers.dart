@@ -11,4 +11,4 @@ import 'package:built_collection/built_collection.dart';
 part 'serializers.g.dart';
 
 @SerializersFor(const [Questionnaire, SourceType, SourceModel, SummaryModel, QuestionModel, UserModel])
-  final Serializers serializers = (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();
+ final Serializers serializers = (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

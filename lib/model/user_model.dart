@@ -25,6 +25,5 @@ abstract class UserModel implements Built<UserModel, UserModelBuilder>{
   UserModel._();
 
   factory UserModel([updates(UserModelBuilder b)])=_$UserModel;
-
   static Serializer<UserModel> get serializer => _$userModelSerializer;
 }

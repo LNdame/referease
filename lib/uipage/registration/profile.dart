@@ -364,7 +364,6 @@ class ProfileBackground extends StatelessWidget {
     flex: 4,
     child: new Container(),
   );
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

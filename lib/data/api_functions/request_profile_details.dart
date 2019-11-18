@@ -8,7 +8,6 @@ import '../profile_api_service.dart';
 Future<Response<UserModel>> profileDetailsRequest(context) async {
         var accessToken;
         String bearer;
-   
        accessToken = await requestRefreshToken(context);
        bearer = "Bearer $accessToken";
         print("bearer is in add $bearer");

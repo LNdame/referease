@@ -6,10 +6,10 @@ import 'package:referease/model/user_model.dart';
 import '../profile_api_service.dart';
 
 Future<Response<UserModel>> profileDetailsRequest(context) async {
-        var accessToken;
-        String bearer;
-       accessToken = await requestRefreshToken(context);
-       bearer = "Bearer $accessToken";
+        
+        
+        var accessToken = await requestRefreshToken(context);
+        String bearer = "Bearer $accessToken";
         print("bearer is in add $bearer");
         final response =
         await Provider.of<ProfileApiService>(context).profileDetailsRequest(bearer);

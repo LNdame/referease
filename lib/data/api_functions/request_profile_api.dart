@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:referease/data/api_functions/request_refresh_token_api.dart';
 import 'package:referease/model/user_model.dart';
+
 import '../profile_api_service.dart';
 
 Future<bool> profileRequest(
@@ -13,18 +14,17 @@ Future<bool> profileRequest(
       ..level_of_study = studyLevel
       ..institution = institution
       ..faculty = faculty);
-        var accessToken;
-        String bearer;
+        
         bool done = false;
         
-       accessToken = await requestRefreshToken(context);
-       bearer = "Bearer $accessToken";
+        var accessToken = await requestRefreshToken(context);
+        String bearer = "Bearer $accessToken";
         print("bearer is in add $bearer");
-             var code;
+       
         final response =
         await Provider.of<ProfileApiService>(context).profileRequest(bearer, body);
-        code = response.statusCode;
-        if (code == 200)
+
+        if (response.statusCode == 200)
         {
           done = true;
           Navigator.of(context).popAndPushNamed('/home');

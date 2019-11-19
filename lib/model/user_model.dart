@@ -6,19 +6,14 @@ part 'user_model.g.dart';
 abstract class UserModel implements Built<UserModel, UserModelBuilder>{
   @nullable
   int get id;
-
   @nullable
   String get last_name;
-
    @nullable
   String get first_name;
-
   @nullable
   String get level_of_study;
-
   @nullable
   String get institution;
-
   @nullable 
   String get faculty;
 

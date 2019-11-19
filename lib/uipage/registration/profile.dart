@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:referease/data/api_functions/request_logout_api.dart';
 import 'package:referease/data/api_functions/request_profile_details.dart';
 import 'package:referease/model/user_model.dart';
 import 'package:referease/shared_preference/sharedpreference.dart';
@@ -258,7 +259,7 @@ class UserProfileState extends State<UserProfile> {
                             borderRadius: BorderRadius.circular(20.0)),
                         child: InkWell(
                           onTap: () {
-                            Navigator.of(context).pop();
+                            logoutRequest(context);
                           },
                           child: Center(
                             child: Text('Sign out',
@@ -317,7 +318,6 @@ class ArcClipper extends CustomClipper<Path> {
 
     path.lineTo(size.width, 0.0);
     path.close();
-
     return path;
   }
 

@@ -8,6 +8,7 @@ part 'profile_api_service.chopper.dart';
 
 @ChopperApi(baseUrl: "/user_profile")
 abstract class ProfileApiService extends ChopperService {
+
   @Put(headers: {'Content-Type':'application/json'})
   Future<Response<UserModel>>profileRequest(@Header('Authorization') String bearer, @Body() UserModel body);
   @Get()

@@ -37,7 +37,7 @@ class QuestionnaireCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          Icon(Icons.question_answer, size: 55.0, color: kReferAccent,),
+                          Icon(Icons.question_answer),
                           SizedBox(width: 20.0),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -86,7 +86,7 @@ class QuestionnaireCard extends StatelessWidget {
                                                       Navigator.push(
                                                         context,
                                                         MaterialPageRoute (
-                                                          builder: (context) => QuestionsList(id: questionnaire.id)) 
+                                                          builder: (context) => QuestionsList(id: questionnaire.id, authors: questionnaire.authors, title: questionnaire.title,)) 
                                                         );
                                                     },
                                                     ),

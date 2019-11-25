@@ -3,15 +3,14 @@ import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:referease/data/api_functions/request_logout_api.dart';
 import 'package:referease/data/api_functions/request_profile_details.dart';
+import 'package:referease/model/user_model.dart';
 import 'package:referease/shared_preference/sharedpreference.dart';
 import 'package:referease/uiutility/colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:referease/services/usermanagement.dart';
 import 'package:referease/data/api_functions/request_profile_api.dart';
-import 'package:referease/model/login_model.dart';
-import 'package:referease/data/api_functions/request_refresh_token_api.dart';
 
 class UserProfile extends StatefulWidget {
   @override
@@ -44,13 +43,13 @@ class UserProfileState extends State<UserProfile> {
     super.initState();
 
     profileDetailsRequest(context).then((onValue) {
-      var responseBody = onValue;
-      if (responseBody['first_name'] != "") {
-        firstNameController.text = responseBody['first_name'];
-        lastNameController.text = responseBody['last_name'];
-        studyLevelController.text = responseBody['level_of_study'];
-        instController.text = responseBody['institution'];
-        // facultyController.text = responseBody['']
+      final UserModel user = onValue.body;
+      if (user.last_name != "") {
+        firstNameController.text = user.first_name;
+        lastNameController.text = user.last_name;
+        studyLevelController.text = user.level_of_study;
+        instController.text = user.institution;
+        facultyController.text = user.faculty;
       }
     });
   }
@@ -95,7 +94,7 @@ class UserProfileState extends State<UserProfile> {
                           validator: (String val) {
                             if (val.trim().isEmpty) {
                               return 'Please enter last name';
-                            } else if (val.length < 3) {
+                            } else if (val.length < 2) {
                               return 'Last name must be at least 2 characters';
                             }
                           },
@@ -161,7 +160,7 @@ class UserProfileState extends State<UserProfile> {
                           validator: (String val) {
                             if (val.trim().isEmpty) {
                               return 'Please enter institution';
-                            } else if (val.length < 3) {
+                            } else if (val.length < 2) {
                               return 'Institution must be at least 2 characters';
                             }
                           },
@@ -224,7 +223,15 @@ class UserProfileState extends State<UserProfile> {
                               var faculty = facultyController.text;
 
                               profileRequest(context, lastName, firstName,
-                                  levelStudy, institution, faculty);
+                                  levelStudy, institution, faculty).then((onValue) {
+                                    Fluttertoast.showToast(msg: "Your profile has been updated" ,
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.CENTER,
+                                    timeInSecForIos: 2,
+                                    backgroundColor: kReferAccentDark,
+                                    textColor: Colors.white
+                                );
+                                  });
                             }
                           },
                           child: Center(
@@ -252,7 +259,7 @@ class UserProfileState extends State<UserProfile> {
                             borderRadius: BorderRadius.circular(20.0)),
                         child: InkWell(
                           onTap: () {
-                            Navigator.of(context).pop();
+                            logoutRequest(context);
                           },
                           child: Center(
                             child: Text('Sign out',
@@ -311,7 +318,6 @@ class ArcClipper extends CustomClipper<Path> {
 
     path.lineTo(size.width, 0.0);
     path.close();
-
     return path;
   }
 
@@ -358,7 +364,6 @@ class ProfileBackground extends StatelessWidget {
     flex: 4,
     child: new Container(),
   );
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -369,15 +374,3 @@ class ProfileBackground extends StatelessWidget {
 }
 
 typedef Null ValueChangeCallback(String value);
-
-/*
-if (_formKey.currentState.validate()) {
-var lastName = lastNameController.text;
-var firstName = firstNameController.text;
-var levelStudy = studyLevelController.text;
-var institution = instController.text;
-var faculty = facultyController.text;
-
-profileRequest(context, lastName, firstName, levelStudy,
-institution, faculty);
-}*/

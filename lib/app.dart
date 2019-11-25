@@ -5,6 +5,7 @@ import 'package:referease/data/source_type_api_service.dart';
 import 'package:referease/services/router.dart';
 import 'package:referease/data/questionnaire_api_service.dart';
 
+import 'data/logout_api_service.dart';
 import 'data/profile_api_service.dart';
 import 'data/refresh_api_service.dart';
 import 'data/source_api_service.dart';
@@ -39,6 +40,10 @@ class ReferEase extends StatelessWidget{
           dispose: (_, SummaryApiService service)=> service.client.dispose(),),
            Provider( builder: (_)=> ProfileApiService.create(),
           dispose: (_, ProfileApiService service)=> service.client.dispose(),),
+        Provider( builder: (_)=> LogoutApiService.create(),
+          dispose: (_, LogoutApiService service)=> service.client.dispose(),),
+
+          
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

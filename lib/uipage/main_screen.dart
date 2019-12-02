@@ -12,6 +12,10 @@ class MainScreen extends StatefulWidget {
   _MainScreenState createState() {
     return new _MainScreenState();
   }
+
+  final Widget pageChange;
+
+  MainScreen({Key key, this.pageChange}) : super(key: key);
 }
 
 class _MainScreenState extends State<MainScreen> {
@@ -34,7 +38,12 @@ class _MainScreenState extends State<MainScreen> {
     summaryPage = new SummaryPage();
     pages = [summaryPage, sourcePage, questionnairePage, profilePage];
 
-    currentPage = summaryPage;
+    if (widget.pageChange != null) {
+      currentPage = questionnairePage;
+    } else {
+      currentPage = summaryPage;
+    }
+
     profileDetailsRequest(context).then((onValue) {
       var theBody = onValue;
 
@@ -121,8 +130,13 @@ class _MainScreenState extends State<MainScreen> {
         currentIndex: currentTab,
         onTap: (index) {
           setState(() {
-            currentTab = index;
-            currentPage = pages[index];
+            if (widget.pageChange != null) {
+              currentTab = 2;
+              currentPage = pages[index];
+            } else {
+              currentTab = index;
+              currentPage = pages[index];
+            }
           });
         },
         type: BottomNavigationBarType.fixed,

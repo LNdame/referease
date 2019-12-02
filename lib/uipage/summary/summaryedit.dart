@@ -15,11 +15,12 @@ class SummaryEdit extends StatefulWidget{
 
 
   final String type;
+  final dynamic body;
   DocumentSnapshot documentSnapshot;
 
   final Summary summary;
 
-  SummaryEdit({Key key, this.type,this.summary, this.documentSnapshot}): assert(type!=null), super(key:key);
+  SummaryEdit({Key key, this.type,this.summary, this.documentSnapshot, this.body}): assert(type!=null), super(key:key);
 
   @override
   _SummaryEditState createState() => _SummaryEditState();

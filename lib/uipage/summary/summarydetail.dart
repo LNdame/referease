@@ -16,8 +16,9 @@ import 'package:referease/uiutility/reusable.dart';
 
 class SummaryDetail extends StatefulWidget {
   String type;
+  dynamic body;
 
-  SummaryDetail({Key key, this.type})
+  SummaryDetail({Key key, this.type, this.body})
       : assert(type != null),
         super(key: key);
 
@@ -26,7 +27,7 @@ class SummaryDetail extends StatefulWidget {
 }
 
 class SummaryDetailState extends State<SummaryDetail> {
-  List<Question> sectionQuestions;
+  List sectionQuestions;
   List<String> sectionQuestionsAns;
   int questionPosition;
   TextEditingController titleController;
@@ -45,14 +46,15 @@ class SummaryDetailState extends State<SummaryDetail> {
     yearController = TextEditingController();
 
     if (widget.type == "reflect") {
-      sectionQuestions = QuestionRepository.loadQuestions(QuestionType.reflect);
+      sectionQuestions = widget.body;
     } else if (widget.type == "discuss") {
-      sectionQuestions = QuestionRepository.loadQuestions(QuestionType.discuss);
+      sectionQuestions = widget.body;
     }
 
     sectionQuestionsAns = new List(sectionQuestions.length);
     questionPosition = 0;
     setState(() {});
+    super.initState();
   }
 
   getUserData() async {
@@ -64,8 +66,8 @@ class SummaryDetailState extends State<SummaryDetail> {
   );
 
   List<QuestionView> _buildPageElement() {
-    List<Question> questions =
-        QuestionRepository.loadQuestions(QuestionType.reflect);
+    List<Question> questions = widget.body;
+
     if (questions == null || questions.isEmpty) {
       return const <QuestionView>[];
     }
@@ -137,9 +139,8 @@ class SummaryDetailState extends State<SummaryDetail> {
                         Expanded(
                           child: TextFormField(
                             controller: fnCont,
-                            decoration: InputDecoration(
-                                labelText: "First Name"),
-
+                            decoration:
+                                InputDecoration(labelText: "First Name"),
                             onFieldSubmitted: (value) {},
                             validator: (input) => input.length < 0
                                 ? 'this field cannot be empty'
@@ -149,7 +150,6 @@ class SummaryDetailState extends State<SummaryDetail> {
                       ],
                     ),
                   ),
-
                   SimpleDialogOption(
                     onPressed: () {
                       Navigator.pop(context, 0);
@@ -330,7 +330,9 @@ class SummaryDetailState extends State<SummaryDetail> {
                   ),
                   child: // _buildPageElement()[questionPosition],
                       new QuestionView(
-                    question: sectionQuestions[questionPosition],
+                    question: sectionQuestions[questionPosition]
+                        ['question_body'],
+                    position: questionPosition,
                     answer: sectionQuestionsAns[questionPosition],
                     onValueChanged: (value) {
                       sectionQuestionsAns[questionPosition] = value;
@@ -426,11 +428,17 @@ typedef Null ValueChangeCallback(String value);
 
 class QuestionView extends StatefulWidget {
   final int total;
-  final Question question;
+  final int position;
+  final dynamic question;
   final String answer;
   final ValueChangeCallback onValueChanged;
 
-  QuestionView({this.total, this.onValueChanged, this.question, this.answer});
+  QuestionView(
+      {this.total,
+      this.position,
+      this.onValueChanged,
+      this.question,
+      this.answer});
 
   @override
   QuestionViewState createState() => new QuestionViewState();
@@ -476,7 +484,7 @@ class QuestionViewState extends State<QuestionView> {
         Expanded(
           flex: 1,
           child: Text(
-            'Question ${widget.question.id} of ${widget.total}: ${widget.question.questionDesc}',
+            'Question ${widget.position + 1} of  ${widget.total}: ${widget.question}',
             style: TextStyle(
                 color: Colors.black,
                 fontSize: 14.0,
@@ -484,14 +492,13 @@ class QuestionViewState extends State<QuestionView> {
                 fontWeight: FontWeight.bold),
           ),
         ),
-        (widget.question.questionType == QuestionType.reflect)
+        (widget.question == QuestionType.reflect)
             ? SizedBox(
                 height: 24.0,
               )
             : SizedBox(
-                height:24.0,
+                height: 24.0,
               ),
-
         Expanded(
           flex: 2,
           child: Container(

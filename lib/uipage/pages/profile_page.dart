@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:referease/commonwidget/flexiblespacecustom.dart';
 import 'package:referease/uipage/registration/profile.dart';
-import 'package:referease/data/api_functions/request_profile_api.dart';
 
-class ProfilePage extends StatefulWidget{
+class ProfilePage extends StatefulWidget {
   @override
-  _ProfilePageState createState()=>  _ProfilePageState();
-
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
@@ -15,20 +13,20 @@ class _ProfilePageState extends State<ProfilePage> {
     // TODO: implement build
     return Scaffold(
       body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled ){
-          return  <Widget>[
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
             SliverAppBar(
                 expandedHeight: 150.0,
                 floating: false,
                 pinned: true,
-                flexibleSpace:FlexibleSpaceBarCustom(title: "Profile",pageId: 4,)
-            ),
+                flexibleSpace: FlexibleSpaceBarCustom(
+                  title: "Profile",
+                  pageId: 4,
+                )),
           ];
         },
         body: UserProfile(),
-
       ),
-
     );
   }
 }

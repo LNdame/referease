@@ -31,9 +31,9 @@ class _QuestionsList extends State<QuestionsList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0.0,
         brightness: Brightness.light,
         backgroundColor: kReferSurfaceWhite,
-        elevation: 0.0,
         leading: BackButton(
           color: kReferAccent,
         ),
@@ -46,7 +46,7 @@ class _QuestionsList extends State<QuestionsList> {
             height: 90,
             child: Card(
                elevation: 1,
-              child: Padding(
+               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,

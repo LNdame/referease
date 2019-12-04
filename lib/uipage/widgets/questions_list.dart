@@ -32,8 +32,8 @@ class _QuestionsList extends State<QuestionsList> {
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.light,
-        elevation: 0.0,
         backgroundColor: kReferSurfaceWhite,
+        elevation: 0.0,
         leading: BackButton(
           color: kReferAccent,
         ),
@@ -45,6 +45,7 @@ class _QuestionsList extends State<QuestionsList> {
           Container(
             height: 90,
             child: Card(
+               elevation: 1,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(

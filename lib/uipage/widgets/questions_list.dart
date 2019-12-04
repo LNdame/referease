@@ -32,6 +32,7 @@ class _QuestionsList extends State<QuestionsList> {
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.light,
+        elevation: 0.0,
         backgroundColor: kReferSurfaceWhite,
         leading: BackButton(
           color: kReferAccent,
@@ -168,8 +169,7 @@ class _QuestionsList extends State<QuestionsList> {
               ),
             ),
           ),
-        )
-            ;
+        );
       },
     );
   }

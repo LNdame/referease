@@ -8,10 +8,9 @@ import 'package:built_collection/built_collection.dart';
 import 'package:referease/uipage/summary/summarydetail.dart';
 import 'package:referease/uipage/widgets/summary_list.dart';
 
-class SummaryPage extends StatefulWidget{
+class SummaryPage extends StatefulWidget {
   @override
-  _SummaryPageState createState()=>  _SummaryPageState();
-
+  _SummaryPageState createState() => _SummaryPageState();
 }
 
 class _SummaryPageState extends State<SummaryPage> {
@@ -19,27 +18,31 @@ class _SummaryPageState extends State<SummaryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled ){
-          return  <Widget>[
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
             SliverAppBar(
                 expandedHeight: 150.0,
                 floating: false,
                 pinned: true,
-                flexibleSpace:FlexibleSpaceBarCustom(title: "Summaries",pageId: 1,)
-            ),
+                flexibleSpace: FlexibleSpaceBarCustom(
+                  title: "Summaries",
+                  pageId: 1,
+                )),
           ];
         },
         body: buildSummaryList(context),
-
-      ),//buildSummaryList(context),
-      floatingActionButton: FancyButton(icon: Icons.add_box,
-      inst: "New Summary",
-      onPressed: (){
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SummaryDetail(type:"reflect"),) );
-      },),
+      ), //buildSummaryList(context),
+      floatingActionButton: FancyButton(
+        icon: Icons.add_box,
+        inst: "New Summary",
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SummaryDetail(type: "reflect"),
+              ));
+        },
+      ),
     );
   }
 
@@ -68,5 +71,4 @@ class _SummaryPageState extends State<SummaryPage> {
       },
     );
   }
-
 }

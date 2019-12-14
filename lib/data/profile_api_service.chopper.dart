@@ -14,7 +14,7 @@ class _$ProfileApiService extends ProfileApiService {
 
   final definitionType = ProfileApiService;
 
-  Future<Response> profileRequest(String bearer, Map<String, dynamic> body) {
+  Future<Response<UserModel>> profileRequest(String bearer, UserModel body) {
     final $url = '/user_profile';
     final $headers = {
       'Authorization': bearer,
@@ -23,13 +23,13 @@ class _$ProfileApiService extends ProfileApiService {
     final $body = body;
     final $request =
         Request('PUT', $url, client.baseUrl, body: $body, headers: $headers);
-    return client.send<dynamic, dynamic>($request);
+    return client.send<UserModel, UserModel>($request);
   }
 
-  Future<Response> profileDetailsRequest(String bearer) {
+  Future<Response<UserModel>> profileDetailsRequest(String bearer) {
     final $url = '/user_profile';
     final $headers = {'Authorization': bearer};
     final $request = Request('GET', $url, client.baseUrl, headers: $headers);
-    return client.send<dynamic, dynamic>($request);
+    return client.send<UserModel, UserModel>($request);
   }
 }

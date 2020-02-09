@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:referease/data/answer_api_service.dart';
 
 import 'package:referease/data/register_api_service.dart';
 import 'package:referease/data/source_type_api_service.dart';
@@ -59,6 +60,10 @@ class ReferEase extends StatelessWidget {
         Provider(
           builder: (_) => LogoutApiService.create(),
           dispose: (_, LogoutApiService service) => service.client.dispose(),
+        ),
+        Provider(
+          builder: (_) => AnswerApiService.create(),
+          dispose: (_, AnswerApiService service) => service.client.dispose(),
         ),
       ],
       child: MaterialApp(

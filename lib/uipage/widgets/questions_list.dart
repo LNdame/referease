@@ -2,25 +2,27 @@ import 'dart:convert';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:referease/commonwidget/fancybutton.dart';
+import 'package:referease/data/api_functions/questionnaire/request_question_list.dart';
 import 'package:referease/data/api_functions/questionnaire/request_questions.dart';
+import 'package:referease/model/question_model.dart';
 import 'package:referease/uipage/summary/summarydetail.dart';
 import 'package:referease/uiutility/colors.dart';
-
+import 'package:built_collection/built_collection.dart';
 class QuestionsList extends StatefulWidget {
   @override
   _QuestionsList createState() => _QuestionsList();
 
-  final int id;
+  final int questionnaireId;
   final String authors;
   final String title;
   final int questionnaire_type_id;
 
   QuestionsList(
-      {this.id, this.authors, this.title, this.questionnaire_type_id});
+      {this.questionnaireId, this.authors, this.title, this.questionnaire_type_id});
 }
 
 class _QuestionsList extends State<QuestionsList> {
-  dynamic questionDetails;
+  BuiltList<QuestionModel> questionDetails;
 
   @override
   void initState() {
@@ -99,15 +101,16 @@ class _QuestionsList extends State<QuestionsList> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => SummaryDetail(
-                        body: questionDetails,
+                      questionnaireId: widget.questionnaireId,
+                        questions: questionDetails,
                         type: getTypeName(widget.questionnaire_type_id))));
           }),
     );
   }
 
-  FutureBuilder<Response> buildQuestionsList(BuildContext context) {
-    return FutureBuilder<Response>(
-      future: requestQuestions(context, widget.id),
+  FutureBuilder<Response<BuiltList<QuestionModel>>> buildQuestionsList(BuildContext context) {
+    return FutureBuilder<Response<BuiltList<QuestionModel>>>(
+      future: requestQuestionsList(context, widget.questionnaireId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
@@ -119,8 +122,8 @@ class _QuestionsList extends State<QuestionsList> {
               ),
             );
           }
-          final questionnaire = snapshot.data.body;
-          questionDetails = questionnaire['questions'];
+
+          questionDetails =  snapshot.data.body;
 
           return _buildQuestions(context, questionDetails);
         } else {
@@ -132,7 +135,7 @@ class _QuestionsList extends State<QuestionsList> {
     );
   }
 
-  ListView _buildQuestions(BuildContext context, dynamic questionnaires) {
+  ListView _buildQuestions(BuildContext context, BuiltList<QuestionModel> questionnaires) {
     return ListView.builder(
       itemCount: questionnaires.length,
       padding: EdgeInsets.all(8),
@@ -157,7 +160,7 @@ class _QuestionsList extends State<QuestionsList> {
                         SizedBox(width: 15),
                         Expanded(
                             child: Text(
-                          questionnaires[index]['question_body'],
+                          questionnaires[index].question_body,
                           textAlign: TextAlign.justify,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 4,

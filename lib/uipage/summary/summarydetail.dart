@@ -7,18 +7,24 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:referease/commonwidget/drawerwidget.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:referease/data/api_functions/summary/request_save_new_summary.dart';
+import 'package:referease/model/answer_model.dart';
+import 'package:referease/model/question_model.dart';
+import 'package:referease/model/summary_model.dart';
 import 'package:referease/uipage/search/help.dart';
 import 'package:referease/uiutility/colors.dart';
 import 'package:referease/model/author.dart';
 import 'package:referease/model/question.dart';
 import 'package:referease/model/questionsrepo.dart';
 import 'package:referease/uiutility/reusable.dart';
+import 'package:built_collection/built_collection.dart';
 
 class SummaryDetail extends StatefulWidget {
-  String type;
-  dynamic body;
+ final String type;
+ final int questionnaireId;
+ final BuiltList<QuestionModel> questions;
 
-  SummaryDetail({Key key, this.type, this.body})
+  SummaryDetail({Key key, this.type, this.questions, this.questionnaireId})
       : assert(type != null),
         super(key: key);
 
@@ -27,7 +33,7 @@ class SummaryDetail extends StatefulWidget {
 }
 
 class SummaryDetailState extends State<SummaryDetail> {
-  List sectionQuestions;
+  BuiltList<QuestionModel> sectionQuestions;
   List<String> sectionQuestionsAns;
   int questionPosition;
   TextEditingController titleController;
@@ -46,9 +52,9 @@ class SummaryDetailState extends State<SummaryDetail> {
     yearController = TextEditingController();
 
     if (widget.type == "reflect") {
-      sectionQuestions = widget.body;
+      sectionQuestions = widget.questions;
     } else if (widget.type == "discuss") {
-      sectionQuestions = widget.body;
+      sectionQuestions = widget.questions;
     }
 
     sectionQuestionsAns = new List(sectionQuestions.length);
@@ -66,7 +72,7 @@ class SummaryDetailState extends State<SummaryDetail> {
   );
 
   List<QuestionView> _buildPageElement() {
-    List<Question> questions = widget.body;
+    BuiltList<QuestionModel> questions = widget.questions;
 
     if (questions == null || questions.isEmpty) {
       return const <QuestionView>[];
@@ -194,7 +200,7 @@ class SummaryDetailState extends State<SummaryDetail> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.light,
@@ -330,8 +336,7 @@ class SummaryDetailState extends State<SummaryDetail> {
                   ),
                   child: // _buildPageElement()[questionPosition],
                       new QuestionView(
-                    question: sectionQuestions[questionPosition]
-                        ['question_body'],
+                    question: sectionQuestions[questionPosition].question_body,
                     position: questionPosition,
                     answer: sectionQuestionsAns[questionPosition],
                     onValueChanged: (value) {
@@ -351,25 +356,10 @@ class SummaryDetailState extends State<SummaryDetail> {
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.save),
           onPressed: () {
-            var now = DateTime.now();
-            Firestore.instance.collection('summaries').add({
-              'type': widget.type,
-              'title': titleController.text,
-              'authors': authorsController.text,
-              'year': yearController.text,
-              'questions': sectionQuestions
-                  .map((question) => "${question.questionDesc}")
-                  .toList(),
-              'answers': sectionQuestionsAns,
-              'uid': _currentUser.uid,
-              'created_date': now.toString()
-            }).then((DocumentReference docref) {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushReplacementNamed('/landing');
-            }).catchError((e) {
-              print(e);
-            });
-          }),
+            saveSummary(context, sectionQuestionsAns, sectionQuestions,
+                widget.questionnaireId);
+          }
+      ),
 
       bottomNavigationBar: BottomAppBar(
         elevation: 8.0,
@@ -422,6 +412,43 @@ class SummaryDetailState extends State<SummaryDetail> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
+
+  List<AnswerModel> buildAnswerToSave(List<String> secAnswers,  BuiltList<QuestionModel> questions ){
+    List<AnswerModel> answerList= new List();
+    for (var i = 0; i < secAnswers.length; ++i) {
+      AnswerModel ans = AnswerModel((b)=>b
+        ..answer_body =secAnswers[i]
+        ..questionnaire_id= questions[i].questionnaire_id
+        ..question_id=questions[i].id);
+
+      answerList.add(ans);
+
+    }
+
+    return answerList;
+  }
+
+  void saveSummary(BuildContext context, List<String> secAnswers,  BuiltList<QuestionModel> questions, int questionnaireId){
+    List<AnswerModel> answerList= buildAnswerToSave(secAnswers, questions);
+    SummaryModel summary = SummaryModel((b)=>b
+        ..questionnaire_id=questionnaireId
+        ..authors=authorsController.text
+        ..title =titleController.text
+        ..description = ""
+        ..summary_type =widget.type
+        ..year = yearController.text
+
+    );
+
+    requestSaveNewSummary(context, summary, answerList).then((saved){
+      if (saved) {
+        Navigator.of(context).popAndPushNamed('/home');
+      }
+    }).catchError((error){
+      print(error);
+    });
+  }
+
 }
 
 typedef Null ValueChangeCallback(String value);

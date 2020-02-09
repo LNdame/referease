@@ -225,7 +225,6 @@ class _EditSourceState extends State<EditSource> {
 
   Widget _buildOtherFields() {
     if (widget.sourceTypeName == SourceTypeName.book) {
-      Book book = (widget.aSource as Book);
 
       yearController.text = widget.aSource.year;
       pagesController.text = widget.aSource.pages;
@@ -478,6 +477,7 @@ class _EditSourceState extends State<EditSource> {
     if (widget.sourceTypeName == SourceTypeName.book) {
       sourceModel = SourceModel((b) =>
       b
+        ..id= widget.aSource.id
         ..authors = authorsController.text
         ..city = cityController.text
         ..title = titleController.text
@@ -493,6 +493,7 @@ class _EditSourceState extends State<EditSource> {
     } else if (widget.sourceTypeName == SourceTypeName.conference_proceeding) {
       sourceModel = SourceModel((b) =>
       b
+        ..id= widget.aSource.id
         ..authors = authorsController.text
         ..city = cityController.text
         ..title = titleController.text
@@ -508,6 +509,7 @@ class _EditSourceState extends State<EditSource> {
     } else if (widget.sourceTypeName == SourceTypeName.journal_article) {
       sourceModel = SourceModel((b) =>
       b
+        ..id= widget.aSource.id
         ..authors = authorsController.text
         ..title = titleController.text
         ..journal = journalController.text
@@ -523,6 +525,7 @@ class _EditSourceState extends State<EditSource> {
     } else if (widget.sourceTypeName == SourceTypeName.web) {
       sourceModel = SourceModel((b) =>
       b
+        ..id= widget.aSource.id
         ..authors = authorsController.text
         ..city = cityController.text
         ..title = titleController.text

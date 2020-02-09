@@ -9,6 +9,10 @@ import 'package:referease/uipage/pages/summary_page.dart';
 import 'package:referease/uiutility/colors.dart';
 
 class MainScreen extends StatefulWidget {
+  final pageChange ;
+
+  const MainScreen({Key key, this.pageChange}) : super(key: key);
+
   @override
   _MainScreenState createState() {
     return new _MainScreenState();

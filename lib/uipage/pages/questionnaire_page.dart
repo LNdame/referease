@@ -4,49 +4,45 @@ import 'package:referease/commonwidget/flexiblespacecustom.dart';
 import 'package:referease/data/api_functions/questionnaire/request_questionnaire_api.dart';
 import 'package:referease/model/questionnaire.dart';
 import 'package:referease/uipage/widgets/questionnaire_list.dart';
-import 'package:referease/uiutility/colors.dart';
-import 'package:referease/uipage/widgets/questionnaire_card.dart' as card;
 import 'package:built_collection/built_collection.dart';
-
 
 class QuestionnairePage extends StatefulWidget {
   @override
   _QuestionnairePageState createState() => _QuestionnairePageState();
 }
 
+class _QuestionnairePageState extends State<QuestionnairePage>
+    with SingleTickerProviderStateMixin {
+  TabController controller;
+  @override
+  void initState() {
+    super.initState();
+  }
 
-class _QuestionnairePageState extends State<QuestionnairePage> with SingleTickerProviderStateMixin {
-
-TabController controller;
-@override
-void initState() {
-  super.initState();
-
-}
-
-@override
-void dispose() {
-  controller.dispose();
-  super.dispose();
-}
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-       return new Scaffold(
-        body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled ){
-            return  <Widget>[
-              SliverAppBar(
-                  expandedHeight: 150.0,
-                  floating: false,
-                  pinned: true,
-                  flexibleSpace:FlexibleSpaceBarCustom(title: "Questionnaires",pageId: 3,)
-              ),
-            ];
-          },
-          body: buildQuestionnaireList(context),
-
-        ),
+    return new Scaffold(
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+                expandedHeight: 150.0,
+                floating: false,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBarCustom(
+                  title: "Questionnaires",
+                  pageId: 3,
+                )),
+          ];
+        },
+        body: buildQuestionnaireList(context),
+      ),
     );
   }
 }

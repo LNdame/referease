@@ -1,34 +1,29 @@
 import 'package:chopper/chopper.dart';
-import 'package:chopper/chopper.dart' as prefix0;
+import 'package:referease/model/user_model.dart';
 import 'dart:async';
+import 'built_value_converter.dart';
 import 'server_settings.dart';
-
-
 part 'profile_api_service.chopper.dart';
 
 @ChopperApi(baseUrl: "/user_profile")
 abstract class ProfileApiService extends ChopperService {
-  @Put(headers: {'Content-Type':'application/json'})
-  Future<Response>profileRequest(@Header('Authorization') String bearer, @Body() Map<String, dynamic>body);
-
+  @Put(headers: {'Content-Type': 'application/json'})
+  Future<Response<UserModel>> profileRequest(
+      @Header('Authorization') String bearer, @Body() UserModel body);
   @Get()
-  Future<Response> profileDetailsRequest(
+  Future<Response<UserModel>> profileDetailsRequest(
       @Header('Authorization') String bearer);
 
-
-
   static ProfileApiService create() {
-    final client = ChopperClient(baseUrl: serverBaseUrl,
-    services: [
-     _$ProfileApiService(),
-    ],
-    converter: JsonConverter(),
-    interceptors: [
-      HeadersInterceptor({'Cache-Control':'no-cache'}),
-       HttpLoggingInterceptor(),
-    ]
-    );
+    final client = ChopperClient(
+        baseUrl: serverBaseUrl,
+        services: [
+          _$ProfileApiService(),
+        ],
+        converter: BuiltValueConverter(),
+        interceptors: [
+          HttpLoggingInterceptor(),
+        ]);
     return _$ProfileApiService(client);
   }
-
 }

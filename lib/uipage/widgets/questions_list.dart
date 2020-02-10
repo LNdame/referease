@@ -36,63 +36,19 @@ class _QuestionsList extends State<QuestionsList> {
         elevation: 0.0,
         brightness: Brightness.light,
         backgroundColor: kReferSurfaceWhite,
+        title: titleWidget(widget.title, widget.authors),
         leading: BackButton(
           color: kReferAccent,
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            height: 90,
-            child: Card(
-               elevation: 1,
-               child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          child: Text(
-                            "Tittle: ${widget.title}",
-                            textAlign: TextAlign.justify,
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: true,
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold),
-                          ),
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Text("Authors: ${widget.authors}",
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold))
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
+      body: Container( 
+          decoration: BoxDecoration(
+            image:DecorationImage(
+              image: AssetImage("assets/images/doodlebg.jpg"),
+              fit: BoxFit.cover,
+            )
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                child:
-                    SizedBox(height: 400.0, child: buildQuestionsList(context)),
-              ),
-            ],
-          )
-        ], //children
-      ),
+          child: buildQuestionsList(context)),
       floatingActionButton: FancyButton(
           icon: Icons.add_box,
           inst: "Start A summary",
@@ -184,5 +140,30 @@ class _QuestionsList extends State<QuestionsList> {
     } else {
       return "discuss";
     }
+  }
+
+  Widget titleWidget(String title, String authors){
+    return Container(
+      height: 50,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(top:5.0,bottom: 5.0),
+            child: Text(
+              "Tittle: $title",
+              textAlign: TextAlign.justify,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+              style: TextStyle(
+                  fontSize: 15, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Text("Authors: $authors",
+              style: TextStyle(
+                  fontSize: 15, fontWeight: FontWeight.bold))
+        ],
+      ),
+    );
   }
 }

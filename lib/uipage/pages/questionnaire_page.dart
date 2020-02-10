@@ -41,7 +41,13 @@ class _QuestionnairePageState extends State<QuestionnairePage>
                 )),
           ];
         },
-        body: buildQuestionnaireList(context),
+        body: Container(decoration:  BoxDecoration(
+            image:DecorationImage(
+              image: AssetImage("assets/images/doodlebg.jpg"),
+              fit: BoxFit.cover,
+            )
+        ),
+            child: buildQuestionnaireList(context)),
       ),
     );
   }

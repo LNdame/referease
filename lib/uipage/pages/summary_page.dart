@@ -31,7 +31,13 @@ class _SummaryPageState extends State<SummaryPage> {
                 )),
           ];
         },
-        body: buildSummaryList(context),
+        body: Container(decoration:  BoxDecoration(
+            image:DecorationImage(
+              image: AssetImage("assets/images/doodlebg.jpg"),
+              fit: BoxFit.cover,
+            )
+        ),
+            child: buildSummaryList(context)),
       ), //buildSummaryList(context),
       floatingActionButton: FancyButton(
         icon: Icons.add_box,

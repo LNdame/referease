@@ -63,219 +63,227 @@ class UserProfileState extends State<UserProfile> {
     // TODO: implement build
     return Scaffold(
       resizeToAvoidBottomPadding: true,
-      body: Form(
-        key: _formKey,
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            // ProfileBackground(),
-            Center(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Text(
-                          'About me',
-                          style: TextStyle(
-                              fontSize: 40.0, fontWeight: FontWeight.bold),
-                        ),
+      body: Container(
+        decoration:  BoxDecoration(
+            image:DecorationImage(
+              image: AssetImage("assets/images/doodlebg.jpg"),
+              fit: BoxFit.cover,
+            )
+        ),
+        child: Form(
+          key: _formKey,
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              // ProfileBackground(),
+              Center(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            'About me',
+                            style: TextStyle(
+                                fontSize: 40.0, fontWeight: FontWeight.bold),
+                          ),
 
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
-                        TextFormField(
-                          validator: (String val) {
-                            if (val.trim().isEmpty) {
-                              return 'Please enter last name';
-                            } else if (val.length < 2) {
-                              return 'Last name must be at least 2 characters';
-                            }
-                          },
-                          controller: lastNameController,
-                          decoration: InputDecoration(
-                              labelText: 'Last Name',
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold,
-                                  color: kReferAltDarkGrey),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: kReferAccent))), //decor
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        TextFormField(
-                          validator: (String val) {
-                            if (val.trim().isEmpty) {
-                              return 'Please first name';
-                            } else if (val.length < 3) {
-                              return 'First name must be at least 2 characters';
-                            }
-                          },
-                          controller: firstNameController,
-                          decoration: InputDecoration(
-                              labelText: 'First Name',
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold,
-                                  color: kReferAltDarkGrey),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: kReferAccent))), //decor
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        TextFormField(
-                          validator: (String val) {
-                            if (val.trim().isEmpty) {
-                              return 'Please enter level of study';
-                            } else if (val.length < 3) {
-                              return 'Level of must be at least 3 characters';
-                            }
-                          },
-                          controller: studyLevelController,
-                          decoration: InputDecoration(
-                              labelText: 'Level of Study',
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold,
-                                  color: kReferAltDarkGrey),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: kReferAccent))), //decor
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        TextFormField(
-                          validator: (String val) {
-                            if (val.trim().isEmpty) {
-                              return 'Please enter institution';
-                            } else if (val.length < 2) {
-                              return 'Institution must be at least 2 characters';
-                            }
-                          },
-                          controller: instController,
-                          decoration: InputDecoration(
-                              labelText: 'Institution',
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold,
-                                  color: kReferAltDarkGrey),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: kReferAccent))), //decor
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        TextFormField(
-                          validator: (String val) {
-                            if (val.trim().isEmpty) {
-                              return 'Please enter faculty';
-                            } else if (val.length < 3) {
-                              return 'Faculty must be at least 2 characters';
-                            }
-                          },
-                          controller: facultyController,
-                          decoration: InputDecoration(
-                              labelText: 'Faculty',
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold,
-                                  color: kReferAltDarkGrey),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: kReferAccent))), //decor
-                        ),
-                      ], //widget
-                    ),
-                    SizedBox(
-                      height: 60.0,
-                    ),
-                    Container(
-                      height: 40.0,
-                      color: Colors.transparent,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Theme.of(context).accentColor,
-                                style: BorderStyle.solid,
-                                width: 1.0),
-                            color: Theme.of(context).accentColor,
-                            borderRadius: BorderRadius.circular(20.0)),
-                        child: InkWell(
-                          onTap: () {
-                            if (_formKey.currentState.validate()) {
-                              var lastName = lastNameController.text;
-                              var firstName = firstNameController.text;
-                              var levelStudy = studyLevelController.text;
-                              var institution = instController.text;
-                              var faculty = facultyController.text;
-
-                              profileRequest(context, lastName, firstName,
-                                      levelStudy, institution, faculty)
-                                  .then((onValue) {
-                                Fluttertoast.showToast(
-                                    msg: "Your profile has been updated",
-                                    toastLength: Toast.LENGTH_LONG,
-                                    gravity: ToastGravity.CENTER,
-                                    timeInSecForIos: 2,
-                                    backgroundColor: kReferAccentDark,
-                                    textColor: Colors.white);
-                              });
-                            }
-                          },
-                          child: Center(
-                            child: Text('Save',
-                                style: TextStyle(
+                          TextFormField(
+                            validator: (String val) {
+                              if (val.trim().isEmpty) {
+                                return 'Please enter last name';
+                              } else if (val.length < 2) {
+                                return 'Last name must be at least 2 characters';
+                              }
+                            },
+                            controller: lastNameController,
+                            decoration: InputDecoration(
+                                labelText: 'Last Name',
+                                labelStyle: TextStyle(
+                                    fontFamily: 'Montserrat',
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: 'Montserrat')),
+                                    color: kReferAltDarkGrey),
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: kReferAccent))), //decor
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          TextFormField(
+                            validator: (String val) {
+                              if (val.trim().isEmpty) {
+                                return 'Please first name';
+                              } else if (val.length < 3) {
+                                return 'First name must be at least 2 characters';
+                              }
+                            },
+                            controller: firstNameController,
+                            decoration: InputDecoration(
+                                labelText: 'First Name',
+                                labelStyle: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontWeight: FontWeight.bold,
+                                    color: kReferAltDarkGrey),
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: kReferAccent))), //decor
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          TextFormField(
+                            validator: (String val) {
+                              if (val.trim().isEmpty) {
+                                return 'Please enter level of study';
+                              } else if (val.length < 3) {
+                                return 'Level of must be at least 3 characters';
+                              }
+                            },
+                            controller: studyLevelController,
+                            decoration: InputDecoration(
+                                labelText: 'Level of Study',
+                                labelStyle: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontWeight: FontWeight.bold,
+                                    color: kReferAltDarkGrey),
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: kReferAccent))), //decor
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          TextFormField(
+                            validator: (String val) {
+                              if (val.trim().isEmpty) {
+                                return 'Please enter institution';
+                              } else if (val.length < 2) {
+                                return 'Institution must be at least 2 characters';
+                              }
+                            },
+                            controller: instController,
+                            decoration: InputDecoration(
+                                labelText: 'Institution',
+                                labelStyle: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontWeight: FontWeight.bold,
+                                    color: kReferAltDarkGrey),
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: kReferAccent))), //decor
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          TextFormField(
+                            validator: (String val) {
+                              if (val.trim().isEmpty) {
+                                return 'Please enter faculty';
+                              } else if (val.length < 3) {
+                                return 'Faculty must be at least 2 characters';
+                              }
+                            },
+                            controller: facultyController,
+                            decoration: InputDecoration(
+                                labelText: 'Faculty',
+                                labelStyle: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontWeight: FontWeight.bold,
+                                    color: kReferAltDarkGrey),
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: kReferAccent))), //decor
+                          ),
+                        ], //widget
+                      ),
+                      SizedBox(
+                        height: 60.0,
+                      ),
+                      Container(
+                        height: 40.0,
+                        color: Colors.transparent,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Theme.of(context).accentColor,
+                                  style: BorderStyle.solid,
+                                  width: 1.0),
+                              color: Theme.of(context).accentColor,
+                              borderRadius: BorderRadius.circular(20.0)),
+                          child: InkWell(
+                            onTap: () {
+                              if (_formKey.currentState.validate()) {
+                                var lastName = lastNameController.text;
+                                var firstName = firstNameController.text;
+                                var levelStudy = studyLevelController.text;
+                                var institution = instController.text;
+                                var faculty = facultyController.text;
+
+                                profileRequest(context, lastName, firstName,
+                                        levelStudy, institution, faculty)
+                                    .then((onValue) {
+                                  Fluttertoast.showToast(
+                                      msg: "Your profile has been updated",
+                                      toastLength: Toast.LENGTH_LONG,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIos: 2,
+                                      backgroundColor: kReferAccentDark,
+                                      textColor: Colors.white);
+                                });
+                              }
+                            },
+                            child: Center(
+                              child: Text('Save',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Montserrat')),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 24.0,
-                    ),
-                    Container(
-                      height: 40.0,
-                      color: Colors.transparent,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Colors.black,
-                                style: BorderStyle.solid,
-                                width: 1.0),
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(20.0)),
-                        child: InkWell(
-                          onTap: () {
-                            logoutRequest(context);
-                          },
-                          child: Center(
-                            child: Text('Sign out',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Montserrat')),
+                      SizedBox(
+                        height: 24.0,
+                      ),
+                      Container(
+                        height: 40.0,
+                        color: Colors.transparent,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.black,
+                                  style: BorderStyle.solid,
+                                  width: 1.0),
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(20.0)),
+                          child: InkWell(
+                            onTap: () {
+                              logoutRequest(context);
+                            },
+                            child: Center(
+                              child: Text('Sign out',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Montserrat')),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ], //widgets
-                ), //column
+                    ], //widgets
+                  ), //column
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     ); //scaffold

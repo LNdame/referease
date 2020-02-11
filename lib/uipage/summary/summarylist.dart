@@ -487,9 +487,9 @@ class SummaryListView extends StatelessWidget{
                       children: <Widget>[
                         IconButton(
                           onPressed: (){
-                            Navigator.of(context).push(new MaterialPageRoute(builder: (context)=>
+                          /*  Navigator.of(context).push(new MaterialPageRoute(builder: (context)=>
                                 SummaryEdit(type:type, summary:aSummary, documentSnapshot: documents[index],)));
-
+*/
                            /* final snackBar = SnackBar(content: Text("This functionality is not yet implemented" ,
                               style: TextStyle(color: kReferErrorRed),),);
                             Scaffold.of(context).showSnackBar(snackBar);*/

@@ -7,6 +7,7 @@ part of 'serializers.dart';
 // **************************************************************************
 
 Serializers _$serializers = (new Serializers().toBuilder()
+      ..add(AnswerModel.serializer)
       ..add(QuestionModel.serializer)
       ..add(Questionnaire.serializer)
       ..add(SourceModel.serializer)

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:referease/data/answer_api_service.dart';
 import 'package:referease/data/api_functions/request_login_api.dart';
 import 'package:referease/data/api_functions/request_refresh_token_api.dart';
 import 'package:referease/data/source_type_api_service.dart';
+import 'package:referease/model/answer_model.dart';
 import 'package:referease/uiutility/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -101,10 +103,20 @@ class _TestPageState extends State<TestPage> {
                     //onPressed: ()=>_signIn().then((FirebaseUser user)=>print(user)),
                     onPressed: () async {
                      // requestLoginAPI(context, "ansteph09@gmail.com", "pass1234");
-                        requestRefreshToken(context);
-//                      final response = await Provider.of<SourceTypeApiService>(context).getSourceTypes();
+                      //  requestRefreshToken(context);
+                        var accessToken = await requestRefreshToken(context);
+                        String bearer = "Bearer $accessToken";
+                        AnswerModel answerMod = AnswerModel(
+                                (b)=>b
+                              ..answer_body="Answer"
+                              ..questionnaire_id=1
+                              ..question_id=3
+                              ..reading_summary_id=4
+                        );
+
+                  final response = await Provider.of<AnswerApiService>(context).addAnswer(bearer, answerMod);
 //
-//                    print(response.body);
+                   print(response.body);
 //
 //                      //final responseST = await Provider.of<SourceTypeApiService>(context).getSourceType("reflect");
 //                      final responseST = await Provider.of<SourceTypeApiService>(context).getSourceTypes();

@@ -9,6 +9,10 @@ import 'package:referease/uipage/pages/summary_page.dart';
 import 'package:referease/uiutility/colors.dart';
 
 class MainScreen extends StatefulWidget {
+  final pageChange ;
+
+  const MainScreen({Key key, this.pageChange}) : super(key: key);
+
   @override
   _MainScreenState createState() {
     return new _MainScreenState();
@@ -33,7 +37,12 @@ class _MainScreenState extends State<MainScreen> {
     sourcePage = new SourcePage();
     summaryPage = new SummaryPage();
     pages = [summaryPage, sourcePage, questionnairePage, profilePage];
-    currentPage = summaryPage;
+    if(widget.pageChange!=null){
+      currentPage = widget.pageChange;
+    }else{
+      currentPage = summaryPage;
+    }
+
     profileDetailsRequest(context).then((onValue) {
       final UserModel user = onValue.body;
       if (user.first_name == "" && user.last_name == "") {

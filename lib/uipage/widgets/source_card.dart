@@ -86,12 +86,12 @@ class SourceCard extends StatelessWidget {
                       onSelected: (option){
                         Source aSource = getBareSource(source);
                         if(option==Constants.havard){
-                          print(" ${aSource.toHarvard()}");
+                        //  print(" ${aSource.toHarvard()}");
                           openReferenceView(context, aSource.toHarvard(), "Havard");
                           //  Share.share(" ${abook.toHarvard()}");
                         }else if(option == Constants.apa){
                           openReferenceView(context, aSource.toApa(), "APA");
-                          print(" ${aSource.toApa()}");
+                         // print(" ${aSource.toApa()}");
                           //  Share.share(" ${abook.toApa()}"); //it works on actual device
                         }
 

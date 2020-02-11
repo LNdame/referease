@@ -1,3 +1,4 @@
+import 'package:built_value/built_value.dart';
 import 'package:chopper/chopper.dart';
 import 'package:built_collection/built_collection.dart';
 import 'dart:async';
@@ -18,6 +19,9 @@ abstract class QuestionnairesApiService extends ChopperService {
   //This will be beneficial when we implement favorites questionnaires
   @Get(headers:{'Content-Type':'application/json'}, path: 'questionnaire/{id}')
   Future<Response> getQuestionnaire(@Path('id') int id);
+
+  @Get(headers:{'Content-Type':'application/json'}, path: 'questions/{id}')
+  Future<Response<BuiltList<QuestionModel>>> getQuestionList(@Path('id') int id);
 
   static QuestionnairesApiService create(){
   final client =ChopperClient(baseUrl: serverBaseUrl,

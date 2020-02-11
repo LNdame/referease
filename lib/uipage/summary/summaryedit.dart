@@ -1,25 +1,35 @@
 
+import 'dart:async';
+
+import 'package:chopper/chopper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:referease/data/api_functions/answer/request_answers_api.dart';
+import 'package:referease/data/api_functions/questionnaire/request_question_list.dart';
+import 'package:referease/data/api_functions/summary/request_update_summary.dart';
+import 'package:referease/model/answer_model.dart';
 import 'package:referease/model/question.dart';
+import 'package:referease/model/question_model.dart';
 import 'package:referease/model/questionsrepo.dart';
 import 'package:referease/model/summary.dart';
+import 'package:referease/model/summary_model.dart';
 import 'package:referease/uipage/search/help.dart';
 import 'package:referease/uiutility/colors.dart';
 import 'package:referease/uiutility/reusable.dart';
+import 'package:built_collection/built_collection.dart';
 
 
 class SummaryEdit extends StatefulWidget{
 
 
   final String type;
-  DocumentSnapshot documentSnapshot;
 
-  final Summary summary;
-
-  SummaryEdit({Key key, this.type,this.summary, this.documentSnapshot}): assert(type!=null), super(key:key);
+  final SummaryModel summary;
+final BuiltList<QuestionModel> questions;
+  final BuiltList<AnswerModel> answers;
+  SummaryEdit({Key key, this.type,this.summary, this.questions, this.answers, }):  super(key:key);
 
   @override
   _SummaryEditState createState() => _SummaryEditState();
@@ -29,13 +39,14 @@ class SummaryEdit extends StatefulWidget{
 class _SummaryEditState extends State<SummaryEdit> {
 
 
-  List <Question> sectionQuestions;
+  BuiltList<QuestionModel> sectionQuestions;
   List <String> sectionQuestionsAns;
   int questionPosition;
 
   TextEditingController titleController ;
   TextEditingController authorsController ;
   TextEditingController yearController ;
+  //BuiltList<AnswerModel> answers;
 
   FirebaseUser _currentUser;
 
@@ -43,7 +54,7 @@ class _SummaryEditState extends State<SummaryEdit> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     getUserData();
     titleController= TextEditingController();
     authorsController= TextEditingController();
@@ -52,26 +63,47 @@ class _SummaryEditState extends State<SummaryEdit> {
     titleController.text= widget.summary.title;
     authorsController.text= widget.summary.authors;
     yearController.text= widget.summary.year;
-
-
-    if(widget.type =="reflect"){
+    sectionQuestionsAns = [];
+    widget.answers.forEach((ans)=>sectionQuestionsAns.add(ans.answer_body));
+    sectionQuestions = widget.questions;
+   // _getAnswer(widget.summary.id);
+   // _getQuestions(widget.summary.questionnaire_id);
+    /*if(widget.type =="reflect"){
       sectionQuestions = QuestionRepository.loadQuestions(QuestionType.reflect);
     }else if (widget.type =="discuss"){
       sectionQuestions = QuestionRepository.loadQuestions(QuestionType.discuss);
-    }
+    }*/
 
-    sectionQuestionsAns = new List(sectionQuestions.length);
-    sectionQuestionsAns = widget.summary.answers;
+   // sectionQuestionsAns = new List(sectionQuestions.length);
+
+   // sectionQuestionsAns = widget.summary.answers;
     questionPosition=0;
+
     setState(() {
 
     });
 
+  }
 
+
+  void _getAnswer( int summaryId)async{
+   Response<BuiltList<AnswerModel>> answersResponse = await requestAnswers(context, summaryId);
+     if (answersResponse.statusCode==200){
+      // answers = answersResponse.body;
+     //  sectionQuestionsAns = new List(answers.length);
+    ///   answers.forEach((ans)=>sectionQuestionsAns.add(ans.answer_body));
+     }
+  }
+
+  void _getQuestions( int questionnaireId)async{
+    Response<BuiltList<QuestionModel>> questionsResponse = await requestQuestionsList(context, questionnaireId);
+    if(questionsResponse.statusCode==200){
+      sectionQuestions = questionsResponse.body;
+
+    }
 
 
   }
-
 
   getUserData() async{
     _currentUser = await FirebaseAuth.instance.currentUser();
@@ -343,13 +375,13 @@ class _SummaryEditState extends State<SummaryEdit> {
                 ),
                   child: // _buildPageElement()[questionPosition],
                   new QuestionView(question: sectionQuestions[questionPosition],
+                    position: questionPosition,
                     answer: sectionQuestionsAns[questionPosition],
                     onValueChanged: (value){
                       sectionQuestionsAns[questionPosition] = value;
                       print("value: ${sectionQuestionsAns[questionPosition]}");
                     },
                     total: sectionQuestions.length,),
-
 
                 )
               ],//column children
@@ -361,38 +393,8 @@ class _SummaryEditState extends State<SummaryEdit> {
 
       floatingActionButton: FloatingActionButton(child: Icon(Icons.save),
           onPressed: (){
-
-
-            if(widget.documentSnapshot!=null){
-              var value;
-              Firestore.instance.runTransaction((Transaction trans) async{
-
-                await trans.update(widget.documentSnapshot.reference, {
-                  'title' : titleController.text,
-                  'authors':authorsController.text,
-                  'year':yearController.text,
-                  'answers': sectionQuestionsAns,
-                  'uid':_currentUser.uid,
-                  });
-
-              });
-
-              Fluttertoast.showToast(msg: "The summary has been updated" ,
-                  toastLength: Toast.LENGTH_LONG,
-                  gravity: ToastGravity.CENTER,
-                  timeInSecForIos: 2,
-                  backgroundColor: kReferAccent,
-                  textColor: Colors.white
-              );
-
-            }
-
-
-
-
-
-
-          }),//onpress
+            updateSummary(context, widget.summary, sectionQuestionsAns);
+          }),
 
       bottomNavigationBar: BottomAppBar( elevation: 8.0,
 
@@ -435,8 +437,45 @@ class _SummaryEditState extends State<SummaryEdit> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
-
     );//scaffold
+  }
+
+
+  List<AnswerModel> buildAnswerToUpdate(List<String> secAnswers,
+      BuiltList<AnswerModel>answers, int summaryId) {
+    List<AnswerModel> answerList = new List();
+    for (var i = 0; i < secAnswers.length; ++i) {
+      AnswerModel ans = answers[i].rebuild((b) =>
+      b
+        ..answer_body = secAnswers[i]
+        ..reading_summary_id = summaryId
+      );
+
+      answerList.add(ans);
+    }
+
+    return answerList;
+  }
+
+  void updateSummary(BuildContext context,SummaryModel summary, List<String> secAnswers){
+    List<AnswerModel> answerList= buildAnswerToUpdate(secAnswers, widget.answers, summary.id);
+     summary = summary.rebuild((b)=>
+     b
+      ..authors=authorsController.text
+      ..title =titleController.text
+      ..description = ""
+      ..summary_type ="Discuss"
+      ..year = yearController.text
+
+    );
+
+    requestUpdateSummaryCom(context, summary, answerList).then((saved){
+      if (saved) {
+        Navigator.of(context).popAndPushNamed('/home');
+      }
+    }).catchError((error){
+      print(error);
+    });
   }
 }
 
@@ -446,11 +485,13 @@ typedef Null ValueChangeCallback(String value);
 class QuestionView extends StatefulWidget{
 
   final int total;
-  final Question question;
+  final int position;
+  final dynamic question;
+  //final Quest question;
   final String answer;
   final ValueChangeCallback onValueChanged;
 
-  QuestionView({this.total, this.onValueChanged, this.question, this.answer});
+  QuestionView({this.total, this.onValueChanged, this.question, this.answer, this.position});
 
   @override
   QuestionViewState createState() => new QuestionViewState();
@@ -464,7 +505,7 @@ class QuestionViewState extends State<QuestionView> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     answerController= TextEditingController();
 
@@ -505,7 +546,7 @@ class QuestionViewState extends State<QuestionView> {
         Expanded(
           flex: 1,
           child: Text(
-            'Question ${widget.question.id} of ${widget.total}: ${widget.question.questionDesc}',
+            'Question ${widget.position + 1} of  ${widget.total}: ${widget.question.question_body}',
             style: TextStyle(
                 color: Colors.black,
                 fontSize: 14.0,
@@ -517,11 +558,11 @@ class QuestionViewState extends State<QuestionView> {
         SizedBox(height: 24.0,),
 
         Expanded(
-          flex: 9,
+          flex: 2,
           child: Container(
             child: TextField(
               controller: answerController,
-              maxLines: 7,
+              maxLines: 15,
               decoration: InputDecoration(hintText: 'Comments',  ),
             ),
           ),

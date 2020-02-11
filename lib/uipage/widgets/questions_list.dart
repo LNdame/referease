@@ -2,25 +2,27 @@ import 'dart:convert';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:referease/commonwidget/fancybutton.dart';
+import 'package:referease/data/api_functions/questionnaire/request_question_list.dart';
 import 'package:referease/data/api_functions/questionnaire/request_questions.dart';
+import 'package:referease/model/question_model.dart';
 import 'package:referease/uipage/summary/summarydetail.dart';
 import 'package:referease/uiutility/colors.dart';
-
+import 'package:built_collection/built_collection.dart';
 class QuestionsList extends StatefulWidget {
   @override
   _QuestionsList createState() => _QuestionsList();
 
-  final int id;
+  final int questionnaireId;
   final String authors;
   final String title;
   final int questionnaire_type_id;
 
   QuestionsList(
-      {this.id, this.authors, this.title, this.questionnaire_type_id});
+      {this.questionnaireId, this.authors, this.title, this.questionnaire_type_id});
 }
 
 class _QuestionsList extends State<QuestionsList> {
-  dynamic questionDetails;
+  BuiltList<QuestionModel> questionDetails;
 
   @override
   void initState() {
@@ -34,63 +36,19 @@ class _QuestionsList extends State<QuestionsList> {
         elevation: 0.0,
         brightness: Brightness.light,
         backgroundColor: kReferSurfaceWhite,
+        title: titleWidget(widget.title, widget.authors),
         leading: BackButton(
           color: kReferAccent,
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            height: 90,
-            child: Card(
-               elevation: 1,
-               child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          child: Text(
-                            "Tittle: ${widget.title}",
-                            textAlign: TextAlign.justify,
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: true,
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold),
-                          ),
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Text("Authors: ${widget.authors}",
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold))
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
+      body: Container( 
+          decoration: BoxDecoration(
+            image:DecorationImage(
+              image: AssetImage("assets/images/doodlebg.jpg"),
+              fit: BoxFit.cover,
+            )
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                child:
-                    SizedBox(height: 400.0, child: buildQuestionsList(context)),
-              ),
-            ],
-          )
-        ], //children
-      ),
+          child: buildQuestionsList(context)),
       floatingActionButton: FancyButton(
           icon: Icons.add_box,
           inst: "Start A summary",
@@ -99,15 +57,16 @@ class _QuestionsList extends State<QuestionsList> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => SummaryDetail(
-                        body: questionDetails,
+                      questionnaireId: widget.questionnaireId,
+                        questions: questionDetails,
                         type: getTypeName(widget.questionnaire_type_id))));
           }),
     );
   }
 
-  FutureBuilder<Response> buildQuestionsList(BuildContext context) {
-    return FutureBuilder<Response>(
-      future: requestQuestions(context, widget.id),
+  FutureBuilder<Response<BuiltList<QuestionModel>>> buildQuestionsList(BuildContext context) {
+    return FutureBuilder<Response<BuiltList<QuestionModel>>>(
+      future: requestQuestionsList(context, widget.questionnaireId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
@@ -119,8 +78,8 @@ class _QuestionsList extends State<QuestionsList> {
               ),
             );
           }
-          final questionnaire = snapshot.data.body;
-          questionDetails = questionnaire['questions'];
+
+          questionDetails =  snapshot.data.body;
 
           return _buildQuestions(context, questionDetails);
         } else {
@@ -132,7 +91,7 @@ class _QuestionsList extends State<QuestionsList> {
     );
   }
 
-  ListView _buildQuestions(BuildContext context, dynamic questionnaires) {
+  ListView _buildQuestions(BuildContext context, BuiltList<QuestionModel> questionnaires) {
     return ListView.builder(
       itemCount: questionnaires.length,
       padding: EdgeInsets.all(8),
@@ -157,7 +116,7 @@ class _QuestionsList extends State<QuestionsList> {
                         SizedBox(width: 15),
                         Expanded(
                             child: Text(
-                          questionnaires[index]['question_body'],
+                          questionnaires[index].question_body,
                           textAlign: TextAlign.justify,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 4,
@@ -181,5 +140,30 @@ class _QuestionsList extends State<QuestionsList> {
     } else {
       return "discuss";
     }
+  }
+
+  Widget titleWidget(String title, String authors){
+    return Container(
+      height: 50,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(top:5.0,bottom: 5.0),
+            child: Text(
+              "Tittle: $title",
+              textAlign: TextAlign.justify,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+              style: TextStyle(
+                  fontSize: 15, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Text("Authors: $authors",
+              style: TextStyle(
+                  fontSize: 15, fontWeight: FontWeight.bold))
+        ],
+      ),
+    );
   }
 }

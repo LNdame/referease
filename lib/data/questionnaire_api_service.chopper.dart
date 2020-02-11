@@ -27,4 +27,11 @@ class _$QuestionnairesApiService extends QuestionnairesApiService {
     final $request = Request('GET', $url, client.baseUrl, headers: $headers);
     return client.send<dynamic, dynamic>($request);
   }
+
+  Future<Response<BuiltList<QuestionModel>>> getQuestionList(int id) {
+    final $url = '/questions/${id}';
+    final $headers = {'Content-Type': 'application/json'};
+    final $request = Request('GET', $url, client.baseUrl, headers: $headers);
+    return client.send<BuiltList<QuestionModel>, QuestionModel>($request);
+  }
 }

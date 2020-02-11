@@ -1,4 +1,6 @@
 
+import 'dart:math';
+
 enum SourceType{book, conference_proceeding, journal_article, web}
 
 abstract class Source {
@@ -210,13 +212,18 @@ String formatAuthor(String author){
     nameComp+=name[0];
   }
 
-  if(name[1].isNotEmpty){
-    nameComp+=", ${name[1].trim().substring(0,1).toUpperCase()}.";
+  try{
+    if(name[1]!=null && name[1].isNotEmpty){
+      nameComp+=", ${name[1].trim().substring(0,1).toUpperCase()}.";
+    }
+  } on RangeError catch (r){
+    print(r.message);
+
+  }on Exception catch (e){
+    print(e);
   }
 
-
   return nameComp;
-
 }
 
 

@@ -31,7 +31,14 @@ class _SourcePageState extends State<SourcePage> {
             ),
           ];
         },
-        body: buildSourceList(context),
+        body: Container(
+            decoration:  BoxDecoration(
+                image:DecorationImage(
+                  image: AssetImage("assets/images/doodlebg.jpg"),
+                  fit: BoxFit.cover,
+                )
+            ),
+            child: buildSourceList(context)),
 
       ),
       floatingActionButton: FancyButton(icon: Icons.add_box,

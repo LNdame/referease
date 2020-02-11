@@ -1,14 +1,17 @@
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:referease/data/api_functions/questionnaire/request_question_list.dart';
 import 'package:referease/data/api_functions/questionnaire/request_questions.dart';
 import 'package:referease/data/questionnaire_api_service.dart';
+import 'package:referease/model/question_model.dart';
 import 'package:referease/model/questionnaire.dart';
 import 'package:referease/uipage/summary/summarydetail.dart';
 import 'package:referease/uipage/widgets/questions_list.dart';
 import 'package:referease/uiutility/colors.dart';
 import 'dart:convert';
 import 'package:provider/provider.dart';
+import 'package:built_collection/built_collection.dart';
 
 class QuestionnaireCard extends StatefulWidget {
   @override
@@ -18,7 +21,7 @@ class QuestionnaireCard extends StatefulWidget {
 }
 
 class _QuestionnaireCardState extends State<QuestionnaireCard> {
-  dynamic questionDetails;
+  BuiltList<QuestionModel> questionDetails;
 
   @override
   void initState() {
@@ -27,9 +30,8 @@ class _QuestionnaireCardState extends State<QuestionnaireCard> {
 
   @override
   Widget build(BuildContext context) {
-    requestQuestions(context, widget.questionnaire.id).then((onValue) {
-      var body = onValue.body;
-      questionDetails = body['questions'];
+    requestQuestionsList(context, widget.questionnaire.id).then((onValue) {
+      questionDetails = onValue.body;
     });
     return Container(
       height: 200,
@@ -99,7 +101,8 @@ class _QuestionnaireCardState extends State<QuestionnaireCard> {
                                 builder: (context) => SummaryDetail(
                                       type: getTypeName(widget
                                           .questionnaire.questionnaire_type_id),
-                                      body: questionDetails,
+                                      questions: questionDetails,
+                                      questionnaireId: widget.questionnaire.id,
                                     )));
                       },
                     ),
@@ -111,7 +114,7 @@ class _QuestionnaireCardState extends State<QuestionnaireCard> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => QuestionsList(
-                                      id: widget.questionnaire.id,
+                                      questionnaireId: widget.questionnaire.id,
                                       authors: widget.questionnaire.authors,
                                       title: widget.questionnaire.title,
                                     )));

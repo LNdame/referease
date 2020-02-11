@@ -49,6 +49,12 @@ class _$SummaryModelSerializer implements StructuredSerializer<SummaryModel> {
         ..add(serializers.serialize(object.summary_type,
             specifiedType: const FullType(String)));
     }
+    if (object.year != null) {
+      result
+        ..add('year')
+        ..add(serializers.serialize(object.year,
+            specifiedType: const FullType(String)));
+    }
     if (object.questionnaire_id != null) {
       result
         ..add('questionnaire_id')
@@ -89,6 +95,10 @@ class _$SummaryModelSerializer implements StructuredSerializer<SummaryModel> {
           result.summary_type = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'year':
+          result.year = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
         case 'questionnaire_id':
           result.questionnaire_id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
@@ -112,6 +122,8 @@ class _$SummaryModel extends SummaryModel {
   @override
   final String summary_type;
   @override
+  final String year;
+  @override
   final int questionnaire_id;
 
   factory _$SummaryModel([void Function(SummaryModelBuilder) updates]) =>
@@ -123,6 +135,7 @@ class _$SummaryModel extends SummaryModel {
       this.title,
       this.description,
       this.summary_type,
+      this.year,
       this.questionnaire_id})
       : super._();
 
@@ -142,6 +155,7 @@ class _$SummaryModel extends SummaryModel {
         title == other.title &&
         description == other.description &&
         summary_type == other.summary_type &&
+        year == other.year &&
         questionnaire_id == other.questionnaire_id;
   }
 
@@ -149,9 +163,13 @@ class _$SummaryModel extends SummaryModel {
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc($jc(0, id.hashCode), authors.hashCode), title.hashCode),
-                description.hashCode),
-            summary_type.hashCode),
+            $jc(
+                $jc(
+                    $jc($jc($jc(0, id.hashCode), authors.hashCode),
+                        title.hashCode),
+                    description.hashCode),
+                summary_type.hashCode),
+            year.hashCode),
         questionnaire_id.hashCode));
   }
 
@@ -163,6 +181,7 @@ class _$SummaryModel extends SummaryModel {
           ..add('title', title)
           ..add('description', description)
           ..add('summary_type', summary_type)
+          ..add('year', year)
           ..add('questionnaire_id', questionnaire_id))
         .toString();
   }
@@ -192,6 +211,10 @@ class SummaryModelBuilder
   String get summary_type => _$this._summary_type;
   set summary_type(String summary_type) => _$this._summary_type = summary_type;
 
+  String _year;
+  String get year => _$this._year;
+  set year(String year) => _$this._year = year;
+
   int _questionnaire_id;
   int get questionnaire_id => _$this._questionnaire_id;
   set questionnaire_id(int questionnaire_id) =>
@@ -206,6 +229,7 @@ class SummaryModelBuilder
       _title = _$v.title;
       _description = _$v.description;
       _summary_type = _$v.summary_type;
+      _year = _$v.year;
       _questionnaire_id = _$v.questionnaire_id;
       _$v = null;
     }
@@ -234,6 +258,7 @@ class SummaryModelBuilder
             title: title,
             description: description,
             summary_type: summary_type,
+            year: year,
             questionnaire_id: questionnaire_id);
     replace(_$result);
     return _$result;

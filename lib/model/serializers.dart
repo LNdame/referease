@@ -1,5 +1,6 @@
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
+import 'package:referease/model/answer_model.dart';
 import 'package:referease/model/source_model.dart';
 import 'package:referease/model/summary_model.dart';
 import 'package:referease/model/user_model.dart';
@@ -11,6 +12,7 @@ import 'package:built_collection/built_collection.dart';
 part 'serializers.g.dart';
 
 @SerializersFor(const [
+  AnswerModel,
   Questionnaire,
   SourceType,
   SourceModel,

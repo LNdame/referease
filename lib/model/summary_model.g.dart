@@ -61,6 +61,13 @@ class _$SummaryModelSerializer implements StructuredSerializer<SummaryModel> {
         ..add(serializers.serialize(object.questionnaire_id,
             specifiedType: const FullType(int)));
     }
+    if (object.answers != null) {
+      result
+        ..add('answers')
+        ..add(serializers.serialize(object.answers,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(AnswerModel)])));
+    }
     return result;
   }
 
@@ -103,6 +110,12 @@ class _$SummaryModelSerializer implements StructuredSerializer<SummaryModel> {
           result.questionnaire_id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
+        case 'answers':
+          result.answers.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(AnswerModel)]))
+              as BuiltList<dynamic>);
+          break;
       }
     }
 
@@ -125,6 +138,8 @@ class _$SummaryModel extends SummaryModel {
   final String year;
   @override
   final int questionnaire_id;
+  @override
+  final BuiltList<AnswerModel> answers;
 
   factory _$SummaryModel([void Function(SummaryModelBuilder) updates]) =>
       (new SummaryModelBuilder()..update(updates)).build();
@@ -136,7 +151,8 @@ class _$SummaryModel extends SummaryModel {
       this.description,
       this.summary_type,
       this.year,
-      this.questionnaire_id})
+      this.questionnaire_id,
+      this.answers})
       : super._();
 
   @override
@@ -156,7 +172,8 @@ class _$SummaryModel extends SummaryModel {
         description == other.description &&
         summary_type == other.summary_type &&
         year == other.year &&
-        questionnaire_id == other.questionnaire_id;
+        questionnaire_id == other.questionnaire_id &&
+        answers == other.answers;
   }
 
   @override
@@ -165,12 +182,14 @@ class _$SummaryModel extends SummaryModel {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, id.hashCode), authors.hashCode),
-                        title.hashCode),
-                    description.hashCode),
-                summary_type.hashCode),
-            year.hashCode),
-        questionnaire_id.hashCode));
+                    $jc(
+                        $jc($jc($jc(0, id.hashCode), authors.hashCode),
+                            title.hashCode),
+                        description.hashCode),
+                    summary_type.hashCode),
+                year.hashCode),
+            questionnaire_id.hashCode),
+        answers.hashCode));
   }
 
   @override
@@ -182,7 +201,8 @@ class _$SummaryModel extends SummaryModel {
           ..add('description', description)
           ..add('summary_type', summary_type)
           ..add('year', year)
-          ..add('questionnaire_id', questionnaire_id))
+          ..add('questionnaire_id', questionnaire_id)
+          ..add('answers', answers))
         .toString();
   }
 }
@@ -220,6 +240,11 @@ class SummaryModelBuilder
   set questionnaire_id(int questionnaire_id) =>
       _$this._questionnaire_id = questionnaire_id;
 
+  ListBuilder<AnswerModel> _answers;
+  ListBuilder<AnswerModel> get answers =>
+      _$this._answers ??= new ListBuilder<AnswerModel>();
+  set answers(ListBuilder<AnswerModel> answers) => _$this._answers = answers;
+
   SummaryModelBuilder();
 
   SummaryModelBuilder get _$this {
@@ -231,6 +256,7 @@ class SummaryModelBuilder
       _summary_type = _$v.summary_type;
       _year = _$v.year;
       _questionnaire_id = _$v.questionnaire_id;
+      _answers = _$v.answers?.toBuilder();
       _$v = null;
     }
     return this;
@@ -251,15 +277,29 @@ class SummaryModelBuilder
 
   @override
   _$SummaryModel build() {
-    final _$result = _$v ??
-        new _$SummaryModel._(
-            id: id,
-            authors: authors,
-            title: title,
-            description: description,
-            summary_type: summary_type,
-            year: year,
-            questionnaire_id: questionnaire_id);
+    _$SummaryModel _$result;
+    try {
+      _$result = _$v ??
+          new _$SummaryModel._(
+              id: id,
+              authors: authors,
+              title: title,
+              description: description,
+              summary_type: summary_type,
+              year: year,
+              questionnaire_id: questionnaire_id,
+              answers: _answers?.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'answers';
+        _answers?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'SummaryModel', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

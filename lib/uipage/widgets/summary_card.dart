@@ -53,9 +53,9 @@ class SummaryCard extends StatelessWidget {
                     Expanded(
                       child: Container(),
                     ),
-                    Text(DateFormat('H:m yyy-MM-dd').format(DateTime.now()))
+                    Text(summary.created_date)
                   ],
-                ), //row
+                ),
                 SizedBox(
                   height: 8.0,
                 ),
@@ -90,9 +90,8 @@ class SummaryCard extends StatelessWidget {
                   height: 8.0,
                 ),
                 Expanded(
-                    child: Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet condimentum facilisis. Sed vel pharetra purus. In a erat vel tellus porta aliquam sed et orci. Integer in enim et arcu ullamcorper ultrices. Donec eu interdum velit. Sed volutpat enim odio. Nulla facilisi. Suspendisse consequat quam",
-                  textAlign: TextAlign.justify,
+                    child: Text( extractResume(summary.answers),
+                   textAlign: TextAlign.justify,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 4,
                   softWrap: true,
@@ -106,7 +105,6 @@ class SummaryCard extends StatelessWidget {
                   children: <Widget>[
                     IconButton(onPressed: () {
                       navigateToSummaryEdit(context, summary);
-                        //  Navigator.of(context).push(new MaterialPageRoute(builder: (context)=>SummaryEdit(summary:summary  ,type: summary.summary_type,)));
                       },
                         icon: Icon(Icons.edit)),
                     SizedBox(
@@ -115,9 +113,9 @@ class SummaryCard extends StatelessWidget {
                     IconButton(onPressed: () {}, icon: Icon(Icons.delete))
                   ],
                 ),
-              ], //children
+              ],
             ),
-          ), //column
+          ),
         ),
       ),
     );
@@ -133,5 +131,11 @@ class SummaryCard extends StatelessWidget {
       Navigator.of(context).push(new MaterialPageRoute(builder: (context)=>SummaryEdit(summary:summary, answers: answersResponse.body,
         questions: questionsResponse.body ,type: summary.summary_type,)));
     }
+  }
+
+  String extractResume(BuiltList<AnswerModel> answers){
+    var buffer =new StringBuffer();
+    answers.forEach((an)=> buffer.write(an.answer_body+" "));
+    return buffer.toString();
   }
 }

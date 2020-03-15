@@ -15,6 +15,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(SummaryModel.serializer)
       ..add(UserModel.serializer)
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(AnswerModel)]),
+          () => new ListBuilder<AnswerModel>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(QuestionModel)]),
           () => new ListBuilder<QuestionModel>()))
     .build();

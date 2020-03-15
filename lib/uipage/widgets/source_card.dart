@@ -49,7 +49,7 @@ class SourceCard extends StatelessWidget {
                     Expanded(
                       child: Container(),
                     ),
-                    Text(DateFormat('H:m yyy-MM-dd').format(DateTime.now())),
+                    Text(source.created_date),
                     SizedBox(
                       width: 18.0,
                     ),

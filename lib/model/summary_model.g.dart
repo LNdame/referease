@@ -55,11 +55,24 @@ class _$SummaryModelSerializer implements StructuredSerializer<SummaryModel> {
         ..add(serializers.serialize(object.year,
             specifiedType: const FullType(String)));
     }
+    if (object.created_date != null) {
+      result
+        ..add('created_date')
+        ..add(serializers.serialize(object.created_date,
+            specifiedType: const FullType(String)));
+    }
     if (object.questionnaire_id != null) {
       result
         ..add('questionnaire_id')
         ..add(serializers.serialize(object.questionnaire_id,
             specifiedType: const FullType(int)));
+    }
+    if (object.answers != null) {
+      result
+        ..add('answers')
+        ..add(serializers.serialize(object.answers,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(AnswerModel)])));
     }
     return result;
   }
@@ -99,9 +112,19 @@ class _$SummaryModelSerializer implements StructuredSerializer<SummaryModel> {
           result.year = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'created_date':
+          result.created_date = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
         case 'questionnaire_id':
           result.questionnaire_id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
+          break;
+        case 'answers':
+          result.answers.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(AnswerModel)]))
+              as BuiltList<dynamic>);
           break;
       }
     }
@@ -124,7 +147,11 @@ class _$SummaryModel extends SummaryModel {
   @override
   final String year;
   @override
+  final String created_date;
+  @override
   final int questionnaire_id;
+  @override
+  final BuiltList<AnswerModel> answers;
 
   factory _$SummaryModel([void Function(SummaryModelBuilder) updates]) =>
       (new SummaryModelBuilder()..update(updates)).build();
@@ -136,7 +163,9 @@ class _$SummaryModel extends SummaryModel {
       this.description,
       this.summary_type,
       this.year,
-      this.questionnaire_id})
+      this.created_date,
+      this.questionnaire_id,
+      this.answers})
       : super._();
 
   @override
@@ -156,7 +185,9 @@ class _$SummaryModel extends SummaryModel {
         description == other.description &&
         summary_type == other.summary_type &&
         year == other.year &&
-        questionnaire_id == other.questionnaire_id;
+        created_date == other.created_date &&
+        questionnaire_id == other.questionnaire_id &&
+        answers == other.answers;
   }
 
   @override
@@ -165,12 +196,16 @@ class _$SummaryModel extends SummaryModel {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, id.hashCode), authors.hashCode),
-                        title.hashCode),
-                    description.hashCode),
-                summary_type.hashCode),
-            year.hashCode),
-        questionnaire_id.hashCode));
+                    $jc(
+                        $jc(
+                            $jc($jc($jc(0, id.hashCode), authors.hashCode),
+                                title.hashCode),
+                            description.hashCode),
+                        summary_type.hashCode),
+                    year.hashCode),
+                created_date.hashCode),
+            questionnaire_id.hashCode),
+        answers.hashCode));
   }
 
   @override
@@ -182,7 +217,9 @@ class _$SummaryModel extends SummaryModel {
           ..add('description', description)
           ..add('summary_type', summary_type)
           ..add('year', year)
-          ..add('questionnaire_id', questionnaire_id))
+          ..add('created_date', created_date)
+          ..add('questionnaire_id', questionnaire_id)
+          ..add('answers', answers))
         .toString();
   }
 }
@@ -215,10 +252,19 @@ class SummaryModelBuilder
   String get year => _$this._year;
   set year(String year) => _$this._year = year;
 
+  String _created_date;
+  String get created_date => _$this._created_date;
+  set created_date(String created_date) => _$this._created_date = created_date;
+
   int _questionnaire_id;
   int get questionnaire_id => _$this._questionnaire_id;
   set questionnaire_id(int questionnaire_id) =>
       _$this._questionnaire_id = questionnaire_id;
+
+  ListBuilder<AnswerModel> _answers;
+  ListBuilder<AnswerModel> get answers =>
+      _$this._answers ??= new ListBuilder<AnswerModel>();
+  set answers(ListBuilder<AnswerModel> answers) => _$this._answers = answers;
 
   SummaryModelBuilder();
 
@@ -230,7 +276,9 @@ class SummaryModelBuilder
       _description = _$v.description;
       _summary_type = _$v.summary_type;
       _year = _$v.year;
+      _created_date = _$v.created_date;
       _questionnaire_id = _$v.questionnaire_id;
+      _answers = _$v.answers?.toBuilder();
       _$v = null;
     }
     return this;
@@ -251,15 +299,30 @@ class SummaryModelBuilder
 
   @override
   _$SummaryModel build() {
-    final _$result = _$v ??
-        new _$SummaryModel._(
-            id: id,
-            authors: authors,
-            title: title,
-            description: description,
-            summary_type: summary_type,
-            year: year,
-            questionnaire_id: questionnaire_id);
+    _$SummaryModel _$result;
+    try {
+      _$result = _$v ??
+          new _$SummaryModel._(
+              id: id,
+              authors: authors,
+              title: title,
+              description: description,
+              summary_type: summary_type,
+              year: year,
+              created_date: created_date,
+              questionnaire_id: questionnaire_id,
+              answers: _answers?.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'answers';
+        _answers?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'SummaryModel', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

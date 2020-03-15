@@ -43,6 +43,7 @@ class SummaryDetailState extends State<SummaryDetail> {
   TextEditingController yearController;
 
   FirebaseUser _currentUser;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -253,79 +254,106 @@ class SummaryDetailState extends State<SummaryDetail> {
                 SizedBox(
                   height: 12.0,
                 ),
-                TextField(
-                  controller: titleController,
-                  decoration: InputDecoration(
-                      labelText: 'Title',
-                      labelStyle: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          color: kReferAltDarkGrey),
-                      // hintText: 'EMAIL',
-                      // hintStyle: ,
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: kReferAccent))),
+                Form(
+                  key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter a title';
+                            }
+                            return null;
+                          },
+                          controller: titleController,
+                          decoration: InputDecoration(
+                              labelText: 'Title',
+                              labelStyle: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.bold,
+                                  color: kReferAltDarkGrey),
+                              // hintText: 'EMAIL',
+                              // hintStyle: ,
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: kReferAccent))),
+                        ),
+                        SizedBox(
+                          height: 12.0,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              'Add authors',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20.0,
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.bold),
+                            ), //text
+                            Expanded(
+                              child: Container(),
+                            ),
+                            GestureDetector(
+                                onTap: () {
+                                  openAuthorDialog();
+                                }, //_submit,
+                                child: Icon(Icons.add_box)),
+                          ],
+                        ), //row
+                        SizedBox(
+                          height: 6.0,
+                        ),
+                        TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter an author';
+                            }
+                            return null;
+                          },
+                          controller: authorsController,
+                          decoration: InputDecoration(
+                              labelText: 'Author(s) (separated by ; )',
+                              hintText: 'e.g. Smith, M ; Pavel, G ',
+                              labelStyle: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.bold,
+                                  color: kReferAltDarkGrey),
+                              // hintStyle: ,
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: kReferAccent))),
+                        ),
+                        SizedBox(
+                          height: 12.0,
+                        ),
+                        TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter a year';
+                            }
+                            return null;
+                          },
+                          controller: yearController,
+                          decoration: InputDecoration(
+                              labelText: 'Year',
+                              labelStyle: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.bold,
+                                  color: kReferAltDarkGrey),
+                              // hintText: 'EMAIL',
+                              // hintStyle: ,
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: kReferAccent))),
+                          keyboardType: TextInputType.number,
+                        ),
+                        SizedBox(
+                          height: 12.0,
+                        ),
+                      ],
+                    )
+
                 ),
-                SizedBox(
-                  height: 12.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Add authors',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20.0,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold),
-                    ), //text
-                    Expanded(
-                      child: Container(),
-                    ),
-                    GestureDetector(
-                        onTap: () {
-                          openAuthorDialog();
-                        }, //_submit,
-                        child: Icon(Icons.add_box)),
-                  ],
-                ), //row
-                SizedBox(
-                  height: 6.0,
-                ),
-                TextField(
-                  controller: authorsController,
-                  decoration: InputDecoration(
-                      labelText: 'Author(s) (separated by ; )',
-                      hintText: 'e.g. Smith, M ; Pavel, G ',
-                      labelStyle: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          color: kReferAltDarkGrey),
-                      // hintStyle: ,
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: kReferAccent))),
-                ),
-                SizedBox(
-                  height: 12.0,
-                ),
-                TextField(
-                  controller: yearController,
-                  decoration: InputDecoration(
-                      labelText: 'Year',
-                      labelStyle: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          color: kReferAltDarkGrey),
-                      // hintText: 'EMAIL',
-                      // hintStyle: ,
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: kReferAccent))),
-                  keyboardType: TextInputType.number,
-                ),
-                SizedBox(
-                  height: 12.0,
-                ),
+
                 /*--------End leading fields------- */
                 /*--------Question PageView ------- */
                 ConstrainedBox(
@@ -346,18 +374,20 @@ class SummaryDetailState extends State<SummaryDetail> {
                     total: sectionQuestions.length,
                   ),
                 )
-              ], //column children
-            ), //column
-          ) //listpadding
+              ],
+            ),
+          )
         ],
       ),
-      //listview
+
 
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.save),
           onPressed: () {
-            saveSummary(context, sectionQuestionsAns, sectionQuestions,
-                widget.questionnaireId);
+            if(_formKey.currentState.validate()) {
+              saveSummary(context, sectionQuestionsAns, sectionQuestions,
+                  widget.questionnaireId);
+            }
           }
       ),
 

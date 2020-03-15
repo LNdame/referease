@@ -1,5 +1,8 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:built_collection/built_collection.dart';
+
+import 'answer_model.dart';
 
 part 'summary_model.g.dart';
 
@@ -24,7 +27,13 @@ abstract class  SummaryModel implements Built<SummaryModel, SummaryModelBuilder>
   String get year;
 
   @nullable
+  String get created_date;
+
+  @nullable
   int get questionnaire_id;
+
+  @nullable
+  BuiltList<AnswerModel> get answers;
 
   SummaryModel._();
 

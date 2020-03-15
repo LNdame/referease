@@ -17,7 +17,7 @@ Future<Null> sourceOpenDialog(BuildContext context) async{
               color: kReferPrimary,
               margin: EdgeInsets.all(0.0),
               padding: EdgeInsets.only(bottom: 10.0, top: 10.0),
-              height: 100.0,
+              height: 110.0,
               child: Column(
                 children: <Widget>[
                   Container(

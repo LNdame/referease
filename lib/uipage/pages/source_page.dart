@@ -27,7 +27,7 @@ class _SourcePageState extends State<SourcePage> {
               expandedHeight: 150.0,
               floating: false,
               pinned: true,
-              flexibleSpace:FlexibleSpaceBarCustom(title: "Sources",pageId: 2,)
+              flexibleSpace:FlexibleSpaceBarCustom(title: "My Sources",pageId: 2,)
             ),
           ];
         },

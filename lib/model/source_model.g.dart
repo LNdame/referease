@@ -126,6 +126,12 @@ class _$SourceModelSerializer implements StructuredSerializer<SourceModel> {
         ..add(serializers.serialize(object.pages,
             specifiedType: const FullType(String)));
     }
+    if (object.created_date != null) {
+      result
+        ..add('created_date')
+        ..add(serializers.serialize(object.created_date,
+            specifiedType: const FullType(String)));
+    }
     if (object.source_type_id != null) {
       result
         ..add('source_type_id')
@@ -218,6 +224,10 @@ class _$SourceModelSerializer implements StructuredSerializer<SourceModel> {
           result.pages = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'created_date':
+          result.created_date = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
         case 'source_type_id':
           result.source_type_id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
@@ -267,6 +277,8 @@ class _$SourceModel extends SourceModel {
   @override
   final String pages;
   @override
+  final String created_date;
+  @override
   final int source_type_id;
 
   factory _$SourceModel([void Function(SourceModelBuilder) updates]) =>
@@ -291,6 +303,7 @@ class _$SourceModel extends SourceModel {
       this.publication,
       this.year,
       this.pages,
+      this.created_date,
       this.source_type_id})
       : super._();
 
@@ -323,6 +336,7 @@ class _$SourceModel extends SourceModel {
         publication == other.publication &&
         year == other.year &&
         pages == other.pages &&
+        created_date == other.created_date &&
         source_type_id == other.source_type_id;
   }
 
@@ -346,31 +360,25 @@ class _$SourceModel extends SourceModel {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc(
-                                                                                0,
-                                                                                id
-                                                                                    .hashCode),
-                                                                            authors
-                                                                                .hashCode),
-                                                                        city
-                                                                            .hashCode),
-                                                                    title
-                                                                        .hashCode),
-                                                                proceeding_title
-                                                                    .hashCode),
-                                                            journal.hashCode),
-                                                        doi.hashCode),
-                                                    url.hashCode),
-                                                date_accessed.hashCode),
-                                            volume.hashCode),
-                                        issue.hashCode),
-                                    edition.hashCode),
-                                editors.hashCode),
-                            isbn.hashCode),
-                        publisher.hashCode),
-                    publication.hashCode),
-                year.hashCode),
-            pages.hashCode),
+                                                                            $jc($jc(0, id.hashCode),
+                                                                                authors.hashCode),
+                                                                            city.hashCode),
+                                                                        title.hashCode),
+                                                                    proceeding_title.hashCode),
+                                                                journal.hashCode),
+                                                            doi.hashCode),
+                                                        url.hashCode),
+                                                    date_accessed.hashCode),
+                                                volume.hashCode),
+                                            issue.hashCode),
+                                        edition.hashCode),
+                                    editors.hashCode),
+                                isbn.hashCode),
+                            publisher.hashCode),
+                        publication.hashCode),
+                    year.hashCode),
+                pages.hashCode),
+            created_date.hashCode),
         source_type_id.hashCode));
   }
 
@@ -395,6 +403,7 @@ class _$SourceModel extends SourceModel {
           ..add('publication', publication)
           ..add('year', year)
           ..add('pages', pages)
+          ..add('created_date', created_date)
           ..add('source_type_id', source_type_id))
         .toString();
   }
@@ -477,6 +486,10 @@ class SourceModelBuilder implements Builder<SourceModel, SourceModelBuilder> {
   String get pages => _$this._pages;
   set pages(String pages) => _$this._pages = pages;
 
+  String _created_date;
+  String get created_date => _$this._created_date;
+  set created_date(String created_date) => _$this._created_date = created_date;
+
   int _source_type_id;
   int get source_type_id => _$this._source_type_id;
   set source_type_id(int source_type_id) =>
@@ -504,6 +517,7 @@ class SourceModelBuilder implements Builder<SourceModel, SourceModelBuilder> {
       _publication = _$v.publication;
       _year = _$v.year;
       _pages = _$v.pages;
+      _created_date = _$v.created_date;
       _source_type_id = _$v.source_type_id;
       _$v = null;
     }
@@ -545,6 +559,7 @@ class SourceModelBuilder implements Builder<SourceModel, SourceModelBuilder> {
             publication: publication,
             year: year,
             pages: pages,
+            created_date: created_date,
             source_type_id: source_type_id);
     replace(_$result);
     return _$result;

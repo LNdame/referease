@@ -26,7 +26,7 @@ class _SummaryPageState extends State<SummaryPage> {
                 floating: false,
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBarCustom(
-                  title: "Summaries",
+                  title: "My Summaries",
                   pageId: 1,
                 )),
           ];

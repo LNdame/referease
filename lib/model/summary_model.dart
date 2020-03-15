@@ -27,6 +27,9 @@ abstract class  SummaryModel implements Built<SummaryModel, SummaryModelBuilder>
   String get year;
 
   @nullable
+  String get created_date;
+
+  @nullable
   int get questionnaire_id;
 
   @nullable

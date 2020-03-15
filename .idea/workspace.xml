@@ -5,11 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52a2e1dc-4e72-4223-8151-101daee60611" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/serializers.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/serializers.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/model/source_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/source_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/model/source_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/source_model.g.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/model/summary_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/summary_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/model/summary_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/summary_model.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/uipage/pages/helpers/source_open_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/uipage/pages/helpers/source_open_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/uipage/pages/source_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/uipage/pages/source_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/uipage/pages/summary_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/uipage/pages/summary_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/uipage/summary/summarydetail.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/uipage/summary/summarydetail.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/uipage/summary/summaryedit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/uipage/summary/summaryedit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/uipage/widgets/questions_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/uipage/widgets/questions_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/uipage/widgets/source_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/uipage/widgets/source_card.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/uipage/widgets/summary_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/uipage/widgets/summary_card.dart" afterDir="false" />
     </list>
     <list id="a5a9af5d-68fb-4846-8d7c-acae972c10b6" name="merge master" comment="" />
@@ -316,16 +323,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/uipage/widgets/summary_card.dart</url>
-          <line>16</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

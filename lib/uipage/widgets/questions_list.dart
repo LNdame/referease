@@ -97,7 +97,7 @@ class _QuestionsList extends State<QuestionsList> {
       padding: EdgeInsets.all(8),
       itemBuilder: (context, index) {
         return Container(
-          height: 70,
+          height: 100,
           child: GestureDetector(
             child: Card(
               elevation: 4,

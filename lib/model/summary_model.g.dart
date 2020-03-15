@@ -55,6 +55,12 @@ class _$SummaryModelSerializer implements StructuredSerializer<SummaryModel> {
         ..add(serializers.serialize(object.year,
             specifiedType: const FullType(String)));
     }
+    if (object.created_date != null) {
+      result
+        ..add('created_date')
+        ..add(serializers.serialize(object.created_date,
+            specifiedType: const FullType(String)));
+    }
     if (object.questionnaire_id != null) {
       result
         ..add('questionnaire_id')
@@ -106,6 +112,10 @@ class _$SummaryModelSerializer implements StructuredSerializer<SummaryModel> {
           result.year = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'created_date':
+          result.created_date = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
         case 'questionnaire_id':
           result.questionnaire_id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
@@ -137,6 +147,8 @@ class _$SummaryModel extends SummaryModel {
   @override
   final String year;
   @override
+  final String created_date;
+  @override
   final int questionnaire_id;
   @override
   final BuiltList<AnswerModel> answers;
@@ -151,6 +163,7 @@ class _$SummaryModel extends SummaryModel {
       this.description,
       this.summary_type,
       this.year,
+      this.created_date,
       this.questionnaire_id,
       this.answers})
       : super._();
@@ -172,6 +185,7 @@ class _$SummaryModel extends SummaryModel {
         description == other.description &&
         summary_type == other.summary_type &&
         year == other.year &&
+        created_date == other.created_date &&
         questionnaire_id == other.questionnaire_id &&
         answers == other.answers;
   }
@@ -183,11 +197,13 @@ class _$SummaryModel extends SummaryModel {
             $jc(
                 $jc(
                     $jc(
-                        $jc($jc($jc(0, id.hashCode), authors.hashCode),
-                            title.hashCode),
-                        description.hashCode),
-                    summary_type.hashCode),
-                year.hashCode),
+                        $jc(
+                            $jc($jc($jc(0, id.hashCode), authors.hashCode),
+                                title.hashCode),
+                            description.hashCode),
+                        summary_type.hashCode),
+                    year.hashCode),
+                created_date.hashCode),
             questionnaire_id.hashCode),
         answers.hashCode));
   }
@@ -201,6 +217,7 @@ class _$SummaryModel extends SummaryModel {
           ..add('description', description)
           ..add('summary_type', summary_type)
           ..add('year', year)
+          ..add('created_date', created_date)
           ..add('questionnaire_id', questionnaire_id)
           ..add('answers', answers))
         .toString();
@@ -235,6 +252,10 @@ class SummaryModelBuilder
   String get year => _$this._year;
   set year(String year) => _$this._year = year;
 
+  String _created_date;
+  String get created_date => _$this._created_date;
+  set created_date(String created_date) => _$this._created_date = created_date;
+
   int _questionnaire_id;
   int get questionnaire_id => _$this._questionnaire_id;
   set questionnaire_id(int questionnaire_id) =>
@@ -255,6 +276,7 @@ class SummaryModelBuilder
       _description = _$v.description;
       _summary_type = _$v.summary_type;
       _year = _$v.year;
+      _created_date = _$v.created_date;
       _questionnaire_id = _$v.questionnaire_id;
       _answers = _$v.answers?.toBuilder();
       _$v = null;
@@ -287,6 +309,7 @@ class SummaryModelBuilder
               description: description,
               summary_type: summary_type,
               year: year,
+              created_date: created_date,
               questionnaire_id: questionnaire_id,
               answers: _answers?.build());
     } catch (_) {

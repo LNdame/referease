@@ -53,9 +53,9 @@ class SummaryCard extends StatelessWidget {
                     Expanded(
                       child: Container(),
                     ),
-                    Text(DateFormat('H:m yyy-MM-dd').format(DateTime.now()))
+                    Text(summary.created_date)
                   ],
-                ), //row
+                ),
                 SizedBox(
                   height: 8.0,
                 ),
@@ -91,8 +91,7 @@ class SummaryCard extends StatelessWidget {
                 ),
                 Expanded(
                     child: Text( extractResume(summary.answers),
-                  //"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet condimentum facilisis. Sed vel pharetra purus. In a erat vel tellus porta aliquam sed et orci. Integer in enim et arcu ullamcorper ultrices. Donec eu interdum velit. Sed volutpat enim odio. Nulla facilisi. Suspendisse consequat quam",
-                  textAlign: TextAlign.justify,
+                   textAlign: TextAlign.justify,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 4,
                   softWrap: true,
@@ -114,9 +113,9 @@ class SummaryCard extends StatelessWidget {
                     IconButton(onPressed: () {}, icon: Icon(Icons.delete))
                   ],
                 ),
-              ], //children
+              ],
             ),
-          ), //column
+          ),
         ),
       ),
     );

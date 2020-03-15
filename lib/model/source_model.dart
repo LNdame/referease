@@ -58,6 +58,9 @@ abstract class SourceModel implements Built<SourceModel, SourceModelBuilder>{
   String get pages;
 
   @nullable
+  String get created_date;
+
+  @nullable
   int get source_type_id;
 
   SourceModel._();

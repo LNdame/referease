@@ -3,14 +3,14 @@ import 'package:referease/commonwidget/drawerwidget.dart';
 import 'package:referease/uiutility/colors.dart';
 
 
-class About extends StatefulWidget {
+class AboutPage extends StatefulWidget {
   @override
-  AboutState createState() {
-    return new AboutState();
+  AboutPageState createState() {
+    return new AboutPageState();
   }
 }
 
-class AboutState extends State<About> {
+class AboutPageState extends State<AboutPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

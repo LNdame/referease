@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:referease/data/api_functions/request_profile_details.dart';
 import 'package:referease/model/user_model.dart';
+import 'package:referease/uipage/pages/about_page.dart';
 import 'package:referease/uipage/pages/profile_page.dart';
 import 'package:referease/uipage/pages/questionnaire_page.dart';
 import 'package:referease/uipage/pages/source_page.dart';
@@ -9,7 +10,7 @@ import 'package:referease/uipage/pages/summary_page.dart';
 import 'package:referease/uiutility/colors.dart';
 
 class MainScreen extends StatefulWidget {
-  final pageChange ;
+  final pageChange;
 
   const MainScreen({Key key, this.pageChange}) : super(key: key);
 
@@ -27,19 +28,27 @@ class _MainScreenState extends State<MainScreen> {
   QuestionnairePage questionnairePage;
   SourcePage sourcePage;
   SummaryPage summaryPage;
+  AboutPage aboutPage;
   List<Widget> pages;
   Widget currentPage;
 
   @override
   void initState() {
+    aboutPage = new AboutPage();
     profilePage = new ProfilePage();
     questionnairePage = new QuestionnairePage();
     sourcePage = new SourcePage();
     summaryPage = new SummaryPage();
-    pages = [summaryPage, sourcePage, questionnairePage, profilePage];
-    if(widget.pageChange!=null){
+    pages = [
+      summaryPage,
+      sourcePage,
+      questionnairePage,
+      profilePage,
+      aboutPage
+    ];
+    if (widget.pageChange != null) {
       currentPage = widget.pageChange;
-    }else{
+    } else {
       currentPage = summaryPage;
     }
 
@@ -54,7 +63,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: false,
@@ -69,34 +77,33 @@ class _MainScreenState extends State<MainScreen> {
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Image.asset(
+            icon:
+            Image.asset(
               'assets/images/triangle.png',
-              width: 20.0,
-              height: 20.0,
+              width: 22.0,
+              height: 22.0,
               color: Colors.blueGrey[200],
             ),
             title: Text("Summary"),
           ),
           BottomNavigationBarItem(
-            icon: Image.asset(
-              'assets/images/circle.png',
-              width: 20.0,
-              height: 20.0,
-              color: Colors.blueGrey[200],
-            ),
+           icon: FaIcon(FontAwesomeIcons.solidCircle) ,
+//
             title: Text("Source"),
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.favorite,
-            ),
+            icon:FaIcon(FontAwesomeIcons.question)   ,
+//
             title: Text("Questionnaire"),
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-            ),
+            icon:FaIcon(FontAwesomeIcons.solidUser)  ,
+//
             title: Text("Profile"),
+          ),
+          BottomNavigationBarItem(
+            icon: FaIcon(FontAwesomeIcons.infoCircle),
+            title: Text("About"),
           ),
         ],
       ),
@@ -167,8 +174,8 @@ class _MainScreenState extends State<MainScreen> {
                     )
                   ],
                 ),
-              ), //simpledialogoption
-            ], //children
+              ),
+            ],
           );
         });
   }
